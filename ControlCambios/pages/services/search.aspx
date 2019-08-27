@@ -100,7 +100,7 @@
                                                             <asp:Button ID="BtnEntrar" runat="server" Text="Entrar" class="btn btn-facebook mr-2" CommandArgument='<%# Eval("idcambio") %>' CommandName="EntrarCambio" />
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
-                                                    <asp:TemplateField HeaderText="Select" HeaderStyle-Width="60px">
+                                                    <asp:TemplateField HeaderText="Select" HeaderStyle-Width="60px" Visible="false">
                                                         <HeaderTemplate>
                                                             
                                                         </HeaderTemplate>

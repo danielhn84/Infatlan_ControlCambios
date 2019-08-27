@@ -21,6 +21,7 @@ namespace ControlCambios.messages
         public String idmantenimiento { get; set; }
         public String idcalendario { get; set; }
         public String usuariogrud { get; set; }
+        public String paso { get; set; }
 
     }
     public class msgInfoCambiosCreateResponse

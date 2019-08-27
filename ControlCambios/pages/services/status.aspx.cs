@@ -116,10 +116,8 @@ namespace ControlCambios.pages.services
                     "Aprobación de Cambio " + Convert.ToString(Session["CAMBIOCREADO"]),
                     "Entrar a la pagina");
             }
-            catch 
-            {
-                throw;
-            }
+            catch (Exception Ex) { Mensaje(Ex.Message, WarningType.Warning); }
+
             return vRespuesta;
         }
     }

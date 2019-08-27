@@ -34,7 +34,10 @@ namespace ControlCambios.classes
                             vActual = Permisos.Implementador;
                             break;
                         case "5":
-                            vActual = Permisos.Consulta;
+                            vActual = Permisos.Promotor;
+                            break;
+                        case "6":
+                            vActual = Permisos.CABManager;
                             break;
                     }
 
@@ -52,7 +55,8 @@ namespace ControlCambios.classes
         Administrador,
         Supervisor,
         QualityAssurance,
+        CABManager,
         Implementador,
-        Consulta
+        Promotor
     }
 }

@@ -92,8 +92,11 @@ namespace ControlCambios.pages.services
                             switch (item.pasos)
                             {
                                 case "1": vEstado = "Pendiente revisión QA"; break;
-                                case "2": vEstado = "Pendiente de Cierre"; break;
-                                case "3": vEstado = "Proceso terminado"; break;
+                                case "2": vEstado = "CAB Manager"; break;
+                                case "3": vEstado = "Implementación"; break;
+                                case "4": vEstado = "Revisión QA"; break;
+                                case "5": vEstado = "Cambio terminado / No cerrado"; break;
+                                case "6": vEstado = "Cambio cerrado"; break;
                             }
 
                             vDatos.Rows.Add(
@@ -197,8 +200,11 @@ namespace ControlCambios.pages.services
                             switch (item.pasos)
                             {
                                 case "1": vEstado = "Pendiente revisión QA"; break;
-                                case "2": vEstado = "Pendiente de Cierre"; break;
-                                case "3": vEstado = "Proceso terminado"; break;
+                                case "2": vEstado = "CAB Manager"; break;
+                                case "3": vEstado = "Implementación"; break;
+                                case "4": vEstado = "Revisión QA"; break;
+                                case "5": vEstado = "Cambio terminado / No cerrado"; break;
+                                case "6": vEstado = "Cambio cerrado"; break;
                             }
 
                             vDatos.Rows.Add(
@@ -283,18 +289,18 @@ namespace ControlCambios.pages.services
                             {
                                 if (item.pasos != null)
                                 {
-                                    if (item.pasos.Equals("1"))
+                                    int vPaso = 6;
+                                    switch (item.pasos)
                                     {
-                                        Response.Redirect("/pages/services/changes.aspx?id=" + vIdCambio + "#step-5");
+                                        case "1": vPaso = 2; break;
+                                        case "2": vPaso = 3; break;
+                                        case "3": vPaso = 4; break;
+                                        case "4": vPaso = 5; break;
+                                        case "5": vPaso = 6; break;
+                                        case "6": vPaso = 6; break;
                                     }
-                                    if (item.pasos.Equals("2"))
-                                    {
-                                        Response.Redirect("/pages/services/changes.aspx?id=" + vIdCambio + "#step-6");
-                                    }
-                                    if (item.pasos.Equals("3"))
-                                    {
-                                        Response.Redirect("/pages/services/changes.aspx?id=" + vIdCambio + "#step-6");
-                                    }
+
+                                    Response.Redirect("/pages/services/changes.aspx?id=" + vIdCambio + "#step-" + vPaso);
                                 }
                             }
                         }
@@ -343,6 +349,7 @@ namespace ControlCambios.pages.services
         {
             try
             {
+                vConfigurations = (msgLoginResponse)Session["AUTHCLASS"];
                 Generales vGenerales = new Generales();
                 if (!vGenerales.PermisosEntrada(Permisos.Supervisor, vConfigurations.resultSet1[0].idCargo))
                     throw new Exception("No tienes permisos para realizar esta accion");
@@ -368,7 +375,7 @@ namespace ControlCambios.pages.services
                     }
                     else
                     {
-                        Mensaje("Ha pasado un error al cerrar el cambio, contacte a sistemas", WarningType.Danger);
+                        Mensaje("Ha pasado un error al cerrar el cambio, contacte a sistemas", WarningType.Danger); //22692800 Elisa Ramirez #8cbe40
                     }
                 }
             }

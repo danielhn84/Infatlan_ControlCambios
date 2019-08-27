@@ -100,12 +100,15 @@ namespace ControlCambios
                         {
                             foreach (msgInfoCambiosQueryResponseItem item in vInfoCambiosResponse.resultSet1)
                             {
-                                int vPaso = 5;
+                                int vPaso = 6;
                                 switch (item.pasos)
                                 {
-                                    case "1": vPaso = 5; break;
-                                    case "2": vPaso = 6; break;
-                                    case "3": vPaso = 6; break;
+                                    case "1": vPaso = 2; break;
+                                    case "2": vPaso = 3; break;
+                                    case "3": vPaso = 4; break;
+                                    case "4": vPaso = 5; break;
+                                    case "5": vPaso = 6; break;
+                                    case "6": vPaso = 6; break;
                                 }
 
                                 Response.Redirect("/pages/services/changes.aspx?id=" + vIdCambio + "#step-" + vPaso);
