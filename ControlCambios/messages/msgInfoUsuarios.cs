@@ -16,6 +16,7 @@ namespace ControlCambios.messages
         public String correo { get; set; }
         public String idcargo { get; set; }
         public String estado { get; set; }
+        public String dependencia { get; set; }
     }
 
     public class msgInfoUsuariosCreateResponse
@@ -49,7 +50,7 @@ namespace ControlCambios.messages
 
     public class msgInfoUsuariosQueryResponseItem
     {
-        public String usuario { get; set; }
+        public String idUsuario { get; set; }
         public String password { get; set; }
         public String nombres { get; set; }
         public String apellidos { get; set; }
@@ -58,5 +59,6 @@ namespace ControlCambios.messages
         public String idcargo { get; set; }
         public String estado { get; set; }
         public String fechaCreacion { get; set; }
+        public String dependencia { get; set; }
     }
 }   

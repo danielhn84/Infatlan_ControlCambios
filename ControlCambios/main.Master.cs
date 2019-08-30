@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Web;
 using System.Web.UI;
+using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 
 namespace ControlCambios
@@ -32,7 +33,7 @@ namespace ControlCambios
                 {
                     LitUsuario.Text = vConfigurations.resultSet1[0].nombres;
 
-                    if (vConfigurations.resultSet1[0].idCargo.Equals("1") || vConfigurations.resultSet1[0].idCargo.Equals("2") || vConfigurations.resultSet1[0].idCargo.Equals("5"))
+                    if (vConfigurations.resultSet1[0].idCargo.Equals("1") || vConfigurations.resultSet1[0].idCargo.Equals("2") )
                     {
                         LIAuth.Visible = true;
                         LILogs.Visible = true;
@@ -49,6 +50,7 @@ namespace ControlCambios
             }
             this.TxBuscarCambio.Attributes.Add("onkeypress", "button_click(this,'" + this.TxBuscarCambio.ClientID + "')");
         }
+
         public void Mensaje(string vMensaje, WarningType type)
         {
             ScriptManager.RegisterStartupScript(this.Page, typeof(Page), "text", "infatlan.showNotification('top','center','" + vMensaje + "','" + type.ToString().ToLower() + "')", true);
@@ -59,7 +61,7 @@ namespace ControlCambios
             try
             {
                 vConfigurations = (msgLoginResponse)Session["AUTHCLASS"];
-                if (vConfigurations.resultSet1[0].idCargo.Equals("1"))
+                if (vConfigurations.resultSet1[0].idCargo.Equals("1") || vConfigurations.resultSet1[0].idCargo.Equals("2"))
                 {
                     String vConfiguracionesHtml = "<li class=\"nav-item dropdown mr-1\">" + Environment.NewLine +
                             "<a class=\"nav-link count-indicator dropdown-toggle d-flex justify-content-center align-items-center\" id=\"messageDropdown\" href=\"#\" data-toggle=\"dropdown\">" + Environment.NewLine +
@@ -67,15 +69,15 @@ namespace ControlCambios
                             "</a>" + Environment.NewLine +
                             "<div class=\"dropdown-menu dropdown-menu-right navbar-dropdown\" aria-labelledby=\"messageDropdown\">" + Environment.NewLine +
                             "    <p class=\"mb-0 font-weight-normal float-left dropdown-header\">Configuraciones</p>" + Environment.NewLine +
-                            "    <a class=\"dropdown-item\" href=\"/pages/configurations/generals.aspx\">" + Environment.NewLine +
-                            "        <p class=\"font-weight-light small-text text-muted mb-0\">Generales</p>" + Environment.NewLine +
-                            "    </a>" + Environment.NewLine +
+                            //"    <a class=\"dropdown-item\" href=\"/pages/configurations/generals.aspx\">" + Environment.NewLine +
+                            //"        <p class=\"font-weight-light small-text text-muted mb-0\">Generales</p>" + Environment.NewLine +
+                            //"    </a>" + Environment.NewLine +
                             "    <a class=\"dropdown-item\" href=\"/pages/configurations/users.aspx\">" + Environment.NewLine +
                             "        <p class=\"font-weight-light small-text text-muted mb-0\">Usuarios</p>" + Environment.NewLine +
                             "    </a>" + Environment.NewLine +
-                            "    <a class=\"dropdown-item\" href=\"/pages/configurations/systems.aspx\">" + Environment.NewLine +
-                            "        <p class=\"font-weight-light small-text text-muted mb-0\">Equipos / Sistemas</p>" + Environment.NewLine +
-                            "    </a>" + Environment.NewLine +
+                            //"    <a class=\"dropdown-item\" href=\"/pages/configurations/systems.aspx\">" + Environment.NewLine +
+                            //"        <p class=\"font-weight-light small-text text-muted mb-0\">Equipos / Sistemas</p>" + Environment.NewLine +
+                            //"    </a>" + Environment.NewLine +
                             "</div>" + Environment.NewLine +
                             "</li>";
                     LitConfiguraciones.Text = vConfiguracionesHtml;
@@ -117,11 +119,12 @@ namespace ControlCambios
                                 case "5": vPaso = 6; break;
                                 case "6": vPaso = 6; break;
                             }
-
-                            vLiteralNotificaciones += "<a class=\"dropdown-item\" href=\"/pages/services/changes.aspx?id=" + item.idcambio + "#step-" + vPaso + "\">" + Environment.NewLine +
+                            if (vPaso == 6)
+                            {
+                                vLiteralNotificaciones += "<a class=\"dropdown-item\" href=\"/pages/services/changes.aspx?id=" + item.idcambio + "#step-" + vPaso + "\">" + Environment.NewLine +
                                     "<div class=\"item-thumbnail\">" + Environment.NewLine +
-                                    "    <div class=\"item-icon bg-success\">" + Environment.NewLine +
-                                    "        <i class=\"mdi mdi-information mx-0\"></i>" + Environment.NewLine +
+                                    "    <div class=\"item-icon bg-danger\">" + Environment.NewLine +
+                                    "        <i class=\"mdi mdi-lock mx-0\"></i>" + Environment.NewLine +
                                     "    </div>" + Environment.NewLine +
                                     "</div>" + Environment.NewLine +
                                     "<div class=\"item-content\">" + Environment.NewLine +
@@ -131,6 +134,23 @@ namespace ControlCambios
                                     "    </p>" + Environment.NewLine +
                                     "</div>" + Environment.NewLine +
                                     "</a>";
+                            }
+                            else
+                            {
+                                vLiteralNotificaciones += "<a class=\"dropdown-item\" href=\"/pages/services/changes.aspx?id=" + item.idcambio + "#step-" + vPaso + "\">" + Environment.NewLine +
+                                        "<div class=\"item-thumbnail\">" + Environment.NewLine +
+                                        "    <div class=\"item-icon bg-success\">" + Environment.NewLine +
+                                        "        <i class=\"mdi mdi-information mx-0\"></i>" + Environment.NewLine +
+                                        "    </div>" + Environment.NewLine +
+                                        "</div>" + Environment.NewLine +
+                                        "<div class=\"item-content\">" + Environment.NewLine +
+                                        "    <h6 class=\"font-weight-normal\">Cambio #" + item.idcambio + " Creado</h6>" + Environment.NewLine +
+                                        "    <p class=\"font-weight-light small-text mb-0 text-muted\">" + Environment.NewLine +
+                                        "      " + item.mantenimientoNombre + Environment.NewLine +
+                                        "    </p>" + Environment.NewLine +
+                                        "</div>" + Environment.NewLine +
+                                        "</a>";
+                            }
                         }
                         LitNotificaciones.Text = vLiteralNotificaciones;
                     }

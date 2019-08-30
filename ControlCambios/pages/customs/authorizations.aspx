@@ -98,6 +98,14 @@
                                                             Acción
                                                         </HeaderTemplate>
                                                         <ItemTemplate>
+                                                            <asp:Button ID="BtnEntrar" runat="server" Text="Entrar" class="btn btn-facebook mr-2" CommandArgument='<%# Eval("idcambio") %>' CommandName="EntrarCambio" />
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
+                                                    <asp:TemplateField HeaderText="Select" HeaderStyle-Width="60px">
+                                                        <HeaderTemplate>
+                                                            Acción
+                                                        </HeaderTemplate>
+                                                        <ItemTemplate>
                                                             <asp:Button ID="BtnAutorizar" runat="server" Text="Autorizar" class="btn btn-facebook mr-2" CommandArgument='<%# Eval("idcambio") %>' CommandName="AutorizarCambio" />
                                                         </ItemTemplate>
                                                     </asp:TemplateField>

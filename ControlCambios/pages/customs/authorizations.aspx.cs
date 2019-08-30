@@ -107,7 +107,7 @@ namespace ControlCambios.pages.customs
                     msgInfoAprobaciones vInfoAprobacionesRowRequest = new msgInfoAprobaciones()
                     {
                         tipo = "3",
-                        idaprobacion = row.Cells[1].Text
+                        idaprobacion = row.Cells[2].Text
                     };
                     String vResponseRowAprobaciones = "";
                     HttpResponseMessage vHttpResponseRowAprobaciones = vConector.PostInfoAprobaciones(vInfoAprobacionesRowRequest, ref vResponseRowAprobaciones);
@@ -139,6 +139,47 @@ namespace ControlCambios.pages.customs
         {
             try
             {
+                if (e.CommandName == "EntrarCambio")
+                {
+                    string vIdCambio = e.CommandArgument.ToString();
+                    HttpService vConector = new HttpService();
+                    vConfigurations = (msgLoginResponse)Session["AUTHCLASS"];
+
+                    msgInfoCambios vInfoCambiosRequest = new msgInfoCambios()
+                    {
+                        tipo = "3",
+                        idcambio = vIdCambio,
+                        usuariogrud = vConfigurations.resultSet1[0].idUsuario
+                    };
+                    String vResponseCambios = "";
+                    HttpResponseMessage vHttpResponseCambios = vConector.PostInfoCambios(vInfoCambiosRequest, ref vResponseCambios);
+
+                    if (vHttpResponseCambios.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        msgInfoCambiosQueryResponse vInfoCambiosResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgInfoCambiosQueryResponse>(vResponseCambios);
+                        if (vInfoCambiosResponse.resultSet1.Count() > 0)
+                        {
+                            foreach (msgInfoCambiosQueryResponseItem item in vInfoCambiosResponse.resultSet1)
+                            {
+                                if (item.pasos != null)
+                                {
+                                    int vPaso = 6;
+                                    switch (item.pasos)
+                                    {
+                                        case "1": vPaso = 2; break;
+                                        case "2": vPaso = 3; break;
+                                        case "3": vPaso = 4; break;
+                                        case "4": vPaso = 5; break;
+                                        case "5": vPaso = 6; break;
+                                        case "6": vPaso = 6; break;
+                                    }
+
+                                    Response.Redirect("/pages/services/changes.aspx?id=" + vIdCambio + "#step-" + vPaso);
+                                }
+                            }
+                        }
+                    }
+                }
                 if (e.CommandName == "AutorizarCambio")
                 {
                     string vIdCambio = e.CommandArgument.ToString();
@@ -175,6 +216,7 @@ namespace ControlCambios.pages.customs
                     msgUpdateGeneral vInfoAprobacionesRowsResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgUpdateGeneral>(vResponseRowAprobaciones);
                     if (vInfoAprobacionesRowsResponse.updateCount1.Equals("1"))
                     {
+                        EnviarMailCertificacionImplementacion(LbNumeroCambio.Text);
                         CerrarModal("AutorizarModal");
                         Mensaje("El cambio ha sido autorizada", WarningType.Success);
                     }
@@ -186,6 +228,58 @@ namespace ControlCambios.pages.customs
                 }
             }
             catch (Exception Ex) { LbAutorizarMensaje.Text = Ex.Message; UpdateAutorizarMensaje.Update(); }
+        }
+
+        protected void EnviarMailCertificacionImplementacion(String vIdCambio)
+        {
+            try
+            {
+                HttpService vConector = new HttpService();
+                vConfigurations = (msgLoginResponse)Session["AUTHCLASS"];
+                msgInfoCambios vInfoCambiosRowRequest = new msgInfoCambios()
+                {
+                    tipo = "3",
+                    idcambio = vIdCambio,
+                    usuariogrud = vConfigurations.resultSet1[0].idUsuario
+                };
+                String vResponseRowCambios = "";
+                HttpResponseMessage vHttpResponseRowCambios = vConector.PostInfoCambios(vInfoCambiosRowRequest, ref vResponseRowCambios);
+
+                if (vHttpResponseRowCambios.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    msgInfoCambiosQueryResponse vInfoCambioRowsResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgInfoCambiosQueryResponse>(vResponseRowCambios);
+                    if (vInfoCambioRowsResponse.resultSet1.Count() > 0)
+                    {
+                        foreach (msgInfoCambiosQueryResponseItem item in vInfoCambioRowsResponse.resultSet1)
+                        {
+
+                            msgInfoUsuarios vRequest = new msgInfoUsuarios()
+                            {
+                                tipo = "5",
+                            };
+
+                            String vResponseResult = "";
+                            HttpResponseMessage vHttpResponse = vConector.PostInfoUsuarios(vRequest, ref vResponseResult);
+                            if (vHttpResponse.StatusCode == System.Net.HttpStatusCode.OK)
+                            {
+                                msgInfoUsuariosQueryResponse vUsuariosResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgInfoUsuariosQueryResponse>(vResponseResult);
+                                foreach (msgInfoUsuariosQueryResponseItem itemUsuarios in vUsuariosResponse.resultSet1)
+                                {
+                                    SmtpService vSmtpService = new SmtpService();
+                                    vSmtpService.EnviarMensaje(
+                                        itemUsuarios.correo,
+                                        typeBody.Supervisor,
+                                        itemUsuarios.nombres + "(" + itemUsuarios.idUsuario + ")",
+                                        item.idcambio,
+                                        item.mantenimientoNombre);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception Ex) { Mensaje(Ex.Message, WarningType.Warning); }
+
         }
     }
 }

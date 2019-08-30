@@ -15,8 +15,8 @@ namespace ControlCambios
         protected void Page_Load(object sender, EventArgs e)
         {
             vConfigurations = (msgLoginResponse)Session["AUTHCLASS"];
-            Logs vLog = new Logs();
-            vLog.postLog("Logout", "Salida exitosa del sistema", vConfigurations.resultSet1[0].idUsuario);
+            //Logs vLog = new Logs();
+            //vLog.postLog("Logout", "Salida exitosa del sistema", vConfigurations.resultSet1[0].idUsuario);
 
             Session.RemoveAll();
             Response.Redirect("/login.aspx");

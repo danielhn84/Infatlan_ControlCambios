@@ -86,8 +86,11 @@ namespace ControlCambios.pages.customs
                             switch (item.pasos)
                             {
                                 case "1": vEstado = "Pendiente revisión QA"; break;
-                                case "2": vEstado = "Pendiente de Cierre"; break;
-                                case "3": vEstado = "Proceso terminado"; break;
+                                case "2": vEstado = "CAB Manager"; break;
+                                case "3": vEstado = "Implementación"; break;
+                                case "4": vEstado = "Revisión QA"; break;
+                                case "5": vEstado = "Cambio terminado / No cerrado"; break;
+                                case "6": vEstado = "Cambio cerrado"; break;
                             }
 
                             vDatos.Rows.Add(

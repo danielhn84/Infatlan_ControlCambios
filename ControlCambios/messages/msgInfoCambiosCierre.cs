@@ -22,7 +22,8 @@ namespace ControlCambios.messages
         public String fecharolldenfin { get; set; }
         public String usuario { get; set; }
         public String resultado { get; set; }
-        
+        public String deposito1 { get; set; }
+        public String deposito2 { get; set; }
     }
 
     public class msgInfoCambiosCierreQueryResponse
@@ -47,6 +48,8 @@ namespace ControlCambios.messages
         public String fechaVentanaDenegacionInicio { get; set; }
         public String fechaRollbackDenegacionFin { get; set; }
         public String resultado { get; set; }
-        
+        public String deposito1 { get; set; }
+        public String deposito2 { get; set; }
+
     }
 }

@@ -87,9 +87,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="css\animate.min.css" />
+    <Content Include="css\calendar.css" />
     <Content Include="css\chosen.css" />
     <Content Include="css\chosen.min.css" />
     <Content Include="css\GridStyle.css" />
+    <Content Include="css\jquery-ui.min.css" />
     <Content Include="css\smart_wizard.css" />
     <Content Include="css\smart_wizard_theme_arrows.css" />
     <Content Include="css\smart_wizard_theme_circles.css" />
@@ -107,6 +109,7 @@
     <Content Include="images\logo.svg" />
     <Content Include="images\logo_mini.png" />
     <Content Include="js\bootstrap-notify.js" />
+    <Content Include="js\calendarscript.js" />
     <Content Include="js\chart.js" />
     <Content Include="js\Chart.min.js" />
     <Content Include="js\chosen.jquery.js" />
@@ -118,10 +121,12 @@
     <Content Include="js\dataTables.bootstrap4.js" />
     <Content Include="js\documentation.js" />
     <Content Include="js\file-upload.js" />
+    <Content Include="js\fullcanlendar.min.js" />
     <Content Include="js\hoverable-collapse.js" />
     <Content Include="js\jquery-3.1.1.js" />
     <Content Include="js\jquery.dataTables.js" />
     <Content Include="js\jquery.smartWizard.js" />
+    <Content Include="js\moment.min.js" />
     <Content Include="js\off-canvas.js" />
     <Content Include="js\tabs.js" />
     <Content Include="js\template.js" />
@@ -131,9 +136,12 @@
     <Content Include="pages\configurations\systems.aspx" />
     <Content Include="pages\configurations\users.aspx" />
     <Content Include="pages\customs\authorizations.aspx" />
+    <Content Include="pages\customs\calendar.aspx" />
+    <Content Include="pages\customs\events.aspx" />
     <Content Include="pages\customs\incidents.aspx" />
     <Content Include="pages\customs\reports.aspx" />
     <Content Include="pages\logs.aspx" />
+    <Content Include="pages\mail\TemplateMail.html" />
     <Content Include="pages\services\changes.aspx" />
     <Content Include="pages\services\search.aspx" />
     <Content Include="pages\services\status.aspx" />
@@ -149,11 +157,16 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="classes\CalendarEvent.cs" />
+    <Compile Include="classes\CalendarConnection.cs" />
     <Compile Include="classes\Generales.cs" />
     <Compile Include="classes\HttpService.cs" />
+    <Compile Include="classes\ImproperCalendarEvent.cs" />
     <Compile Include="classes\LdapService.cs" />
     <Compile Include="classes\Logs.cs" />
-    <Compile Include="classes\SmtpService.cs" />
+    <Compile Include="classes\SmtpService.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="default.aspx.cs">
       <DependentUpon>default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -184,6 +197,7 @@
     </Compile>
     <Compile Include="messages\msgCatEquiposResponse.cs" />
     <Compile Include="messages\msgCatSistemasResponse.cs" />
+    <Compile Include="messages\msgConsultasGenerales.cs" />
     <Compile Include="messages\msgGeneralesResponse.cs" />
     <Compile Include="messages\msgInfoAprobaciones.cs" />
     <Compile Include="messages\msgInfoArchivos.cs" />
@@ -232,12 +246,29 @@
     <Compile Include="pages\customs\authorizations.aspx.designer.cs">
       <DependentUpon>authorizations.aspx</DependentUpon>
     </Compile>
+    <Compile Include="pages\customs\calendar.aspx.cs">
+      <DependentUpon>calendar.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\customs\calendar.aspx.designer.cs">
+      <DependentUpon>calendar.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\customs\events.aspx.cs">
+      <DependentUpon>events.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\customs\events.aspx.designer.cs">
+      <DependentUpon>events.aspx</DependentUpon>
+    </Compile>
     <Compile Include="pages\customs\incidents.aspx.cs">
       <DependentUpon>incidents.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="pages\customs\incidents.aspx.designer.cs">
       <DependentUpon>incidents.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\customs\JsonResponse.ashx.cs">
+      <DependentUpon>JsonResponse.ashx</DependentUpon>
     </Compile>
     <Compile Include="pages\customs\reports.aspx.cs">
       <DependentUpon>reports.aspx</DependentUpon>
@@ -317,6 +348,7 @@
     <Content Include="vendors\mdi\fonts\materialdesignicons-webfont.ttf" />
     <Content Include="vendors\mdi\fonts\materialdesignicons-webfont.woff" />
     <Content Include="vendors\mdi\fonts\materialdesignicons-webfont.woff2" />
+    <Content Include="pages\customs\JsonResponse.ashx" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

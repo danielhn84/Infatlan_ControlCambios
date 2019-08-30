@@ -427,5 +427,26 @@ namespace ControlCambios.classes
             }
             return vResponse;
         }
+        public HttpResponseMessage PostCalendario(msgConsultasGenerales vDatos, ref String vJsonResult)
+        {
+            HttpResponseMessage vResponse = null;
+            try
+            {
+                System.Net.Http.HttpClient client = new HttpClient();
+
+                String vTestJson = Newtonsoft.Json.JsonConvert.SerializeObject(vDatos);
+                var httpContent = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(vDatos));
+                httpContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+                vResponse = client.PostAsync(ConfigurationManager.AppSettings["Server"] + "ConsultasGenerales", httpContent).Result;
+
+                var vContents = vResponse.Content.ReadAsStringAsync();
+                vJsonResult = vContents.Result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return vResponse;
+        }
     }
 }

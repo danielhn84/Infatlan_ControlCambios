@@ -152,6 +152,7 @@
                                             <asp:BoundField DataField="mantenimientoNombre" HeaderText="Nombre" />
                                             <asp:BoundField DataField="fechaSolicitud" HeaderText="Fecha" />
                                             <asp:BoundField DataField="idUsuarioResponsable" HeaderText="Asignado" />
+                                            <asp:BoundField DataField="estado" HeaderText="Estado" />
                                         </Columns>
                                     </asp:GridView>
                                 </ContentTemplate>
@@ -162,7 +163,7 @@
             </div>
         </div>
     </div>
-
+    
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
 </asp:Content>

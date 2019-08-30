@@ -43,6 +43,7 @@ namespace ControlCambios
                 vDatos.Columns.Add("mantenimientoNombre");
                 vDatos.Columns.Add("fechaSolicitud");
                 vDatos.Columns.Add("idUsuarioResponsable");
+                vDatos.Columns.Add("estado");
 
                 msgInfoCambios vInfoCambiosRequest = new msgInfoCambios()
                 {
@@ -59,11 +60,23 @@ namespace ControlCambios
                     {
                         foreach (msgInfoCambiosQueryResponseItem item in vInfoCambiosResponse.resultSet1)
                         {
+                            String vEstado = String.Empty;
+                            switch (item.pasos)
+                            {
+                                case "1": vEstado = "Pendiente revisión QA"; break;
+                                case "2": vEstado = "CAB Manager"; break;
+                                case "3": vEstado = "Implementación"; break;
+                                case "4": vEstado = "Revisión QA"; break;
+                                case "5": vEstado = "Cambio terminado / No cerrado"; break;
+                                case "6": vEstado = "Cambio cerrado"; break;
+                            }
+
                             vDatos.Rows.Add(
                                 item.idcambio,
                                 item.mantenimientoNombre,
                                 item.fechaSolicitud,
-                                item.idUsuarioResponsable);
+                                item.idUsuarioResponsable,
+                                vEstado);
                         }
                     }
 

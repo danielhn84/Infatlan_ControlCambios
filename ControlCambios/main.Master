@@ -140,17 +140,23 @@
                             </div>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="/pages/customs/events.aspx" >
+                                <i class="mdi mdi-calendar menu-icon"></i>
+                                <span class="menu-title">Calendario</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="/pages/customs/reports.aspx">
                                 <i class="mdi mdi-database-search menu-icon"></i>
                                 <span class="menu-title">Reportes</span>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <%--<li class="nav-item">
                             <a class="nav-link" href="/pages/customs/incidents.aspx">
                                 <i class="mdi mdi-access-point menu-icon"></i>
                                 <span class="menu-title">Incidentes</span>
                             </a>
-                        </li>
+                        </li>--%>
                         <li class="nav-item" id="LIAuth" runat="server" visible="false">
                             <a class="nav-link" href="/pages/customs/authorizations.aspx">
                                 <i class="mdi mdi-security menu-icon"></i>
@@ -174,7 +180,7 @@
                     <footer class="footer">
                         <div class="d-sm-flex justify-content-center justify-content-sm-between">
                             <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright Infatlan © 2019. All rights reserved.</span>
-                            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Bancatlan <i class="mdi mdi-network text-danger"></i></span>
+                            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Infatlan <i class="mdi mdi-network text-danger"></i></span>
                         </div>
                     </footer>
                 </div>
