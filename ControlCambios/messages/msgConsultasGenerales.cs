@@ -23,4 +23,17 @@ namespace ControlCambios.messages
         public String TodoDia { get; set; }
         public String estado { get; set; }
     }
+
+
+    public class msgConsultasGeneralesSummary
+    {
+        public msgConsultasGeneralesSummaryItem[] resultSet1 { get; set; }
+    }
+    public class msgConsultasGeneralesSummaryItem
+    {
+        public String finalizados { get; set; }
+        public String fechaSolicitud { get; set; }
+        public String creados { get; set; }
+
+    }
 }

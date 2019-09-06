@@ -145,12 +145,12 @@
                                 <span class="menu-title">Calendario</span>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <%--<li class="nav-item">
                             <a class="nav-link" href="/pages/customs/reports.aspx">
                                 <i class="mdi mdi-database-search menu-icon"></i>
                                 <span class="menu-title">Reportes</span>
                             </a>
-                        </li>
+                        </li>--%>
                         <%--<li class="nav-item">
                             <a class="nav-link" href="/pages/customs/incidents.aspx">
                                 <i class="mdi mdi-access-point menu-icon"></i>

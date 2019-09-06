@@ -92,6 +92,7 @@
     <Content Include="css\chosen.min.css" />
     <Content Include="css\GridStyle.css" />
     <Content Include="css\jquery-ui.min.css" />
+    <Content Include="css\pager.css" />
     <Content Include="css\smart_wizard.css" />
     <Content Include="css\smart_wizard_theme_arrows.css" />
     <Content Include="css\smart_wizard_theme_circles.css" />
@@ -349,6 +350,7 @@
     <Content Include="vendors\mdi\fonts\materialdesignicons-webfont.woff" />
     <Content Include="vendors\mdi\fonts\materialdesignicons-webfont.woff2" />
     <Content Include="pages\customs\JsonResponse.ashx" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

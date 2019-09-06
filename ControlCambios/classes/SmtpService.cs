@@ -17,7 +17,9 @@ namespace ControlCambios.classes
         CAB,
         Promotor,
         QARevision,
-        SupervisorCierre
+        SupervisorCierre,
+        PromotorRegreso,
+        PromotorReEnvio
     }
     public class SmtpService : Page
     {
@@ -99,6 +101,15 @@ namespace ControlCambios.classes
                             "Cambio #" + Cambio + " (" + Nombre + ") se ha finalizado",
                             ConfigurationManager.AppSettings["Host"] + "/pages/services/search.aspx",
                             "Te informamos que el cambio se ha finalizado, " +
+                            "para revisar el cambio entra al aplicativo y ve a la sección de cambios."
+                            );
+                        break;
+                    case typeBody.PromotorRegreso:
+                        mail.Body = PopulateBody(
+                            Usuario,
+                            "Cambio #" + Cambio + " (" + Nombre + ") se te ha devuelto",
+                            ConfigurationManager.AppSettings["Host"] + "/pages/services/search.aspx",
+                            "Te informamos que el cambio no se aprobo, QA se comunicara contigo en breve, " +
                             "para revisar el cambio entra al aplicativo y ve a la sección de cambios."
                             );
                         break;

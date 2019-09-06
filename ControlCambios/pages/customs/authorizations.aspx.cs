@@ -218,6 +218,11 @@ namespace ControlCambios.pages.customs
                     {
                         EnviarMailCertificacionImplementacion(LbNumeroCambio.Text);
                         CerrarModal("AutorizarModal");
+
+                        BuscarCambioActualizar();
+                        UpdateGridView.Update();
+
+
                         Mensaje("El cambio ha sido autorizada", WarningType.Success);
                     }
                     else
@@ -228,6 +233,79 @@ namespace ControlCambios.pages.customs
                 }
             }
             catch (Exception Ex) { LbAutorizarMensaje.Text = Ex.Message; UpdateAutorizarMensaje.Update(); }
+        }
+
+        private void BuscarCambioActualizar()
+        {
+            HttpService vConector = new HttpService();
+            vConfigurations = (msgLoginResponse)Session["AUTHCLASS"];
+            DataTable vDatos = new DataTable();
+            vDatos.Columns.Add("idcambio");
+            vDatos.Columns.Add("mantenimientoNombre");
+            vDatos.Columns.Add("fechaSolicitud");
+            vDatos.Columns.Add("idUsuarioResponsable");
+
+            msgInfoCambios vInfoCambiosRequest = new msgInfoCambios()
+            {
+                tipo = "3",
+                idcambio = LbNumeroCambio.Text,
+                usuariogrud = vConfigurations.resultSet1[0].idUsuario
+            };
+            String vResponseCambios = "";
+            HttpResponseMessage vHttpResponseCambios = vConector.PostInfoCambios(vInfoCambiosRequest, ref vResponseCambios);
+
+            if (vHttpResponseCambios.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                msgInfoCambiosQueryResponse vInfoCambiosResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgInfoCambiosQueryResponse>(vResponseCambios);
+                if (vInfoCambiosResponse.resultSet1.Count() > 0)
+                {
+                    foreach (msgInfoCambiosQueryResponseItem item in vInfoCambiosResponse.resultSet1)
+                    {
+                        vDatos.Rows.Add(
+                            item.idcambio,
+                            item.mantenimientoNombre,
+                            item.fechaSolicitud,
+                            item.idUsuarioResponsable);
+                    }
+                }
+                else
+                {
+                    DivBusqueda.Visible = false;
+                    UpdateDivBusquedas.Update();
+                    throw new Exception("No se encontro ningun resultado.");
+                }
+            }
+            GVBusqueda.DataSource = vDatos;
+            GVBusqueda.DataBind();
+            foreach (GridViewRow row in GVBusqueda.Rows)
+            {
+                msgInfoAprobaciones vInfoAprobacionesRowRequest = new msgInfoAprobaciones()
+                {
+                    tipo = "3",
+                    idaprobacion = row.Cells[2].Text
+                };
+                String vResponseRowAprobaciones = "";
+                HttpResponseMessage vHttpResponseRowAprobaciones = vConector.PostInfoAprobaciones(vInfoAprobacionesRowRequest, ref vResponseRowAprobaciones);
+
+                if (vHttpResponseRowAprobaciones.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    msgInfoAprobacionesQueryResponse vInfoAprobacionesRowsResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgInfoAprobacionesQueryResponse>(vResponseRowAprobaciones);
+                    if (vInfoAprobacionesRowsResponse.resultSet1.Count() > 0)
+                    {
+
+                        if (vInfoAprobacionesRowsResponse.resultSet1[0].estado.Equals("true"))
+                        {
+                            Button button = row.FindControl("BtnAutorizar") as Button;
+                            button.Text = "Autorizado";
+                            button.CssClass = "btn btn-success mr-2 ";
+                            button.Enabled = false;
+                            button.CommandName = "Cerrado";
+                        }
+                    }
+                }
+            }
+            DivBusqueda.Visible = true;
+            UpdateDivBusquedas.Update();
         }
 
         protected void EnviarMailCertificacionImplementacion(String vIdCambio)

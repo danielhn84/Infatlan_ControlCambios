@@ -13,6 +13,33 @@ namespace ControlCambios {
     public partial class _default {
         
         /// <summary>
+        /// Control LitFechaCambios.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal LitFechaCambios;
+        
+        /// <summary>
+        /// Control LitCambiosCreados.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal LitCambiosCreados;
+        
+        /// <summary>
+        /// Control LitCambiosFinalizados.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal LitCambiosFinalizados;
+        
+        /// <summary>
         /// Control UpdateGridView.
         /// </summary>
         /// <remarks>

@@ -793,6 +793,7 @@
                                                 <asp:DropDownList ID="DDLCertificacion" runat="server" class="form-control">
                                                     <asp:ListItem Value="0">Selecione una Opción</asp:ListItem>
                                                     <asp:ListItem Value="1">Certificado</asp:ListItem>
+                                                    <asp:ListItem Value="2">Regresar Cambio a Promotor</asp:ListItem>
                                                 </asp:DropDownList>
 
                                             </div>
@@ -832,6 +833,7 @@
                                                 <asp:DropDownList ID="DDLRevisionQA" runat="server" class="form-control">
                                                     <asp:ListItem Value="0">Selecione una Opción</asp:ListItem>
                                                     <asp:ListItem Value="1">Certificado</asp:ListItem>
+                                                    <asp:ListItem Value="2">Regresar Cambio a Promotor</asp:ListItem>
                                                 </asp:DropDownList>
 
                                             </div>

@@ -91,6 +91,7 @@ namespace ControlCambios.pages.services
                             String vEstado = String.Empty;
                             switch (item.pasos)
                             {
+                                case "0": vEstado = "Correcciones promotor"; break;
                                 case "1": vEstado = "Pendiente revisión QA"; break;
                                 case "2": vEstado = "CAB Manager"; break;
                                 case "3": vEstado = "Implementación"; break;
@@ -199,6 +200,7 @@ namespace ControlCambios.pages.services
                             String vEstado = String.Empty;
                             switch (item.pasos)
                             {
+                                case "0": vEstado = "Correcciones promotor"; break;
                                 case "1": vEstado = "Pendiente revisión QA"; break;
                                 case "2": vEstado = "CAB Manager"; break;
                                 case "3": vEstado = "Implementación"; break;

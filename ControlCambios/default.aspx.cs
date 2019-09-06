@@ -24,6 +24,7 @@ namespace ControlCambios
                     vConfigurations = (msgLoginResponse)Session["AUTHCLASS"];
                     Session["USERTYPE"] = vConfigurations.resultSet1[0].idCargo;
                     ObtenerUltimos();
+                    CargarCambiosSummary();
                 }
             }
         }
@@ -31,6 +32,42 @@ namespace ControlCambios
         {
             ScriptManager.RegisterStartupScript(this.Page, typeof(Page), "text", "infatlan.showNotification('top','center','" + vMensaje + "','" + type.ToString().ToLower() + "')", true);
         }
+
+        protected void CargarCambiosSummary()
+        {
+            try
+            {
+
+                HttpService vConector = new HttpService();
+                vConfigurations = (msgLoginResponse)Session["AUTHCLASS"];
+
+                msgConsultasGenerales vConsultasGeneralesRequest = new msgConsultasGenerales()
+                {
+                    tipo = "2"
+                };
+
+                String vResponseConsultasGenerales = "";
+                HttpResponseMessage vHttpResponseConsultasGenerales = vConector.PostCalendario(vConsultasGeneralesRequest, ref vResponseConsultasGenerales);
+
+                if (vHttpResponseConsultasGenerales.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    msgConsultasGeneralesSummary vInfoConsultasGeneralesResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgConsultasGeneralesSummary>(vResponseConsultasGenerales);
+                    if (vInfoConsultasGeneralesResponse.resultSet1.Count() > 0)
+                    {
+                        foreach (msgConsultasGeneralesSummaryItem item in vInfoConsultasGeneralesResponse.resultSet1)
+                        {
+                            LitFechaCambios.Text = item.fechaSolicitud;
+                            LitCambiosCreados.Text = item.creados;
+                            LitCambiosFinalizados.Text = item.finalizados;
+                        }
+                    }
+                }
+
+
+            }
+            catch (Exception Ex) { Mensaje(Ex.Message, WarningType.Danger); }
+        }
+        
         protected void ObtenerUltimos()
         {
             try
@@ -63,6 +100,7 @@ namespace ControlCambios
                             String vEstado = String.Empty;
                             switch (item.pasos)
                             {
+                                case "0": vEstado = "Correcciones promotor"; break;
                                 case "1": vEstado = "Pendiente revisión QA"; break;
                                 case "2": vEstado = "CAB Manager"; break;
                                 case "3": vEstado = "Implementación"; break;

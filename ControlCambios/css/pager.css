@@ -1,0 +1,26 @@
+﻿.pgr {
+    background-color: #f1f1f1;
+}
+
+    .pgr table {
+        margin: 10px 0;
+    }
+
+    .pgr td {
+        border-width: 0;
+        padding: 0 6px;
+        border-left: solid 0px #666;
+        font-weight: bold;
+        color: #477BA8;
+        line-height: 12px;
+    }
+
+    .pgr a {
+        color: #666;
+        text-decoration: none;
+    }
+
+        .pgr a:hover {
+            color: #477BA8;
+            text-decoration: none;
+        }

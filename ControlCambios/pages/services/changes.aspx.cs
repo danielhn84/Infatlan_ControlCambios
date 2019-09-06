@@ -75,6 +75,10 @@ namespace ControlCambios.pages.services
                                 {
                                     if (item.pasos != null)
                                     {
+                                        if (item.pasos.Equals("0"))
+                                        {
+
+                                        }
                                         if (item.pasos.Equals("1"))
                                         {
                                             if (vConfigurations.resultSet1[0].idCargo.Equals("1") || vConfigurations.resultSet1[0].idCargo.Equals("4"))
@@ -2227,7 +2231,8 @@ namespace ControlCambios.pages.services
                             usuario = vConfigurations.resultSet1[0].idUsuario,
                             idmantenimiento = vGETMentenimiento,
                             idcalendario = vGETCalendario,
-                            usuariogrud = vConfigurations.resultSet1[0].idUsuario
+                            usuariogrud = vConfigurations.resultSet1[0].idUsuario,
+                            paso = "1"
                         };
                         String vResponseCambios = "";
                         HttpResponseMessage vHttpResponseCambios = vConector.PostInfoCambios(vInfoCambiosRequest, ref vResponseCambios);
@@ -2538,7 +2543,7 @@ namespace ControlCambios.pages.services
 
                                     msgInfoAprobaciones vInfoAprobacionesRequest = new msgInfoAprobaciones()
                                     {
-                                        tipo = "2",
+                                        tipo = "4",
                                         idaprobacion = vGETCambio
                                     };
                                     String vResponseAprobaciones = "";
@@ -3188,65 +3193,90 @@ namespace ControlCambios.pages.services
                 if (DDLRevisionQA.SelectedValue.Equals("0"))
                     throw new Exception("Por favor seleccione una opción valida");
 
-                msgInfoAprobaciones vInfoAprobacionesRowRequest = new msgInfoAprobaciones()
+                if (DDLRevisionQA.SelectedValue.Equals("2"))
                 {
-                    tipo = "3",
-                    idaprobacion = Convert.ToString(Session["GETIDCAMBIO"])
-                };
-                String vResponseRowAprobaciones = "";
-                HttpResponseMessage vHttpResponseRowAprobaciones = vConector.PostInfoAprobaciones(vInfoAprobacionesRowRequest, ref vResponseRowAprobaciones);
-
-                Boolean vAutorizacion = true;
-                String UsuarioAutorizador = String.Empty;
-                if (vHttpResponseRowAprobaciones.StatusCode == System.Net.HttpStatusCode.OK)
-                {
-                    msgInfoAprobacionesQueryResponse vInfoAprobacionesRowsResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgInfoAprobacionesQueryResponse>(vResponseRowAprobaciones);
-                    if (vInfoAprobacionesRowsResponse.resultSet1.Count() > 0)
-                    {
-                        foreach (msgInfoAprobacionesQueryResponseItem itemAprobaciones in vInfoAprobacionesRowsResponse.resultSet1)
-                        {
-                            if(!itemAprobaciones.estado.Equals("true"))
-                            {
-                                vAutorizacion = false;
-                                UsuarioAutorizador = itemAprobaciones.idUsuarioAprobador;
-                            }
-                        }
-                    }
-                }
-
-                if (vAutorizacion)
-                {
-                    String vTxRevisionInicio = "";
-                    String vTxRevisionFinal = "";
-                    if (!TxRevisionQAInicio.Text.Equals(""))
-                        vTxRevisionInicio = Convert.ToDateTime(TxRevisionQAInicio.Text).ToString("yyyy-MM-dd HH:mm:ss");
-                    if (!TxRevisionQAFinal.Text.Equals(""))
-                        vTxRevisionFinal = Convert.ToDateTime(TxRevisionQAFinal.Text).ToString("yyyy-MM-dd HH:mm:ss");
-
+                    String vResponseCambios = "";
                     msgInfoCambios vInfoCambiosRequest = new msgInfoCambios()
                     {
-                        tipo = "7",
+                        tipo = "8",
                         idcambio = Convert.ToString(Session["GETIDCAMBIO"]),
-                        paso = "3",
-                        proveedor = vTxRevisionInicio,
-                        responsable = vTxRevisionFinal,
+                        paso = "0",
                         usuariogrud = vConfigurations.resultSet1[0].idUsuario
                     };
-                    String vResponseCambios = "";
-                    HttpResponseMessage vHttpResponseCambios = vConector.PostInfoCambios(vInfoCambiosRequest, ref vResponseCambios);
+                    HttpResponseMessage vHttpResponseCierreCambios = vConector.PostInfoCambios(vInfoCambiosRequest, ref vResponseCambios);
 
-                    if (vHttpResponseCambios.StatusCode == System.Net.HttpStatusCode.OK)
+                    if (vHttpResponseCierreCambios.StatusCode == System.Net.HttpStatusCode.OK)
                     {
-                        msgUpdateGeneral vInfoCambiosResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgUpdateGeneral>(vResponseCambios);
-                        if (vInfoCambiosResponse.updateCount1.Equals("1"))
+                        msgUpdateGeneral vInfoCambiosCierreResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgUpdateGeneral>(vResponseCambios);
+                        if (vInfoCambiosCierreResponse.updateCount1.Equals("1"))
                         {
-                            EnviarMailCertificacionCAB();
+                            EnviarMailCertificacionPromotorRegreso();
                             SeguimientoCambio(Convert.ToString(Session["GETIDCAMBIO"]));
                         }
                     }
                 }
                 else
-                    throw new Exception("Necesitas que el cambio este aprobado por " + UsuarioAutorizador + " para proceder con la revisión de CAB Manager");
+                {
+                    msgInfoAprobaciones vInfoAprobacionesRowRequest = new msgInfoAprobaciones()
+                    {
+                        tipo = "3",
+                        idaprobacion = Convert.ToString(Session["GETIDCAMBIO"])
+                    };
+                    String vResponseRowAprobaciones = "";
+                    HttpResponseMessage vHttpResponseRowAprobaciones = vConector.PostInfoAprobaciones(vInfoAprobacionesRowRequest, ref vResponseRowAprobaciones);
+
+                    Boolean vAutorizacion = true;
+                    String UsuarioAutorizador = String.Empty;
+                    if (vHttpResponseRowAprobaciones.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        msgInfoAprobacionesQueryResponse vInfoAprobacionesRowsResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgInfoAprobacionesQueryResponse>(vResponseRowAprobaciones);
+                        if (vInfoAprobacionesRowsResponse.resultSet1.Count() > 0)
+                        {
+                            foreach (msgInfoAprobacionesQueryResponseItem itemAprobaciones in vInfoAprobacionesRowsResponse.resultSet1)
+                            {
+                                if (!itemAprobaciones.estado.Equals("true"))
+                                {
+                                    vAutorizacion = false;
+                                    UsuarioAutorizador = itemAprobaciones.idUsuarioAprobador;
+                                }
+                            }
+                        }
+                    }
+
+                    if (vAutorizacion)
+                    {
+                        String vTxRevisionInicio = "";
+                        String vTxRevisionFinal = "";
+                        if (!TxRevisionQAInicio.Text.Equals(""))
+                            vTxRevisionInicio = Convert.ToDateTime(TxRevisionQAInicio.Text).ToString("yyyy-MM-dd HH:mm:ss");
+                        if (!TxRevisionQAFinal.Text.Equals(""))
+                            vTxRevisionFinal = Convert.ToDateTime(TxRevisionQAFinal.Text).ToString("yyyy-MM-dd HH:mm:ss");
+
+                        msgInfoCambios vInfoCambiosRequest = new msgInfoCambios()
+                        {
+                            tipo = "7",
+                            idcambio = Convert.ToString(Session["GETIDCAMBIO"]),
+                            paso = "3",
+                            proveedor = vTxRevisionInicio,
+                            responsable = vTxRevisionFinal,
+                            usuariogrud = vConfigurations.resultSet1[0].idUsuario
+                        };
+                        String vResponseCambios = "";
+                        HttpResponseMessage vHttpResponseCambios = vConector.PostInfoCambios(vInfoCambiosRequest, ref vResponseCambios);
+
+                        if (vHttpResponseCambios.StatusCode == System.Net.HttpStatusCode.OK)
+                        {
+                            msgUpdateGeneral vInfoCambiosResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgUpdateGeneral>(vResponseCambios);
+                            if (vInfoCambiosResponse.updateCount1.Equals("1"))
+                            {
+                                EnviarMailCertificacionCAB();
+                                SeguimientoCambio(Convert.ToString(Session["GETIDCAMBIO"]));
+                            }
+                        }
+                    }
+                    else
+                        throw new Exception("Necesitas que el cambio este aprobado por " + UsuarioAutorizador + " para proceder con la revisión de CAB Manager");
+                }
             }
             catch (Exception Ex) { Mensaje(Ex.Message, WarningType.Danger); }
         }
@@ -3440,41 +3470,14 @@ namespace ControlCambios.pages.services
                 if (DDLCertificacion.SelectedValue.Equals("0"))
                     throw new Exception("Por favor seleccione una opción valida");
 
-
-                msgInfoAprobaciones vInfoAprobacionesRowRequest = new msgInfoAprobaciones()
-                {
-                    tipo = "3",
-                    idaprobacion = Convert.ToString(Session["GETIDCAMBIO"])
-                };
-                String vResponseRowAprobaciones = "";
-                HttpResponseMessage vHttpResponseRowAprobaciones = vConector.PostInfoAprobaciones(vInfoAprobacionesRowRequest, ref vResponseRowAprobaciones);
-
-                Boolean vAutorizacion = true;
-                String UsuarioAutorizador = String.Empty;
-                if (vHttpResponseRowAprobaciones.StatusCode == System.Net.HttpStatusCode.OK)
-                {
-                    msgInfoAprobacionesQueryResponse vInfoAprobacionesRowsResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgInfoAprobacionesQueryResponse>(vResponseRowAprobaciones);
-                    if (vInfoAprobacionesRowsResponse.resultSet1.Count() > 0)
-                    {
-                        foreach (msgInfoAprobacionesQueryResponseItem itemAprobaciones in vInfoAprobacionesRowsResponse.resultSet1)
-                        {
-                            if (!itemAprobaciones.estado.Equals("true"))
-                            {
-                                vAutorizacion = false;
-                                UsuarioAutorizador = itemAprobaciones.idUsuarioAprobador;
-                            }
-                        }
-                    }
-                }
-
-                if (vAutorizacion)
+                if (DDLCertificacion.SelectedValue.Equals("2"))
                 {
                     String vResponseCambios = "";
                     msgInfoCambios vInfoCambiosRequest = new msgInfoCambios()
                     {
                         tipo = "8",
                         idcambio = Convert.ToString(Session["GETIDCAMBIO"]),
-                        paso = "2",
+                        paso = "0",
                         usuariogrud = vConfigurations.resultSet1[0].idUsuario
                     };
                     HttpResponseMessage vHttpResponseCierreCambios = vConector.PostInfoCambios(vInfoCambiosRequest, ref vResponseCambios);
@@ -3484,13 +3487,64 @@ namespace ControlCambios.pages.services
                         msgUpdateGeneral vInfoCambiosCierreResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgUpdateGeneral>(vResponseCambios);
                         if (vInfoCambiosCierreResponse.updateCount1.Equals("1"))
                         {
-                            EnviarMailCertificacionQA();
+                            EnviarMailCertificacionPromotorRegreso();
                             SeguimientoCambio(Convert.ToString(Session["GETIDCAMBIO"]));
                         }
                     }
                 }
                 else
-                    throw new Exception("Necesitas que el cambio este aprobado por " + UsuarioAutorizador + " para proceder con la revisión de QA");
+                {
+                    msgInfoAprobaciones vInfoAprobacionesRowRequest = new msgInfoAprobaciones()
+                    {
+                        tipo = "3",
+                        idaprobacion = Convert.ToString(Session["GETIDCAMBIO"])
+                    };
+                    String vResponseRowAprobaciones = "";
+                    HttpResponseMessage vHttpResponseRowAprobaciones = vConector.PostInfoAprobaciones(vInfoAprobacionesRowRequest, ref vResponseRowAprobaciones);
+
+                    Boolean vAutorizacion = true;
+                    String UsuarioAutorizador = String.Empty;
+                    if (vHttpResponseRowAprobaciones.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        msgInfoAprobacionesQueryResponse vInfoAprobacionesRowsResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgInfoAprobacionesQueryResponse>(vResponseRowAprobaciones);
+                        if (vInfoAprobacionesRowsResponse.resultSet1.Count() > 0)
+                        {
+                            foreach (msgInfoAprobacionesQueryResponseItem itemAprobaciones in vInfoAprobacionesRowsResponse.resultSet1)
+                            {
+                                if (!itemAprobaciones.estado.Equals("true"))
+                                {
+                                    vAutorizacion = false;
+                                    UsuarioAutorizador = itemAprobaciones.idUsuarioAprobador;
+                                }
+                            }
+                        }
+                    }
+
+                    if (vAutorizacion)
+                    {
+                        String vResponseCambios = "";
+                        msgInfoCambios vInfoCambiosRequest = new msgInfoCambios()
+                        {
+                            tipo = "8",
+                            idcambio = Convert.ToString(Session["GETIDCAMBIO"]),
+                            paso = "2",
+                            usuariogrud = vConfigurations.resultSet1[0].idUsuario
+                        };
+                        HttpResponseMessage vHttpResponseCierreCambios = vConector.PostInfoCambios(vInfoCambiosRequest, ref vResponseCambios);
+
+                        if (vHttpResponseCierreCambios.StatusCode == System.Net.HttpStatusCode.OK)
+                        {
+                            msgUpdateGeneral vInfoCambiosCierreResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgUpdateGeneral>(vResponseCambios);
+                            if (vInfoCambiosCierreResponse.updateCount1.Equals("1"))
+                            {
+                                EnviarMailCertificacionQA();
+                                SeguimientoCambio(Convert.ToString(Session["GETIDCAMBIO"]));
+                            }
+                        }
+                    }
+                    else
+                        throw new Exception("Necesitas que el cambio este aprobado por " + UsuarioAutorizador + " para proceder con la revisión de QA");
+                }
             }
             catch (Exception Ex) { Mensaje(Ex.Message, WarningType.Danger); }
         }
@@ -3652,7 +3706,57 @@ namespace ControlCambios.pages.services
             }
             catch (Exception Ex) { Mensaje(Ex.Message, WarningType.Danger); CerrarModal("CerrarModal"); }
         }
+        protected void EnviarMailCertificacionPromotorRegreso()
+        {
+            try
+            {
+                HttpService vConector = new HttpService();
+                vConfigurations = (msgLoginResponse)Session["AUTHCLASS"];
+                msgInfoCambios vInfoCambiosRowRequest = new msgInfoCambios()
+                {
+                    tipo = "3",
+                    idcambio = Convert.ToString(Session["GETIDCAMBIO"]),
+                    usuariogrud = vConfigurations.resultSet1[0].idUsuario
+                };
+                String vResponseRowCambios = "";
+                HttpResponseMessage vHttpResponseRowCambios = vConector.PostInfoCambios(vInfoCambiosRowRequest, ref vResponseRowCambios);
 
+                if (vHttpResponseRowCambios.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    msgInfoCambiosQueryResponse vInfoCambioRowsResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgInfoCambiosQueryResponse>(vResponseRowCambios);
+                    if (vInfoCambioRowsResponse.resultSet1.Count() > 0)
+                    {
+                        foreach (msgInfoCambiosQueryResponseItem item in vInfoCambioRowsResponse.resultSet1)
+                        {
+                            msgInfoUsuarios vRequest = new msgInfoUsuarios()
+                            {
+                                tipo = "2",
+                                usuario = vConfigurations.resultSet1[0].idUsuario
+                            };
+
+                            String vResponseResult = "";
+                            HttpResponseMessage vHttpResponse = vConector.PostInfoUsuarios(vRequest, ref vResponseResult);
+                            if (vHttpResponse.StatusCode == System.Net.HttpStatusCode.OK)
+                            {
+                                msgInfoUsuariosQueryResponse vUsuariosResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgInfoUsuariosQueryResponse>(vResponseResult);
+                                foreach (msgInfoUsuariosQueryResponseItem itemUsuarios in vUsuariosResponse.resultSet1)
+                                {
+                                    SmtpService vSmtpService = new SmtpService();
+                                    vSmtpService.EnviarMensaje(
+                                        itemUsuarios.correo,
+                                        typeBody.PromotorRegreso,
+                                        itemUsuarios.nombres + "(" + itemUsuarios.idUsuario + ")",
+                                        item.idcambio,
+                                        item.mantenimientoNombre);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception Ex) { Mensaje(Ex.Message, WarningType.Warning); }
+
+        }
         protected void EnviarMailCertificacionQA()
         {
             try
