@@ -61,6 +61,7 @@ namespace ControlCambios.pages.configurations
                 };
 
                 DDLSupervisor.Items.Add(new ListItem { Text = "Seleccione una opción", Value = "0" });
+                DDLSupervisorModificar.Items.Add(new ListItem { Text = "Seleccione una opción", Value = "0" });
                 String vResponseResult = "";
                 HttpResponseMessage vHttpResponse = vConector.PostInfoUsuarios(vRequest, ref vResponseResult);
                 if (vHttpResponse.StatusCode == System.Net.HttpStatusCode.OK)
@@ -69,6 +70,7 @@ namespace ControlCambios.pages.configurations
                     foreach (msgInfoUsuariosQueryResponseItem itemUsuarios in vUsuariosResponse.resultSet1)
                     {
                         DDLSupervisor.Items.Add(new ListItem { Text = itemUsuarios.nombres + " " + itemUsuarios.apellidos, Value = itemUsuarios.idUsuario });
+                        DDLSupervisorModificar.Items.Add(new ListItem { Text = itemUsuarios.nombres + " " + itemUsuarios.apellidos, Value = itemUsuarios.idUsuario });
                     }
                 }
             }
@@ -161,7 +163,7 @@ namespace ControlCambios.pages.configurations
                 String Supervisor = "admin";
                 if (DDLCargo.SelectedValue.Equals("0"))
                     throw new Exception("Por favor seleccione un cargo valido");
-                else if (DDLCargo.SelectedValue.Equals("5"))
+                else if (DDLCargo.SelectedValue.Equals("5") || DDLCargoModificar.SelectedValue.Equals("4"))
                 {
                     if (DDLSupervisor.SelectedValue.Equals("0"))
                         throw new Exception("Por favor seleccione un supervisor valido");
@@ -170,14 +172,14 @@ namespace ControlCambios.pages.configurations
                         Supervisor = DDLSupervisor.SelectedValue;
                     }
                 }
-
+                Generales vGenerales = new Generales();
                 HttpService vConector = new HttpService();
                 vConfigurations = (msgLoginResponse)Session["AUTHCLASS"];
                 msgInfoUsuarios vRequest = new msgInfoUsuarios()
                 {
                     tipo = "1",
                     usuario = TxUsuario.Text,
-                    password = TxPassword.Text,
+                    password = vGenerales.MD5Hash(TxPassword.Text),
                     nombres = TxNombres.Text,
                     apellidos = TxApellidos.Text,
                     correo = TxCorreo.Text,
@@ -214,7 +216,6 @@ namespace ControlCambios.pages.configurations
             UpdatePanel2.Update();
         }
 
-
         protected void BtnCancelar_Click(object sender, EventArgs e)
         {
             try
@@ -228,7 +229,7 @@ namespace ControlCambios.pages.configurations
         {
             try
             {
-                if (DDLCargo.SelectedValue.Equals("5"))
+                if (DDLCargo.SelectedValue.Equals("5") || DDLCargo.SelectedValue.Equals("4"))
                     DIVSupervisores.Visible = true;
                 else
                     DIVSupervisores.Visible = false;
@@ -268,6 +269,18 @@ namespace ControlCambios.pages.configurations
                             TxModificarCorreo.Text = itemUsuarios.correo;
                             TxModificarNombres.Text = itemUsuarios.nombres;
                             TxModificarApellidos.Text = itemUsuarios.apellidos;
+
+                            DDLCargoModificar.SelectedIndex = CargarInformacionDDL(DDLCargoModificar, itemUsuarios.idcargo);
+
+                            if (itemUsuarios.idcargo.Equals("5") || itemUsuarios.idcargo.Equals("4"))
+                            {
+                                DIVSupervisorModificar.Visible = true;
+                                DDLSupervisorModificar.SelectedIndex = CargarInformacionDDL(DDLSupervisorModificar, itemUsuarios.dependencia);
+                            }
+                            else
+                            {
+                                DIVSupervisorModificar.Visible = false;
+                            }
                         }
                     }
 
@@ -281,19 +294,38 @@ namespace ControlCambios.pages.configurations
         {
             try
             {
+                if (TxModificarPassword.Text.Equals(""))
+                    throw new Exception("Por favor ingrese un password.");
+
                 if (TxModificarPassword.Text != TxModificarPasswordConfirmar.Text)
                     throw new Exception("Error en la verificación del password.");
 
+                String Supervisor = "admin";
+                if (DDLCargoModificar.SelectedValue.Equals("0"))
+                    throw new Exception("Por favor seleccione un cargo valido");
+                else if (DDLCargoModificar.SelectedValue.Equals("5") || DDLCargoModificar.SelectedValue.Equals("4"))
+                {
+                    if (DDLSupervisorModificar.SelectedValue.Equals("0"))
+                        throw new Exception("Por favor seleccione un supervisor valido");
+                    else
+                    {
+                        Supervisor = DDLSupervisorModificar.SelectedValue;
+                    }
+                }
+
+                Generales vGenerales = new Generales();
                 HttpService vConector = new HttpService();
                 vConfigurations = (msgLoginResponse)Session["AUTHCLASS"];
                 msgInfoUsuarios vRequest = new msgInfoUsuarios()
                 {
                     tipo = "9",
                     usuario = TxModificarUsuario.Text,
-                    password = TxModificarPassword.Text,
+                    password = vGenerales.MD5Hash(TxModificarPassword.Text),
                     nombres = TxModificarNombres.Text,
                     apellidos = TxModificarApellidos.Text,
-                    correo = TxModificarCorreo.Text
+                    correo = TxModificarCorreo.Text,
+                    idcargo = DDLCargoModificar.SelectedValue,
+                    dependencia = Supervisor
                 };
 
                 String vResponseResult = "";
@@ -311,6 +343,11 @@ namespace ControlCambios.pages.configurations
                 }
             }
             catch (Exception Ex) { LbUsuarioMensaje.Text = Ex.Message; UpdateUsuarioMensaje.Update(); }
+        }
+
+        private object MD5Hash()
+        {
+            throw new NotImplementedException();
         }
 
         protected void BtnEstado_Click(object sender, EventArgs e)
@@ -341,6 +378,37 @@ namespace ControlCambios.pages.configurations
                 }
             }
             catch (Exception Ex) { Mensaje(Ex.Message, WarningType.Danger); }
+        }
+
+        protected void DDLCargoModificar_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (DDLCargoModificar.SelectedValue.Equals("5") || DDLCargoModificar.SelectedValue.Equals("4"))
+                    DIVSupervisorModificar.Visible = true;
+                else
+                    DIVSupervisorModificar.Visible = false;
+            }
+            catch (Exception Ex) { Mensaje(Ex.Message, WarningType.Danger); }
+        }
+
+        int CargarInformacionDDL(DropDownList vList, String vValue)
+        {
+            int vIndex = 0;
+            try
+            {
+                int vContador = 0;
+                foreach (ListItem item in vList.Items)
+                {
+                    if (item.Value.Equals(vValue))
+                    {
+                        vIndex = vContador;
+                    }
+                    vContador++;
+                }
+            }
+            catch { throw; }
+            return vIndex;
         }
     }
 }

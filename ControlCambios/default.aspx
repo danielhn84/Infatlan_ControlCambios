@@ -18,18 +18,19 @@
                         <p class="text-primary mb-0 hover-cursor"></p>
                     </div>
                 </div>
-                <div class="d-flex justify-content-between align-items-end flex-wrap">
-                    <button type="button" class="btn btn-light bg-white btn-icon mr-3 d-none d-md-block ">
-                        <i class="mdi mdi-download text-muted"></i>
-                    </button>
-                    <button type="button" class="btn btn-light bg-white btn-icon mr-3 mt-2 mt-xl-0">
-                        <i class="mdi mdi-clock-outline text-muted"></i>
-                    </button>
-                    <button type="button" class="btn btn-light bg-white btn-icon mr-3 mt-2 mt-xl-0">
-                        <i class="mdi mdi-plus text-muted"></i>
-                    </button>
-                    <button class="btn btn-primary mt-2 mt-xl-0">Descargar Reporte</button>
-                </div>
+                <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                    <ContentTemplate>
+                        <div class="d-flex justify-content-between align-items-end flex-wrap">
+                            <button type="button" class="btn btn-light bg-white btn-icon mr-3 d-none d-md-block ">
+                                <i class="mdi mdi-download text-muted"></i>
+                            </button>
+                            <button type="button" class="btn btn-light bg-white btn-icon mr-3 mt-2 mt-xl-0">
+                                <i class="mdi mdi-clock-outline text-muted"></i>
+                            </button>
+                            <asp:Button ID="BtnReporteSummary" class="btn btn-primary mt-2 mt-xl-0" runat="server" Text="Descargar Reporte" OnClick="BtnReporteSummary_Click"  />
+                        </div>
+                    </ContentTemplate>
+                </asp:UpdatePanel>
             </div>
         </div>
     </div>
@@ -41,7 +42,7 @@
                         <li class="nav-item">
                             <a class="nav-link active" id="overview-tab" data-toggle="tab" href="#overview" role="tab" aria-controls="overview" aria-selected="true">Cambios</a>
                         </li>
-                       
+
 
                     </ul>
                     <div class="tab-content py-0 px-0">
@@ -58,7 +59,7 @@
                                                 </h5>
                                             </a>
 
-                                            
+
                                         </div>
                                     </div>
                                 </div>
@@ -66,27 +67,29 @@
                                     <i class="mdi mdi-security-account mr-3 icon-lg text-danger"></i>
                                     <div class="d-flex flex-column justify-content-around">
                                         <small class="mb-1 text-muted">Cambios Creados</small>
-                                        <h5 class="mr-2 mb-0"><asp:Literal ID="LitCambiosCreados" runat="server"></asp:Literal></h5>
+                                        <h5 class="mr-2 mb-0">
+                                            <asp:Literal ID="LitCambiosCreados" runat="server"></asp:Literal></h5>
                                     </div>
                                 </div>
                                 <div class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
                                     <i class="mdi mdi-security-account-outline mr-3 icon-lg text-success"></i>
                                     <div class="d-flex flex-column justify-content-around">
                                         <small class="mb-1 text-muted">Cambios Cerrados</small>
-                                        <h5 class="mr-2 mb-0"><asp:Literal ID="LitCambiosFinalizados" runat="server"></asp:Literal></h5>
+                                        <h5 class="mr-2 mb-0">
+                                            <asp:Literal ID="LitCambiosFinalizados" runat="server"></asp:Literal></h5>
                                     </div>
                                 </div>
 
                             </div>
                         </div>
-                        
+
 
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="row" >
+    <div class="row">
         <div class="col-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
@@ -126,7 +129,7 @@
             </div>
         </div>
     </div>
-    
+
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
 </asp:Content>

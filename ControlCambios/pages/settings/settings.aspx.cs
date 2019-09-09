@@ -22,7 +22,7 @@ namespace ControlCambios.pages.settings
                 {
                     vConfigurations = (msgLoginResponse)Session["AUTHCLASS"];
                     Session["USERTYPE"] = vConfigurations.resultSet1[0].idCargo;
-
+                    ObtenerData();
                     LbNombreUsuario.Text = vConfigurations.resultSet1[0].nombres + " " + vConfigurations.resultSet1[0].apellidos;
                 }
             }
@@ -31,10 +31,39 @@ namespace ControlCambios.pages.settings
         {
             ScriptManager.RegisterStartupScript(this.Page, typeof(Page), "text", "infatlan.showNotification('top','center','" + vMensaje + "','" + type.ToString().ToLower() + "')", true);
         }
+
+        protected void ObtenerData()
+        {
+            try
+            {
+                HttpService vConector = new HttpService();
+                vConfigurations = (msgLoginResponse)Session["AUTHCLASS"];
+                msgInfoUsuarios vRequest = new msgInfoUsuarios()
+                {
+                    tipo = "2",
+                    usuario = vConfigurations.resultSet1[0].idUsuario
+                };
+
+                String vResponseResult = "";
+                HttpResponseMessage vHttpResponse = vConector.PostInfoUsuarios(vRequest, ref vResponseResult);
+                if (vHttpResponse.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    msgInfoUsuariosQueryResponse vUsuariosResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgInfoUsuariosQueryResponse>(vResponseResult);
+                    foreach (msgInfoUsuariosQueryResponseItem itemUsuarios in vUsuariosResponse.resultSet1)
+                    {
+                        TxTelefono.Text = itemUsuarios.telefono;
+                        TxCorreo.Text = itemUsuarios.correo;
+                    }
+                }
+            }
+            catch (Exception Ex) { Mensaje(Ex.Message, WarningType.Danger); }
+        }
+
         protected void BtnGuardarCambios_Click(object sender, EventArgs e)
         {
             try
             {
+                Generales vGenerales = new Generales();
                 HttpService vConector = new HttpService();
                 vConfigurations = (msgLoginResponse)Session["AUTHCLASS"];
 
@@ -45,7 +74,7 @@ namespace ControlCambios.pages.settings
                 msgInfoUsuarios vInfoUsuarioRequest = new msgInfoUsuarios()
                 {
                     tipo = "3",
-                    password = (TxPassword.Text.Equals("") ? vConfigurations.resultSet1[0].password : TxPassword.Text),
+                    password = (TxPassword.Text.Equals("") ? vConfigurations.resultSet1[0].password : vGenerales.MD5Hash(TxPassword.Text)),
                     telefono = (TxTelefono.Text.Equals("") ? vConfigurations.resultSet1[0].telefono : TxTelefono.Text),
                     correo = (TxCorreo.Text.Equals("") ? vConfigurations.resultSet1[0].correo : TxCorreo.Text),
                     estado = vConfigurations.resultSet1[0].estado,

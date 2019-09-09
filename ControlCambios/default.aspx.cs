@@ -170,5 +170,10 @@ namespace ControlCambios
             }
             catch (Exception Ex) { Mensaje(Ex.Message, WarningType.Danger); }
         }
+
+        protected void BtnReporteSummary_Click(object sender, EventArgs e)
+        {
+            Mensaje("Reportes en construcción.", WarningType.Info);
+        }
     }
 }

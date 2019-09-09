@@ -26,13 +26,14 @@ namespace ControlCambios
         {
             try
             {
+                Generales vGenerales = new Generales();
                 if (TxUsername.Text.Equals("") || TxPassword.Text.Equals(""))
                     throw new Exception("Por favor ingrese un usuario o password");
 
                 msgLogin vRequest = new msgLogin()
                 {
                     username = TxUsername.Text,
-                    password = TxPassword.Text
+                    password = vGenerales.MD5Hash(TxPassword.Text)
                 };
 
                 String vResponseResult = "";

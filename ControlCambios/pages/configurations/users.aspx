@@ -277,7 +277,8 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="ModalLabelEstado">Estado del Usuario <asp:Label ID="LbUsuario" runat="server" Text=""></asp:Label></h4>
+                    <h4 class="modal-title" id="ModalLabelEstado">Estado del Usuario
+                        <asp:Label ID="LbUsuario" runat="server" Text=""></asp:Label></h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -310,7 +311,7 @@
     <%--MODAL DE MODIFICACION--%>
     <div class="modal fade" id="ModificacionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);">
         <div class="modal-dialog" role="document">
-            <div class="modal-content" style="width: 800px; top: 200px; left: 50%; transform: translate(-50%, -50%);">
+            <div class="modal-content" style="width: 800px; top: 300px; left: 50%; transform: translate(-50%, -50%);">
                 <div class="modal-header">
                     <h4 class="modal-title" id="ModalLabelModificacion">Modificar Usuario</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -373,6 +374,34 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                            <h4>Accesos</h4>
+                            <hr />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Usuario</label>
+                                        <div class="col-sm-9">
+                                            <asp:DropDownList ID="DDLCargoModificar" runat="server" class="form-control"  AutoPostBack="True" OnSelectedIndexChanged="DDLCargoModificar_SelectedIndexChanged">
+                                                <asp:ListItem Value="0">Selecione una Opción</asp:ListItem>
+                                                <asp:ListItem Value="2">Supervisor</asp:ListItem>
+                                                <asp:ListItem Value="3">Quality Assurance</asp:ListItem>
+                                                <asp:ListItem Value="4">Implementador</asp:ListItem>
+                                                <asp:ListItem Value="5">Promotor</asp:ListItem>
+                                                <asp:ListItem Value="6">CAB Manager</asp:ListItem>
+                                            </asp:DropDownList>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group row" id="DIVSupervisorModificar" runat="server" visible="false">
+                                        <label class="col-sm-3 col-form-label">Supervisor</label>
+                                        <div class="col-sm-9">
+                                            <asp:DropDownList ID="DDLSupervisorModificar" runat="server" class="form-control"></asp:DropDownList>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                         </ContentTemplate>
                     </asp:UpdatePanel>

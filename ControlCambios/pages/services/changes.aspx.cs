@@ -184,9 +184,16 @@ namespace ControlCambios.pages.services
                             Generales vGenerales = new Generales();
                             if (!vGenerales.PermisosEntrada(Permisos.Promotor, vConfigurations.resultSet1[0].idCargo))
                             {
-                                BtnGuardarCambio.Enabled = false;
-                                BtnGuardarCambio.Text = "No eres promotor";
-                                BtnGuardarCambio.CssClass = "btn btn-primary mr-2";
+                                if (vGenerales.PermisosEntrada(Permisos.Implementador, vConfigurations.resultSet1[0].idCargo))
+                                {
+                                    Mensaje("Tienes permiso de creación", WarningType.Success);
+                                }
+                                else
+                                {
+                                    BtnGuardarCambio.Enabled = false;
+                                    BtnGuardarCambio.Text = "No eres promotor";
+                                    BtnGuardarCambio.CssClass = "btn btn-primary mr-2";
+                                }
                             }
                         }
                         catch (Exception Ex) { Mensaje(Ex.Message, WarningType.Danger); }
@@ -2643,6 +2650,15 @@ namespace ControlCambios.pages.services
                             vIdInfoCalendarioCreado = vInfoCalendariosResponse.resultSet1[0].idCalendario;
                         }
                     }
+
+
+
+                    String vPaso = "1";
+                    if (ObtenerTipoCambio().Equals("1"))
+                    {
+                        vPaso = "3";
+                    }
+
                     //CAMBIO
                     msgInfoCambios vRequestCambio = new msgInfoCambios()
                     {
@@ -2658,7 +2674,8 @@ namespace ControlCambios.pages.services
                         usuario = vConfigurations.resultSet1[0].idUsuario,
                         idmantenimiento = vIdMantenimientoCreado,
                         idcalendario = vIdInfoCalendarioCreado,
-                        usuariogrud = vConfigurations.resultSet1[0].idUsuario
+                        usuariogrud = vConfigurations.resultSet1[0].idUsuario,
+                        paso = vPaso
                     };
 
                     String vResponseCambios = "";
@@ -3340,32 +3357,70 @@ namespace ControlCambios.pages.services
                 if (!vGenerales.PermisosEntrada(Permisos.Implementador, vConfigurations.resultSet1[0].idCargo))
                     throw new Exception("No tienes permisos para realizar esta accion");
 
-                GridViewRow row = ((GridViewRow)((CheckBox)sender).NamingContainer);
-                int index = row.RowIndex;
-                CheckBox cb1 = (CheckBox)GVProcedimientosImplementacion.Rows[index].FindControl("CBProcedimientos");
-                string vProcedimientoID = cb1.Attributes["value"];
-
-                msgInfoProcedimientos vRequestProcedimientos = new msgInfoProcedimientos()
+                msgInfoAprobaciones vInfoAprobacionesRowRequest = new msgInfoAprobaciones()
                 {
-                    tipo = "4",
-                    idprocedimiento = vProcedimientoID,
-                    estado = (cb1.Checked ? "1" : "0")
+                    tipo = "3",
+                    idaprobacion = Convert.ToString(Session["GETIDCAMBIO"])
                 };
+                String vResponseRowAprobaciones = "";
+                HttpResponseMessage vHttpResponseRowAprobaciones = vConector.PostInfoAprobaciones(vInfoAprobacionesRowRequest, ref vResponseRowAprobaciones);
 
-                String vResponseProcedimientos = "";
-                HttpResponseMessage vHttpResponseProcedimientos = vConector.PostInfoProcedimientos(vRequestProcedimientos, ref vResponseProcedimientos);
-                if (vHttpResponseProcedimientos.StatusCode == System.Net.HttpStatusCode.OK)
+                Boolean vAutorizacion = true;
+                String UsuarioAutorizador = String.Empty;
+                if (vHttpResponseRowAprobaciones.StatusCode == System.Net.HttpStatusCode.OK)
                 {
-                    msgUpdateGeneral vInfoProcedimientosResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgUpdateGeneral>(vResponseProcedimientos);
-                    if (vInfoProcedimientosResponse.updateCount1.Equals("1"))
+                    msgInfoAprobacionesQueryResponse vInfoAprobacionesRowsResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgInfoAprobacionesQueryResponse>(vResponseRowAprobaciones);
+                    if (vInfoAprobacionesRowsResponse.resultSet1.Count() > 0)
                     {
-                        if(cb1.Checked)
-                            Mensaje("Procedimiento cerrado", WarningType.Success);
-                        else
-                            Mensaje("Procedimiento abierto", WarningType.Info);
+                        foreach (msgInfoAprobacionesQueryResponseItem itemAprobaciones in vInfoAprobacionesRowsResponse.resultSet1)
+                        {
+                            if (!itemAprobaciones.estado.Equals("true"))
+                            {
+                                vAutorizacion = false;
+                                UsuarioAutorizador = itemAprobaciones.idUsuarioAprobador;
+                            }
+                        }
                     }
-                    else
-                        Mensaje("Procedimiento no se ha podido cerrar, contacte a sistemas si lo considera", WarningType.Danger);
+                }
+
+                if (vAutorizacion)
+                {
+                    GridViewRow row = ((GridViewRow)((CheckBox)sender).NamingContainer);
+                    int index = row.RowIndex;
+                    CheckBox cb1 = (CheckBox)GVProcedimientosImplementacion.Rows[index].FindControl("CBProcedimientos");
+                    string vProcedimientoID = cb1.Attributes["value"];
+
+                    msgInfoProcedimientos vRequestProcedimientos = new msgInfoProcedimientos()
+                    {
+                        tipo = "4",
+                        idprocedimiento = vProcedimientoID,
+                        estado = (cb1.Checked ? "1" : "0")
+                    };
+
+                    String vResponseProcedimientos = "";
+                    HttpResponseMessage vHttpResponseProcedimientos = vConector.PostInfoProcedimientos(vRequestProcedimientos, ref vResponseProcedimientos);
+                    if (vHttpResponseProcedimientos.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        msgUpdateGeneral vInfoProcedimientosResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgUpdateGeneral>(vResponseProcedimientos);
+                        if (vInfoProcedimientosResponse.updateCount1.Equals("1"))
+                        {
+                            if (cb1.Checked)
+                                Mensaje("Procedimiento cerrado", WarningType.Success);
+                            else
+                                Mensaje("Procedimiento abierto", WarningType.Info);
+                        }
+                        else
+                            Mensaje("Procedimiento no se ha podido cerrar, contacte a sistemas si lo considera", WarningType.Danger);
+                    }
+                }
+                else
+                {
+                    GridViewRow row = ((GridViewRow)((CheckBox)sender).NamingContainer);
+                    int index = row.RowIndex;
+                    CheckBox cb1 = (CheckBox)GVProcedimientosImplementacion.Rows[index].FindControl("CBProcedimientos");
+                    if (cb1.Checked)
+                        cb1.Checked = false;
+                    throw new Exception("Nesecitas que el cambio este autorizado para proceder");
                 }
             }
             catch (Exception Ex) { Mensaje(Ex.Message, WarningType.Danger); }
@@ -3382,32 +3437,71 @@ namespace ControlCambios.pages.services
                 if (!vGenerales.PermisosEntrada(Permisos.Implementador, vConfigurations.resultSet1[0].idCargo))
                     throw new Exception("No tienes permisos para realizar esta accion");
 
-                GridViewRow row = ((GridViewRow)((CheckBox)sender).NamingContainer);
-                int index = row.RowIndex;
-                CheckBox cb1 = (CheckBox)GVRollbackImplementacion.Rows[index].FindControl("CBRollback");
-                string vRollbackID = cb1.Attributes["value"];
 
-                msgInfoRollbacks vRequestRollback = new msgInfoRollbacks()
+                msgInfoAprobaciones vInfoAprobacionesRowRequest = new msgInfoAprobaciones()
                 {
-                    tipo = "4",
-                    idrollback = vRollbackID,
-                    estado = (cb1.Checked ? "1" : "0")
+                    tipo = "3",
+                    idaprobacion = Convert.ToString(Session["GETIDCAMBIO"])
                 };
+                String vResponseRowAprobaciones = "";
+                HttpResponseMessage vHttpResponseRowAprobaciones = vConector.PostInfoAprobaciones(vInfoAprobacionesRowRequest, ref vResponseRowAprobaciones);
 
-                String vResponseRollback = "";
-                HttpResponseMessage vHttpResponseRollback = vConector.PostInfoRollbacks(vRequestRollback, ref vResponseRollback);
-                if (vHttpResponseRollback.StatusCode == System.Net.HttpStatusCode.OK)
+                Boolean vAutorizacion = true;
+                String UsuarioAutorizador = String.Empty;
+                if (vHttpResponseRowAprobaciones.StatusCode == System.Net.HttpStatusCode.OK)
                 {
-                    msgUpdateGeneral vInfoRollbackResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgUpdateGeneral>(vResponseRollback);
-                    if (vInfoRollbackResponse.updateCount1.Equals("1"))
+                    msgInfoAprobacionesQueryResponse vInfoAprobacionesRowsResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgInfoAprobacionesQueryResponse>(vResponseRowAprobaciones);
+                    if (vInfoAprobacionesRowsResponse.resultSet1.Count() > 0)
                     {
-                        if (cb1.Checked)
-                            Mensaje("Rollback cerrado", WarningType.Success);
-                        else
-                            Mensaje("Rollback abierto", WarningType.Info);
+                        foreach (msgInfoAprobacionesQueryResponseItem itemAprobaciones in vInfoAprobacionesRowsResponse.resultSet1)
+                        {
+                            if (!itemAprobaciones.estado.Equals("true"))
+                            {
+                                vAutorizacion = false;
+                                UsuarioAutorizador = itemAprobaciones.idUsuarioAprobador;
+                            }
+                        }
                     }
-                    else
-                        Mensaje("Rollback no se ha podido cerrar, contacte a sistemas si lo considera", WarningType.Danger);
+                }
+
+                if (vAutorizacion)
+                {
+                    GridViewRow row = ((GridViewRow)((CheckBox)sender).NamingContainer);
+                    int index = row.RowIndex;
+                    CheckBox cb1 = (CheckBox)GVRollbackImplementacion.Rows[index].FindControl("CBRollback");
+                    string vRollbackID = cb1.Attributes["value"];
+
+                    msgInfoRollbacks vRequestRollback = new msgInfoRollbacks()
+                    {
+                        tipo = "4",
+                        idrollback = vRollbackID,
+                        estado = (cb1.Checked ? "1" : "0")
+                    };
+
+                    String vResponseRollback = "";
+                    HttpResponseMessage vHttpResponseRollback = vConector.PostInfoRollbacks(vRequestRollback, ref vResponseRollback);
+                    if (vHttpResponseRollback.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        msgUpdateGeneral vInfoRollbackResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgUpdateGeneral>(vResponseRollback);
+                        if (vInfoRollbackResponse.updateCount1.Equals("1"))
+                        {
+                            if (cb1.Checked)
+                                Mensaje("Rollback cerrado", WarningType.Success);
+                            else
+                                Mensaje("Rollback abierto", WarningType.Info);
+                        }
+                        else
+                            Mensaje("Rollback no se ha podido cerrar, contacte a sistemas si lo considera", WarningType.Danger);
+                    }
+                }
+                else
+                {
+                    GridViewRow row = ((GridViewRow)((CheckBox)sender).NamingContainer);
+                    int index = row.RowIndex;
+                    CheckBox cb1 = (CheckBox)GVProcedimientosImplementacion.Rows[index].FindControl("CBProcedimientos");
+                    if (cb1.Checked)
+                        cb1.Checked = false;
+                    throw new Exception("Nesecitas que el cambio este autorizado para proceder");
                 }
             }
             catch (Exception Ex) { Mensaje(Ex.Message, WarningType.Danger); }
@@ -3424,32 +3518,71 @@ namespace ControlCambios.pages.services
                 if (!vGenerales.PermisosEntrada(Permisos.Implementador, vConfigurations.resultSet1[0].idCargo))
                     throw new Exception("No tienes permisos para realizar esta accion");
 
-                GridViewRow row = ((GridViewRow)((CheckBox)sender).NamingContainer);
-                int index = row.RowIndex;
-                CheckBox cb1 = (CheckBox)GVPruebasImplementacion.Rows[index].FindControl("CBPruebas");
-                string vPruebasID = cb1.Attributes["value"];
 
-                msgInfoPruebas vRequestPruebas = new msgInfoPruebas()
+                msgInfoAprobaciones vInfoAprobacionesRowRequest = new msgInfoAprobaciones()
                 {
-                    tipo = "4",
-                    idprueba = vPruebasID,
-                    estado = (cb1.Checked ? "1" : "0")
+                    tipo = "3",
+                    idaprobacion = Convert.ToString(Session["GETIDCAMBIO"])
                 };
+                String vResponseRowAprobaciones = "";
+                HttpResponseMessage vHttpResponseRowAprobaciones = vConector.PostInfoAprobaciones(vInfoAprobacionesRowRequest, ref vResponseRowAprobaciones);
 
-                String vResponsePruebas = "";
-                HttpResponseMessage vHttpResponsePruebas = vConector.PostInfoPruebas(vRequestPruebas, ref vResponsePruebas);
-                if (vHttpResponsePruebas.StatusCode == System.Net.HttpStatusCode.OK)
+                Boolean vAutorizacion = true;
+                String UsuarioAutorizador = String.Empty;
+                if (vHttpResponseRowAprobaciones.StatusCode == System.Net.HttpStatusCode.OK)
                 {
-                    msgUpdateGeneral vInfoPruebasResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgUpdateGeneral>(vResponsePruebas);
-                    if (vInfoPruebasResponse.updateCount1.Equals("1"))
+                    msgInfoAprobacionesQueryResponse vInfoAprobacionesRowsResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgInfoAprobacionesQueryResponse>(vResponseRowAprobaciones);
+                    if (vInfoAprobacionesRowsResponse.resultSet1.Count() > 0)
                     {
-                        if (cb1.Checked)
-                            Mensaje("Prueba cerrada", WarningType.Success);
-                        else
-                            Mensaje("Prueba abierta", WarningType.Info);
+                        foreach (msgInfoAprobacionesQueryResponseItem itemAprobaciones in vInfoAprobacionesRowsResponse.resultSet1)
+                        {
+                            if (!itemAprobaciones.estado.Equals("true"))
+                            {
+                                vAutorizacion = false;
+                                UsuarioAutorizador = itemAprobaciones.idUsuarioAprobador;
+                            }
+                        }
                     }
-                    else
-                        Mensaje("Prueba no se ha podido cerrar, contacte a sistemas si lo considera", WarningType.Danger);
+                }
+
+                if (vAutorizacion)
+                {
+                    GridViewRow row = ((GridViewRow)((CheckBox)sender).NamingContainer);
+                    int index = row.RowIndex;
+                    CheckBox cb1 = (CheckBox)GVPruebasImplementacion.Rows[index].FindControl("CBPruebas");
+                    string vPruebasID = cb1.Attributes["value"];
+
+                    msgInfoPruebas vRequestPruebas = new msgInfoPruebas()
+                    {
+                        tipo = "4",
+                        idprueba = vPruebasID,
+                        estado = (cb1.Checked ? "1" : "0")
+                    };
+
+                    String vResponsePruebas = "";
+                    HttpResponseMessage vHttpResponsePruebas = vConector.PostInfoPruebas(vRequestPruebas, ref vResponsePruebas);
+                    if (vHttpResponsePruebas.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        msgUpdateGeneral vInfoPruebasResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgUpdateGeneral>(vResponsePruebas);
+                        if (vInfoPruebasResponse.updateCount1.Equals("1"))
+                        {
+                            if (cb1.Checked)
+                                Mensaje("Prueba cerrada", WarningType.Success);
+                            else
+                                Mensaje("Prueba abierta", WarningType.Info);
+                        }
+                        else
+                            Mensaje("Prueba no se ha podido cerrar, contacte a sistemas si lo considera", WarningType.Danger);
+                    }
+                }
+                else
+                {
+                    GridViewRow row = ((GridViewRow)((CheckBox)sender).NamingContainer);
+                    int index = row.RowIndex;
+                    CheckBox cb1 = (CheckBox)GVProcedimientosImplementacion.Rows[index].FindControl("CBProcedimientos");
+                    if (cb1.Checked)
+                        cb1.Checked = false;
+                    throw new Exception("Nesecitas que el cambio este autorizado para proceder");
                 }
             }
             catch (Exception Ex) { Mensaje(Ex.Message, WarningType.Danger); }
@@ -3593,6 +3726,7 @@ namespace ControlCambios.pages.services
 
                 if (DDLCertificacion.SelectedValue.Equals("0"))
                     throw new Exception("Por favor seleccione una opción valida");
+
 
 
                 msgInfoAprobaciones vInfoAprobacionesRowRequest = new msgInfoAprobaciones()

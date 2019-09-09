@@ -274,6 +274,33 @@ namespace ControlCambios.pages.configurations {
         protected global::System.Web.UI.WebControls.TextBox TxModificarApellidos;
         
         /// <summary>
+        /// Control DDLCargoModificar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList DDLCargoModificar;
+        
+        /// <summary>
+        /// Control DIVSupervisorModificar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl DIVSupervisorModificar;
+        
+        /// <summary>
+        /// Control DDLSupervisorModificar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList DDLSupervisorModificar;
+        
+        /// <summary>
         /// Control UpdateUsuarioMensaje.
         /// </summary>
         /// <remarks>
