@@ -216,12 +216,43 @@ namespace ControlCambios.pages.customs
                     msgUpdateGeneral vInfoAprobacionesRowsResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgUpdateGeneral>(vResponseRowAprobaciones);
                     if (vInfoAprobacionesRowsResponse.updateCount1.Equals("1"))
                     {
-                        EnviarMailCertificacionImplementacion(LbNumeroCambio.Text);
+
+
+
+                        msgInfoMantenimientos vRequestMantenimiento = new msgInfoMantenimientos()
+                        {
+                            tipo = "3",
+                            idmantenimiento = Convert.ToString(Session["GETIDCAMBIO"])
+                        };
+
+                        String vResponseMantenimientos = "";
+                        HttpResponseMessage vHttpResponseMantenimientos = vConector.PostInfoMantenimientos(vRequestMantenimiento, ref vResponseMantenimientos);
+                        if (vHttpResponseMantenimientos.StatusCode == System.Net.HttpStatusCode.OK)
+                        {
+                            msgInfoMantenimientosQueryResponse vInfoMantenimientosResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgInfoMantenimientosQueryResponse>(vResponseMantenimientos);
+                            if (vInfoMantenimientosResponse.resultSet1.Count() > 0)
+                            {
+                                foreach (msgInfoMantenimientosQueryResponseItem item in vInfoMantenimientosResponse.resultSet1)
+                                {
+                                    if (item.idTipoCambio.Equals("1"))
+                                    {
+                                        EnviarMailCertificacionCAB();
+                                    }
+                                    if (item.idTipoCambio.Equals("2"))
+                                    {
+                                        EnviarMailCertificacionImplementacion(LbNumeroCambio.Text);
+                                    }
+                                    if (item.idTipoCambio.Equals("3"))
+                                    {
+                                        EnviarMailCertificacionQA();
+                                    }
+                                }
+                            }
+                        }
+
+                        Mensaje("El cambio ha sido autorizada", WarningType.Success);
                         CerrarModal("AutorizarModal");
-
                         BuscarCambioActualizar();
-                        UpdateGridView.Update();
-
 
                         Mensaje("El cambio ha sido autorizada", WarningType.Success);
                     }
@@ -347,6 +378,124 @@ namespace ControlCambios.pages.customs
                                     vSmtpService.EnviarMensaje(
                                         itemUsuarios.correo,
                                         typeBody.Supervisor,
+                                        itemUsuarios.nombres + "(" + itemUsuarios.idUsuario + ")",
+                                        item.idcambio,
+                                        item.mantenimientoNombre);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception Ex) { Mensaje(Ex.Message, WarningType.Warning); }
+
+        }
+        protected void EnviarMailCertificacionCAB()
+        {
+            try
+            {
+                HttpService vConector = new HttpService();
+                vConfigurations = (msgLoginResponse)Session["AUTHCLASS"];
+                msgInfoCambios vInfoCambiosRowRequest = new msgInfoCambios()
+                {
+                    tipo = "3",
+                    idcambio = Convert.ToString(Session["GETIDCAMBIO"]),
+                    usuariogrud = vConfigurations.resultSet1[0].idUsuario
+                };
+                String vResponseRowCambios = "";
+                HttpResponseMessage vHttpResponseRowCambios = vConector.PostInfoCambios(vInfoCambiosRowRequest, ref vResponseRowCambios);
+
+                if (vHttpResponseRowCambios.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    msgInfoCambiosQueryResponse vInfoCambioRowsResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgInfoCambiosQueryResponse>(vResponseRowCambios);
+                    if (vInfoCambioRowsResponse.resultSet1.Count() > 0)
+                    {
+                        foreach (msgInfoCambiosQueryResponseItem item in vInfoCambioRowsResponse.resultSet1)
+                        {
+                            msgInfoProcedimientos vRequestProcedimientos = new msgInfoProcedimientos()
+                            {
+                                tipo = "3",
+                                idprocedimiento = item.idcambio
+                            };
+
+                            String vResponseProcedimientos = "";
+                            HttpResponseMessage vHttpResponseProcedimientos = vConector.PostInfoProcedimientos(vRequestProcedimientos, ref vResponseProcedimientos);
+                            if (vHttpResponseProcedimientos.StatusCode == System.Net.HttpStatusCode.OK)
+                            {
+                                msgInfoProcedimientosQueryResponse vInfoProcedimientosResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgInfoProcedimientosQueryResponse>(vResponseProcedimientos);
+                                if (vInfoProcedimientosResponse.resultSet1.Count() > 0)
+                                {
+                                    foreach (msgInfoProcedimientosQueryResponseItem itemProcedimientos in vInfoProcedimientosResponse.resultSet1)
+                                    {
+                                        msgInfoUsuarios vRequest = new msgInfoUsuarios()
+                                        {
+                                            tipo = "2",
+                                            usuario = itemProcedimientos.idUsuarioResponsable
+                                        };
+
+                                        String vResponseResult = "";
+                                        HttpResponseMessage vHttpResponse = vConector.PostInfoUsuarios(vRequest, ref vResponseResult);
+                                        if (vHttpResponse.StatusCode == System.Net.HttpStatusCode.OK)
+                                        {
+                                            msgInfoUsuariosQueryResponse vUsuariosResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgInfoUsuariosQueryResponse>(vResponseResult);
+                                            foreach (msgInfoUsuariosQueryResponseItem itemUsuarios in vUsuariosResponse.resultSet1)
+                                            {
+                                                SmtpService vSmtpService = new SmtpService();
+                                                vSmtpService.EnviarMensaje(
+                                                    itemUsuarios.correo,
+                                                    typeBody.CAB,
+                                                    itemUsuarios.nombres + "(" + itemUsuarios.idUsuario + ")",
+                                                    item.idcambio,
+                                                    item.mantenimientoNombre);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception Ex) { Mensaje(Ex.Message, WarningType.Warning); }
+        }
+        protected void EnviarMailCertificacionQA()
+        {
+            try
+            {
+                HttpService vConector = new HttpService();
+                vConfigurations = (msgLoginResponse)Session["AUTHCLASS"];
+                msgInfoCambios vInfoCambiosRowRequest = new msgInfoCambios()
+                {
+                    tipo = "3",
+                    idcambio = Convert.ToString(Session["GETIDCAMBIO"]),
+                    usuariogrud = vConfigurations.resultSet1[0].idUsuario
+                };
+                String vResponseRowCambios = "";
+                HttpResponseMessage vHttpResponseRowCambios = vConector.PostInfoCambios(vInfoCambiosRowRequest, ref vResponseRowCambios);
+
+                if (vHttpResponseRowCambios.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    msgInfoCambiosQueryResponse vInfoCambioRowsResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgInfoCambiosQueryResponse>(vResponseRowCambios);
+                    if (vInfoCambioRowsResponse.resultSet1.Count() > 0)
+                    {
+                        foreach (msgInfoCambiosQueryResponseItem item in vInfoCambioRowsResponse.resultSet1)
+                        {
+                            msgInfoUsuarios vRequest = new msgInfoUsuarios()
+                            {
+                                tipo = "6",
+                            };
+
+                            String vResponseResult = "";
+                            HttpResponseMessage vHttpResponse = vConector.PostInfoUsuarios(vRequest, ref vResponseResult);
+                            if (vHttpResponse.StatusCode == System.Net.HttpStatusCode.OK)
+                            {
+                                msgInfoUsuariosQueryResponse vUsuariosResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgInfoUsuariosQueryResponse>(vResponseResult);
+                                foreach (msgInfoUsuariosQueryResponseItem itemUsuarios in vUsuariosResponse.resultSet1)
+                                {
+                                    SmtpService vSmtpService = new SmtpService();
+                                    vSmtpService.EnviarMensaje(
+                                        itemUsuarios.correo,
+                                        typeBody.QA,
                                         itemUsuarios.nombres + "(" + itemUsuarios.idUsuario + ")",
                                         item.idcambio,
                                         item.mantenimientoNombre);

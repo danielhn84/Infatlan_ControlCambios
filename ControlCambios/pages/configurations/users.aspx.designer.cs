@@ -58,6 +58,33 @@ namespace ControlCambios.pages.configurations {
         protected global::System.Web.UI.WebControls.DropDownList DDLSupervisor;
         
         /// <summary>
+        /// Control DDLCambiosEstandar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList DDLCambiosEstandar;
+        
+        /// <summary>
+        /// Control DIVUsuarioEstandar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl DIVUsuarioEstandar;
+        
+        /// <summary>
+        /// Control DDLUsuariosCambioEstandar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList DDLUsuariosCambioEstandar;
+        
+        /// <summary>
         /// Control UpdatePanel2.
         /// </summary>
         /// <remarks>
@@ -220,6 +247,60 @@ namespace ControlCambios.pages.configurations {
         protected global::System.Web.UI.UpdatePanel UpdateModificarUsuario;
         
         /// <summary>
+        /// Control DDLCargoModificar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList DDLCargoModificar;
+        
+        /// <summary>
+        /// Control DIVSupervisorModificar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl DIVSupervisorModificar;
+        
+        /// <summary>
+        /// Control DDLSupervisorModificar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList DDLSupervisorModificar;
+        
+        /// <summary>
+        /// Control DDLCambiosEstandarModificar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList DDLCambiosEstandarModificar;
+        
+        /// <summary>
+        /// Control DIVUsuarioEstandarModificar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl DIVUsuarioEstandarModificar;
+        
+        /// <summary>
+        /// Control DDLUsuariosCambioEstandarModificar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList DDLUsuariosCambioEstandarModificar;
+        
+        /// <summary>
         /// Control TxModificarUsuario.
         /// </summary>
         /// <remarks>
@@ -272,33 +353,6 @@ namespace ControlCambios.pages.configurations {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox TxModificarApellidos;
-        
-        /// <summary>
-        /// Control DDLCargoModificar.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DDLCargoModificar;
-        
-        /// <summary>
-        /// Control DIVSupervisorModificar.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl DIVSupervisorModificar;
-        
-        /// <summary>
-        /// Control DDLSupervisorModificar.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DDLSupervisorModificar;
         
         /// <summary>
         /// Control UpdateUsuarioMensaje.

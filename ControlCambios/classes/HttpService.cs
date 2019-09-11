@@ -448,5 +448,12 @@ namespace ControlCambios.classes
             }
             return vResponse;
         }
+
+
+        public String TextConverter(String vString)
+        {
+            return "";
+        }
+
     }
 }

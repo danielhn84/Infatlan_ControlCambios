@@ -6,6 +6,8 @@ using System.Configuration;
 using System.Net.Mail;
 using System.IO;
 using System.Web.UI;
+using System.Text;
+using System.Net.Mime;
 
 namespace ControlCambios.classes
 {
@@ -42,76 +44,76 @@ namespace ControlCambios.classes
                 switch (Body)
                 {
                     case typeBody.Promotor:
-                        mail.Body = PopulateBody(
+                        mail.AlternateViews.Add(CreateHtmlMessage(PopulateBody(
                             Usuario,
                             "Cambio #" + Cambio + " (" + Nombre + ") creado pendiente de autorización",
                             ConfigurationManager.AppSettings["Host"] + "/pages/customs/authorizations.aspx",
                             "Te informamos que el cambio ha sido creado con exito y esta a la espera de tu autorización para proceder con el proceso, " +
                             "para aprobar el cambio entra al aplicativo y ve a la sección de Autorizaciones." 
-                            );
+                            ), Server.MapPath("/images/logo.png")));
                         break;
                     case typeBody.Supervisor:
-                        mail.Body = PopulateBody(
+                        mail.AlternateViews.Add(CreateHtmlMessage(PopulateBody(
                             Usuario,
                             "Cambio #" + Cambio + " (" + Nombre + ") creado pendiente de revisión por QA",
                             ConfigurationManager.AppSettings["Host"] + "/pages/services/search.aspx",
                             "Te informamos que el cambio ha sido autorizado y esta a la espera de tu revisión y certificación para proceder con el proceso, " +
                             "para certificar el cambio entra al aplicativo y ve a la sección de cambios."
-                            );
+                            ), Server.MapPath("/images/logo.png")));
                         break;
                     case typeBody.QA:
-                        mail.Body = PopulateBody(
+                        mail.AlternateViews.Add(CreateHtmlMessage(PopulateBody(
                             Usuario,
                             "Cambio #" + Cambio + " (" + Nombre + ") creado pendiente de autorización por los CAB Manager",
                             ConfigurationManager.AppSettings["Host"] + "/pages/services/search.aspx",
                             "Te informamos que el cambio ha sido certificado por QA y esta a la espera de tu revisión y autorización para proceder con el proceso, " +
                             "para autorizar el cambio entra al aplicativo y ve a la sección de cambios."
-                            );
+                            ), Server.MapPath("/images/logo.png")));
                         break;
                     case typeBody.CAB:
-                        mail.Body = PopulateBody(
+                        mail.AlternateViews.Add(CreateHtmlMessage(PopulateBody(
                             Usuario,
                             "Cambio #" + Cambio + " (" + Nombre + ") creado pendiente de implementación",
                             ConfigurationManager.AppSettings["Host"] + "/pages/services/search.aspx",
                             "Te informamos que el cambio ha sido autorizado por el CAB Manager y esta a la espera de tu implementación en las fechas programadas, " +
                             "para implementar el cambio entra al aplicativo y ve a la sección de cambios."
-                            );
+                            ), Server.MapPath("/images/logo.png")));
                         break;
                     case typeBody.Implementacion:
-                        mail.Body = PopulateBody(
+                        mail.AlternateViews.Add(CreateHtmlMessage(PopulateBody(
                             Usuario,
                             "Cambio #" + Cambio + " (" + Nombre + ") esta implementado y pendiente de revisión por parte de QA",
                             ConfigurationManager.AppSettings["Host"] + "/pages/services/search.aspx",
                             "Te informamos que el cambio ha sido implementado y esta a la espera de tu revisión y certificación, " +
                             "para revisar el cambio entra al aplicativo y ve a la sección de cambios."
-                            );
+                            ), Server.MapPath("/images/logo.png")));
                         break;
                     case typeBody.QARevision:
-                        mail.Body = PopulateBody(
+                        mail.AlternateViews.Add(CreateHtmlMessage(PopulateBody(
                             Usuario,
                             "Cambio #" + Cambio + " (" + Nombre + ") esta revisado por QA para su cierre",
                             ConfigurationManager.AppSettings["Host"] + "/pages/services/search.aspx",
                             "Te informamos que el cambio ha sido revisado y certificado para finalizar el proceso, " +
                             "para revisar el cambio y darlo por finalizado entra al aplicativo y ve a la sección de cambios."
-                            );
+                            ), Server.MapPath("/images/logo.png")));
                         break;
                     case typeBody.SupervisorCierre:
-                        mail.Body = PopulateBody(
+                        mail.AlternateViews.Add(CreateHtmlMessage(PopulateBody(
                             Usuario,
                             "Cambio #" + Cambio + " (" + Nombre + ") se ha finalizado",
                             ConfigurationManager.AppSettings["Host"] + "/pages/services/search.aspx",
                             "Te informamos que el cambio se ha finalizado, " +
                             "para revisar el cambio entra al aplicativo y ve a la sección de cambios."
-                            );
+                            ), Server.MapPath("/images/logo.png")));
                         break;
                     case typeBody.PromotorRegreso:
-                        mail.Body = PopulateBody(
+                        mail.AlternateViews.Add(CreateHtmlMessage(PopulateBody(
                             Usuario,
                             "Cambio #" + Cambio + " (" + Nombre + ") se te ha devuelto",
                             ConfigurationManager.AppSettings["Host"] + "/pages/services/search.aspx",
                             "Te informamos que el cambio no se aprobo, QA se comunicara contigo en breve, " +
                             "para revisar el cambio entra al aplicativo y ve a la sección de cambios."
-                            );
+                            ), Server.MapPath("/images/logo.png")));
                         break;
                 }
                 client.Send(mail);
@@ -122,11 +124,24 @@ namespace ControlCambios.classes
                 String vError = Ex.Message;
                 throw;
             }
-            catch (Exception)
+            catch (Exception Ex)
             {
                 throw;
             }
             return vRespuesta;
+        }
+        private AlternateView CreateHtmlMessage(string message, string logoPath)
+        {
+            var inline = new LinkedResource(logoPath, "image/png");
+            inline.ContentId = "companyLogo";
+
+            var alternateView = AlternateView.CreateAlternateViewFromString(
+                                    message,
+                                    Encoding.UTF8,
+                                    MediaTypeNames.Text.Html);
+            alternateView.LinkedResources.Add(inline);
+
+            return alternateView;
         }
 
         public string PopulateBody(string vNombre, string vTitulo, string vUrl, string vDescripcion)

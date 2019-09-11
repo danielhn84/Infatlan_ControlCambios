@@ -63,13 +63,14 @@
         <div class="tab-pane fade show active" id="nav-usuarios" role="tabpanel" aria-labelledby="nav-datos-tab">
             <div id="smartwizard">
                 <ul>
-                    <li><a href="#step-1">Paso 1<br />
+                    <li><a href="#step-1">Creación Usuario<br />
                         <small>Informacion Usuario</small></a></li>
-                    <li><a href="#step-2">Paso 3<br />
-                        <small>Finalizar</small></a></li>
+                    <li><a href="#step-2">Politicas<br />
+                        <small>Información Creación</small></a></li>
                 </ul>
                 <div>
                     <div id="step-1" class="">
+
                         <div class="row">
                             <div class="col-12 grid-margin stretch-card">
                                 <div class="card">
@@ -107,6 +108,34 @@
                                                         </div>
                                                     </div>
 
+                                                </div>
+
+
+                                                <h5>¿Tiene este usuario un Supervisor de cambios standard?</h5>
+                                                <hr />
+                                                <div class="row">
+                                                    <div class="col-md-6">
+
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-3 col-form-label">Supervisor STD</label>
+                                                            <div class="col-sm-9">
+                                                                <asp:DropDownList ID="DDLCambiosEstandar" runat="server" class="form-control" AutoPostBack="True" OnSelectedIndexChanged="DDLCambiosEstandar_SelectedIndexChanged">
+                                                                    <asp:ListItem Value="0">Selecione una Opción</asp:ListItem>
+                                                                    <asp:ListItem Value="1">SI</asp:ListItem>
+                                                                    <asp:ListItem Value="2">NO</asp:ListItem>
+                                                                </asp:DropDownList>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+
+                                                        <div class="form-group row" id="DIVUsuarioEstandar" runat="server" visible="false">
+                                                            <label class="col-sm-3 col-form-label">Usuario</label>
+                                                            <div class="col-sm-9">
+                                                                <asp:DropDownList ID="DDLUsuariosCambioEstandar" runat="server" class="form-control" AutoPostBack="True"></asp:DropDownList>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </ContentTemplate>
                                         </asp:UpdatePanel>
@@ -184,8 +213,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div id="step-2" class="">
                         <div class="row">
                             <div class="col-12 grid-margin stretch-card">
                                 <div class="card">
@@ -203,6 +230,27 @@
                                                             <asp:Button ID="BtnCancelar" class="btn btn-danger mr-2" runat="server" Text="Cancelar" OnClick="BtnCancelar_Click" />
                                                         </ContentTemplate>
                                                     </asp:UpdatePanel>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="step-2" class="">
+                        <div class="row">
+                            <div class="col-12 grid-margin stretch-card">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="card-title">Información legal de usuario</h4>
+                                        <p class="card-description">
+                                            Politicas
+                                        </p>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group row">
+                                                    <p style="text-align: justify">El uso de la cuenta de usuario es responsabilidad de la persona a la que está asignada. La cuenta es para uso personal e intransferible. La cuenta de usuario se protegerá mediante una contraseña. Las cuentas de usuario (usuario y contraseña) son sensibles a mayúsculas y minúsculas, es decir que estas deben ser tecleadas como están. No compartir la cuenta de usuario con otras personas: compañeros de trabajo, amigos, familiares, etc.</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -311,7 +359,7 @@
     <%--MODAL DE MODIFICACION--%>
     <div class="modal fade" id="ModificacionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);">
         <div class="modal-dialog" role="document">
-            <div class="modal-content" style="width: 800px; top: 300px; left: 50%; transform: translate(-50%, -50%);">
+            <div class="modal-content" style="width: 800px; top: 360px; left: 50%; transform: translate(-50%, -50%);">
                 <div class="modal-header">
                     <h4 class="modal-title" id="ModalLabelModificacion">Modificar Usuario</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -321,6 +369,60 @@
                 <div class="modal-body">
                     <asp:UpdatePanel ID="UpdateModificarUsuario" runat="server">
                         <ContentTemplate>
+                            <h4>Accesos</h4>
+                            <hr />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Usuario</label>
+                                        <div class="col-sm-9">
+                                            <asp:DropDownList ID="DDLCargoModificar" runat="server" class="form-control" AutoPostBack="True" OnSelectedIndexChanged="DDLCargoModificar_SelectedIndexChanged">
+                                                <asp:ListItem Value="0">Selecione una Opción</asp:ListItem>
+                                                <asp:ListItem Value="2">Supervisor</asp:ListItem>
+                                                <asp:ListItem Value="3">Quality Assurance</asp:ListItem>
+                                                <asp:ListItem Value="4">Implementador</asp:ListItem>
+                                                <asp:ListItem Value="5">Promotor</asp:ListItem>
+                                                <asp:ListItem Value="6">CAB Manager</asp:ListItem>
+                                            </asp:DropDownList>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group row" id="DIVSupervisorModificar" runat="server" visible="false">
+                                        <label class="col-sm-3 col-form-label">Supervisor</label>
+                                        <div class="col-sm-9">
+                                            <asp:DropDownList ID="DDLSupervisorModificar" runat="server" class="form-control"></asp:DropDownList>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Estandar</label>
+                                        <div class="col-sm-9">
+                                            <asp:DropDownList ID="DDLCambiosEstandarModificar" runat="server" class="form-control" OnSelectedIndexChanged="DDLCambioEstandarModificar_SelectedIndexChanged" AutoPostBack="True" >
+                                                <asp:ListItem Value="0">Selecione una Opción</asp:ListItem>
+                                                <asp:ListItem Value="1">SI</asp:ListItem>
+                                                <asp:ListItem Value="2">NO</asp:ListItem>
+                                            </asp:DropDownList>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+
+                                    <div class="form-group row" id="DIVUsuarioEstandarModificar" runat="server" visible="false">
+                                        <label class="col-sm-3 col-form-label">Usuario</label>
+                                        <div class="col-sm-9">
+                                            <asp:DropDownList ID="DDLUsuariosCambioEstandarModificar" runat="server" class="form-control" AutoPostBack="True" ></asp:DropDownList>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <h4>Información</h4>
+                            <hr />
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group row">
@@ -375,34 +477,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <h4>Accesos</h4>
-                            <hr />
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group row">
-                                        <label class="col-sm-3 col-form-label">Usuario</label>
-                                        <div class="col-sm-9">
-                                            <asp:DropDownList ID="DDLCargoModificar" runat="server" class="form-control"  AutoPostBack="True" OnSelectedIndexChanged="DDLCargoModificar_SelectedIndexChanged">
-                                                <asp:ListItem Value="0">Selecione una Opción</asp:ListItem>
-                                                <asp:ListItem Value="2">Supervisor</asp:ListItem>
-                                                <asp:ListItem Value="3">Quality Assurance</asp:ListItem>
-                                                <asp:ListItem Value="4">Implementador</asp:ListItem>
-                                                <asp:ListItem Value="5">Promotor</asp:ListItem>
-                                                <asp:ListItem Value="6">CAB Manager</asp:ListItem>
-                                            </asp:DropDownList>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group row" id="DIVSupervisorModificar" runat="server" visible="false">
-                                        <label class="col-sm-3 col-form-label">Supervisor</label>
-                                        <div class="col-sm-9">
-                                            <asp:DropDownList ID="DDLSupervisorModificar" runat="server" class="form-control"></asp:DropDownList>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
+                            
                         </ContentTemplate>
                     </asp:UpdatePanel>
                     <asp:UpdatePanel ID="UpdateUsuarioMensaje" runat="server" UpdateMode="Conditional">

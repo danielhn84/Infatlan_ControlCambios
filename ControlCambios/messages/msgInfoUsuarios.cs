@@ -17,6 +17,7 @@ namespace ControlCambios.messages
         public String idcargo { get; set; }
         public String estado { get; set; }
         public String dependencia { get; set; }
+        public String dependenciaSTD { get; set; }
     }
 
     public class msgInfoUsuariosCreateResponse
@@ -60,5 +61,6 @@ namespace ControlCambios.messages
         public String estado { get; set; }
         public String fechaCreacion { get; set; }
         public String dependencia { get; set; }
+        public String dependenciaSTD { get; set; }
     }
 }   

@@ -1,10 +1,10 @@
-﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="main.master.cs" Inherits="ControlCambios.main" %>
+<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="main.master.cs" Inherits="ControlCambios.main" %>
 
 <!DOCTYPE html>
 
 <html>
 <head runat="server">
-    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Infatlan | Control de Cambios</title>
     <link rel="stylesheet" href="/vendors/mdi/css/materialdesignicons.min.css">
@@ -121,6 +121,14 @@
                 <nav class="sidebar sidebar-offcanvas" id="sidebar" >
                     <ul class="nav">
                         <li class="nav-item">
+                            <div class="nav-link">
+                                <a href="/pages/services/changes.aspx" class="btn btn-inverse-dark btn-block">
+                                    <i class="mdi mdi-creation menu-icon"></i>
+                                    <span class="menu-title">Crear Control</span>
+                                </a>
+                            </div>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="/default.aspx">
                                 <i class="mdi mdi-home menu-icon"></i>
                                 <span class="menu-title">Dashboard</span>
@@ -179,7 +187,7 @@
                     </div>
                     <footer class="footer">
                         <div class="d-sm-flex justify-content-center justify-content-sm-between">
-                            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright Infatlan © 2019. All rights reserved.</span>
+                            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright Infatlan � 2019. All rights reserved.</span>
                             <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Infatlan <i class="mdi mdi-network text-danger"></i></span>
                         </div>
                     </footer>

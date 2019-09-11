@@ -22,6 +22,7 @@ namespace ControlCambios.messages
         public String idcalendario { get; set; }
         public String usuariogrud { get; set; }
         public String paso { get; set; }
+        public String archivo { get; set; }
 
     }
     public class msgInfoCambiosCreateResponse
@@ -57,6 +58,7 @@ namespace ControlCambios.messages
         public String pasos { get; set; }
         public String fechaQAInicio { get; set; }
         public String fechaQAFinal { get; set; }
+        public String archivo { get; set; }
     }
 }
 

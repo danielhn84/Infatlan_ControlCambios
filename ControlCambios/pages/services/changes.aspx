@@ -22,6 +22,16 @@
         }
     </script>
     <script type="text/javascript">
+        function openModalQA() {
+            $('#QAModal').modal('show');
+        }
+    </script>
+    <script type="text/javascript">
+        function openModalQARevision() {
+            $('#ConfirmacionCierreModal').modal('show');
+        }
+    </script>
+    <script type="text/javascript">
         function ShowProgress() {
             document.getElementById('<% Response.Write(UpdateProgress1.ClientID); %>').style.display = "inline";
         }
@@ -56,8 +66,8 @@
                 <div class="d-flex justify-content-between align-items-end flex-wrap">
                     <asp:UpdatePanel ID="UpdatePrincipalBotones" runat="server">
                         <ContentTemplate>
-
-                            <asp:Button ID="BtnAsignarUsuario" runat="server" class="btn btn-light bg-white mr-2 " data-toggle="modal" data-target="#UsuarioModal" Text="Asignar a Usuario" />
+                            <asp:Button ID="BtnAutorizarCambio" class="btn btn-success mr-2" runat="server" Text="Autorizar" visible="false" OnClick="BtnAutorizarCambio_Click" />
+                            <asp:Button ID="BtnAsignarUsuario" runat="server" class="btn btn-light bg-white mr-2 " data-toggle="modal" data-target="#UsuarioModal" Text="Asignar a Usuario" visible="false"/>
                             <asp:Button ID="BtnGuardarCambio" class="btn btn-primary mr-2" runat="server" Text="Guardar" OnClick="BtnGuardarCambio_Click" />
                             <asp:Button ID="BtnCancelarCambio" class="btn btn-danger mr-2" runat="server" Text="Cancelar" OnClick="BtnCancelarCambio_Click" />
                         </ContentTemplate>
@@ -273,6 +283,13 @@
                                                                 </label>
                                                             </div>
                                                         </div>
+                                                    </div>                                                   
+                                                </div>
+                                                <p>Si seleccionas <b>Emergencia</b> escribe el No.Ticket asociado</p>
+                                                <div class="form-group row">
+                                                    <label class="col-sm-3 col-form-label">Ticket</label>
+                                                    <div class="col-sm-9">
+                                                        <asp:TextBox ID="TxTicket" placeholder="0000000000" class="form-control" runat="server"></asp:TextBox>
                                                     </div>
                                                 </div>
                                             </div>
@@ -783,8 +800,121 @@
                             <div class="card-body">
                                 <h4 class="card-title">Por favor seleccione una opción para el cambio</h4>
                                 <p class="card-description">
-                                    Tener en cuenta sin esta certificación el cambio no puede avanzar        
+                                    Tener en cuenta sin esta certificación el cambio no puede avanzar, puedes modificar la fecha y los impactos introducidos por el promotor      
                                 </p>
+
+                                <h5>Impactos generados por el promotor</h5>
+                                <hr />
+                                <div class="row ">
+                                    <div class="col-md-4 grid-margin-md-0 flex-wrap">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label ">Criticidad</label>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <div class="form-check">
+                                                        <label class="form-check-label">
+                                                            <input type="radio" runat="server" class="form-check-input" name="CriticidadQA" id="CriticidadRadio1" value="1">
+                                                            Alta
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <label class="form-check-label">
+                                                            <input type="radio" runat="server" class="form-check-input" name="CriticidadQA" id="CriticidadRadio2" value="2">
+                                                            Media
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <label class="form-check-label">
+                                                            <input type="radio" runat="server" class="form-check-input" name="CriticidadQA" id="CriticidadRadio3" value="3">
+                                                            Baja
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label ">Impacto</label>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <div class="form-check">
+                                                        <label class="form-check-label">
+                                                            <input type="radio" runat="server" class="form-check-input" name="ImpactoQA" id="ImpactoRadio1" value="1">
+                                                            Alta
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <label class="form-check-label">
+                                                            <input type="radio" runat="server" class="form-check-input" name="ImpactoQA" id="ImpactoRadio2" value="2">
+                                                            Media
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <label class="form-check-label">
+                                                            <input type="radio" runat="server" class="form-check-input" name="ImpactoQA" id="ImpactoRadio3" value="3">
+                                                            Baja
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label ">Riesgo</label>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <div class="form-check">
+                                                        <label class="form-check-label">
+                                                            <input type="radio" runat="server" class="form-check-input" name="RiesgoQA" id="RiesgoRadio1" value="1">
+                                                            Alta
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <label class="form-check-label">
+                                                            <input type="radio" runat="server" class="form-check-input" name="RiesgoQA" id="RiesgoRadio2" value="2">
+                                                            Media
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <label class="form-check-label">
+                                                            <input type="radio" runat="server" class="form-check-input" name="RiesgoQA" id="RiesgoRadio3" value="3">
+                                                            Baja
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <h5>Horarios definidos por Promotor</h5>
+                                <hr />
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Inicio</label>
+                                            <div class="col-sm-9">
+                                                <asp:TextBox ID="TxHorarioInicioPromotor" placeholder="2019/01/01 00:00:00" TextMode="DateTimeLocal" class="form-control" runat="server"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Fin</label>
+                                            <div class="col-sm-9">
+                                                <asp:TextBox ID="TxHorarioFinalPromotor" placeholder="ej. 2019/01/01 00:00:00" TextMode="DateTimeLocal" class="form-control" runat="server"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <h5>Certificación</h5>
+                                <hr />
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group row">
@@ -796,6 +926,28 @@
                                                     <asp:ListItem Value="2">Regresar Cambio a Promotor</asp:ListItem>
                                                 </asp:DropDownList>
 
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row" id="DIVQAArchivo" runat="server" visible="true">
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Archivos</label>
+                                            <div class="col-sm-9">
+                                                <asp:FileUpload ID="FUArchivosCertificacion" accept="zip,application/zip,application/x-zip,application/x-zip-compressed" runat="server" class="form-control" />
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" id="DIVQAArchivoDescarga" runat="server" visible="false">
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Descargar</label>
+                                            <div class="col-sm-9">
+                                                <asp:Button ID="BtnArchivosCertificacion" class="btn btn-primary mr-2" runat="server" Text="Descargar" OnClick="BtnArchivosCertificacion_Click" />
                                             </div>
                                         </div>
                                     </div>
@@ -1206,7 +1358,7 @@
                                         <div class="form-group row">
                                             <label class="col-sm-3 col-form-label">Deposito 1</label>
                                             <div class="col-sm-9">
-                                                <asp:Button ID="BtnEvidenciaDescargar1" class="btn btn-primary mr-2" runat="server" Text="Descargar" OnClick="BtnEvidenciaDescargar1_Click"  />
+                                                <asp:Button ID="BtnEvidenciaDescargar1" class="btn btn-primary mr-2" runat="server" Text="Descargar" OnClick="BtnEvidenciaDescargar1_Click" />
                                             </div>
                                         </div>
                                     </div>
@@ -1224,7 +1376,7 @@
                                         <div class="form-group row">
                                             <label class="col-sm-3 col-form-label">Deposito 2</label>
                                             <div class="col-sm-9">
-                                                <asp:Button ID="BtnEvidenciaDescargar2" class="btn btn-primary mr-2" runat="server" Text="Descargar" OnClick="BtnEvidenciaDescargar2_Click"  />
+                                                <asp:Button ID="BtnEvidenciaDescargar2" class="btn btn-primary mr-2" runat="server" Text="Descargar" OnClick="BtnEvidenciaDescargar2_Click" />
                                             </div>
                                         </div>
                                     </div>
@@ -1238,7 +1390,7 @@
                     <div class="col-12 grid-margin ">
                         <asp:UpdatePanel ID="UpdatePanel9" runat="server">
                             <ContentTemplate>
-                                <asp:Button ID="BtnResolucion" class="btn btn-success mr-2" runat="server" Text="Terminar Revisión" data-toggle="modal" data-target="#ConfirmacionCierreModal"/>
+                                <asp:Button ID="BtnResolucion" class="btn btn-success mr-2" runat="server" Text="Terminar Revisión" OnClick="BtnResolucion_Click" />
                             </ContentTemplate>
                         </asp:UpdatePanel>
                     </div>
@@ -1800,6 +1952,34 @@
             </div>
         </div>
     </div>
+    <%--MODAL DE CONFIRMACION QA--%>
+    <div class="modal fade" id="QAModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="ModalLabelQA">Guardar resolución de QA</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <label class="label">¿Estas seguro de ejecutar esta acción?</label>
+                </div>
+                <div class="modal-footer">
+                    <asp:UpdatePanel ID="UpdatePanel13" runat="server">
+                        <ContentTemplate>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                            <asp:Button ID="BtnProcederQA" runat="server" Text="Certificar" class="btn btn-primary" OnClientClick="ShowProgress();" OnClick="BtnProcederQA_Click" />
+                        </ContentTemplate>
+                        <Triggers>
+                            <asp:PostBackTrigger ControlID="BtnProcederQA" />
+                        </Triggers>
+                    </asp:UpdatePanel>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
     <script type="text/javascript" src="/js/jquery.smartWizard.js"></script>
