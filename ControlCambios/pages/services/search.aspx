@@ -2,14 +2,37 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <link href="/css/GridStyle.css" rel="stylesheet" />
+    <link href="/css/pager.css" rel="stylesheet" />
     <script type="text/javascript">
         function openModal() {
             $('#CerrarModal').modal('show');
         }
     </script>
+    <script type="text/javascript">
+        var updateProgress = null;
+
+        function postbackButtonClick() {
+            updateProgress = $find("<%= UpdateProgress1.ClientID %>");
+            window.setTimeout("updateProgress.set_visible(true)", updateProgress.get_displayAfter());
+            return true;
+        }
+    </script>
+    <script>
+        function GoBottom() {
+            $('html,body').animate({ scrollTop: document.body.scrollHeight }, "fast");
+        }
+    </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <div class="row" >
+    <asp:UpdateProgress ID="UpdateProgress1" runat="server">
+        <ProgressTemplate>
+            <div style="position: fixed; text-align: center; height: 100%; width: 100%; top: 0; right: 0; left: 0; z-index: 9999999; background-color: #ffffff; opacity: 0.7; margin: 0;">
+                <span style="display: inline-block; height: 100%; vertical-align: middle;"></span>
+                <asp:Image ID="imgUpdateProgress" runat="server" ImageUrl="/images/loading.gif" AlternateText="Loading ..." ToolTip="Loading ..." Style="display: inline-block; vertical-align: middle;" />
+            </div>
+        </ProgressTemplate>
+    </asp:UpdateProgress>
+    <div class="row">
         <div class="col-md-12 grid-margin">
             <div class="d-flex justify-content-between flex-wrap">
                 <div class="d-flex align-items-end flex-wrap">
@@ -41,24 +64,53 @@
                     <p class="card-description">
                         Busqueda por nombre o numero de cambio
                     </p>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Numero</label>
-                                <div class="col-sm-9">
-                                    <asp:TextBox ID="TxBuscarNumero" placeholder="Ej. 1000" class="form-control" runat="server" TextMode="Number"></asp:TextBox>
+                    <asp:Panel DefaultButton="BtnBuscarCambio" runat="server">
+                        <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                            <ContentTemplate>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Numero</label>
+                                            <div class="col-sm-9">
+                                                <asp:TextBox ID="TxBuscarNumero" placeholder="Ej. 1000" class="form-control" runat="server" TextMode="Number"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Nombre</label>
+                                            <div class="col-sm-9">
+                                                <asp:TextBox ID="TxBuscarNombre" placeholder="Ej. Mantenimiento" class="form-control" runat="server" TextMode="SingleLine"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Nombre</label>
-                                <div class="col-sm-9">
-                                    <asp:TextBox ID="TxBuscarNombre" placeholder="Ej. Mantenimiento" class="form-control" runat="server" TextMode="SingleLine"></asp:TextBox>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Tipo Cambio</label>
+                                            <div class="col-sm-9">
+                                                <asp:DropDownList ID="DDLTipoCambio" runat="server" class="form-control">
+                                                    <asp:ListItem Value="0">Selecione una Opción</asp:ListItem>
+                                                    <asp:ListItem Value="1">Estándar</asp:ListItem>
+                                                    <asp:ListItem Value="2">Planificado / Normal</asp:ListItem>
+                                                    <asp:ListItem Value="3">Emergencia</asp:ListItem>
+                                                </asp:DropDownList>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Fecha</label>
+                                            <div class="col-sm-9">
+                                                <asp:TextBox ID="TxFechaCambio" placeholder="" class="form-control" runat="server" TextMode="Date"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
+                            </ContentTemplate>
+                        </asp:UpdatePanel>
+                    </asp:Panel>
                     <div class="row">
                         <div class="d-flex justify-content-between align-items-end flex-wrap">
                             <asp:UpdatePanel ID="UpdatePrincipalConfirmacion" runat="server">
@@ -87,10 +139,12 @@
                                         <ContentTemplate>
                                             <asp:GridView ID="GVBusqueda" runat="server"
                                                 CssClass="mydatagrid"
-                                                PagerStyle-CssClass="pager"
+                                                PagerStyle-CssClass="pgr"
                                                 HeaderStyle-CssClass="header"
                                                 RowStyle-CssClass="rows"
-                                                AutoGenerateColumns="false" OnRowCommand="GVBusqueda_RowCommand">
+                                                AutoGenerateColumns="false" OnRowCommand="GVBusqueda_RowCommand"
+                                                AllowPaging="true"
+                                                PageSize="10" OnPageIndexChanging="GVBusqueda_PageIndexChanging">
                                                 <Columns>
                                                     <asp:TemplateField HeaderText="Select" HeaderStyle-Width="60px">
                                                         <HeaderTemplate>
@@ -102,7 +156,6 @@
                                                     </asp:TemplateField>
                                                     <asp:TemplateField HeaderText="Select" HeaderStyle-Width="60px" Visible="false">
                                                         <HeaderTemplate>
-                                                            
                                                         </HeaderTemplate>
                                                         <ItemTemplate>
                                                             <asp:Button ID="BtnCerrarCambio" runat="server" Text="Finalizar" class="btn btn-google mr-2" CommandArgument='<%# Eval("idcambio") %>' CommandName="CerrarCambio" />
@@ -123,21 +176,23 @@
                     </div>
                 </div>
             </div>
+
+            <div id="DIVDivisor" runat="server"></div>
         </ContentTemplate>
     </asp:UpdatePanel>
     <div class="modal fade" id="CerrarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    
-                        <asp:UpdatePanel ID="UpdateLabelCambio" runat="server" UpdateMode="Conditional">
-                            <ContentTemplate>
-                                <h4 class="modal-title" id="ModalLabelUsuario">Cerrar cambio - Paso Final
+
+                    <asp:UpdatePanel ID="UpdateLabelCambio" runat="server" UpdateMode="Conditional">
+                        <ContentTemplate>
+                            <h4 class="modal-title" id="ModalLabelUsuario">Cerrar cambio - Paso Final
                                     <asp:Label ID="LbNumeroCambio" runat="server" Text=""></asp:Label>
-                                </h4>
-                            </ContentTemplate>
-                        </asp:UpdatePanel>
-                    
+                            </h4>
+                        </ContentTemplate>
+                    </asp:UpdatePanel>
+
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -146,7 +201,7 @@
                     <asp:UpdatePanel ID="UpdateCerrar" runat="server">
                         <ContentTemplate>
                             <div class="form-group row">
-                                
+
                                 <div class="col-sm-12">
                                     ¿Estas seguro que deseas dar por terminado el cambio?
                                 </div>
@@ -166,7 +221,7 @@
                     <asp:UpdatePanel ID="UpdateUsuarioBotones" runat="server">
                         <ContentTemplate>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                            <asp:Button ID="BtnCerrarCambio" runat="server" Text="Cerrar cambio" class="btn btn-primary" OnClick="BtnCerrarCambio_Click"   />
+                            <asp:Button ID="BtnCerrarCambio" runat="server" Text="Cerrar cambio" class="btn btn-primary" OnClick="BtnCerrarCambio_Click" />
                         </ContentTemplate>
                     </asp:UpdatePanel>
                 </div>

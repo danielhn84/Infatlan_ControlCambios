@@ -36,7 +36,8 @@ namespace ControlCambios
                     if (vConfigurations.resultSet1[0].idCargo.Equals("1") || vConfigurations.resultSet1[0].idCargo.Equals("2") )
                     {
                         LIAuth.Visible = true;
-                        LILogs.Visible = true;
+                        if(vConfigurations.resultSet1[0].idCargo.Equals("1"))
+                            LILogs.Visible = true;
                     }
 
 
@@ -69,9 +70,9 @@ namespace ControlCambios
                             "</a>" + Environment.NewLine +
                             "<div class=\"dropdown-menu dropdown-menu-right navbar-dropdown\" aria-labelledby=\"messageDropdown\">" + Environment.NewLine +
                             "    <p class=\"mb-0 font-weight-normal float-left dropdown-header\">Configuraciones</p>" + Environment.NewLine +
-                            //"    <a class=\"dropdown-item\" href=\"/pages/configurations/generals.aspx\">" + Environment.NewLine +
-                            //"        <p class=\"font-weight-light small-text text-muted mb-0\">Generales</p>" + Environment.NewLine +
-                            //"    </a>" + Environment.NewLine +
+                            "    <a class=\"dropdown-item\" href=\"/pages/configurations/generals.aspx\">" + Environment.NewLine +
+                            "        <p class=\"font-weight-light small-text text-muted mb-0\">Generales</p>" + Environment.NewLine +
+                            "    </a>" + Environment.NewLine +
                             "    <a class=\"dropdown-item\" href=\"/pages/configurations/users.aspx\">" + Environment.NewLine +
                             "        <p class=\"font-weight-light small-text text-muted mb-0\">Usuarios</p>" + Environment.NewLine +
                             "    </a>" + Environment.NewLine +

@@ -122,9 +122,10 @@
                     <ul class="nav">
                         <li class="nav-item">
                             <div class="nav-link">
-                                <a href="/pages/services/changes.aspx" class="btn btn-inverse-dark btn-block">
+                                <a href="/pages/services/changes.aspx" class="btn btn-facebook btn-block" >
                                     <i class="mdi mdi-creation menu-icon"></i>
                                     <span class="menu-title">Crear Control</span>
+
                                 </a>
                             </div>
                         </li>
@@ -177,6 +178,7 @@
                                 <span class="menu-title">Logs</span>
                             </a>
                         </li>
+                        
                     </ul>
                 </nav>
 

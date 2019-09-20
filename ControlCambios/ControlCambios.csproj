@@ -207,6 +207,7 @@
     <Compile Include="messages\msgInfoCambiosCierre.cs" />
     <Compile Include="messages\msgInfoComunicaciones.cs" />
     <Compile Include="messages\msgInfoEquipos.cs" />
+    <Compile Include="messages\msgInfoImplementadores.cs" />
     <Compile Include="messages\msgInfoMantenimientos.cs" />
     <Compile Include="messages\msgInfoPersonal.cs" />
     <Compile Include="messages\msgInfoProcedimientos.cs" />

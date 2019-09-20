@@ -362,25 +362,54 @@ namespace ControlCambios.pages.customs
                         foreach (msgInfoCambiosQueryResponseItem item in vInfoCambioRowsResponse.resultSet1)
                         {
 
-                            msgInfoUsuarios vRequest = new msgInfoUsuarios()
+                            if (!item.idUsuarioResponsable.Equals(""))
                             {
-                                tipo = "5",
-                            };
-
-                            String vResponseResult = "";
-                            HttpResponseMessage vHttpResponse = vConector.PostInfoUsuarios(vRequest, ref vResponseResult);
-                            if (vHttpResponse.StatusCode == System.Net.HttpStatusCode.OK)
-                            {
-                                msgInfoUsuariosQueryResponse vUsuariosResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgInfoUsuariosQueryResponse>(vResponseResult);
-                                foreach (msgInfoUsuariosQueryResponseItem itemUsuarios in vUsuariosResponse.resultSet1)
+                                msgInfoUsuarios vRequest = new msgInfoUsuarios()
                                 {
-                                    SmtpService vSmtpService = new SmtpService();
-                                    vSmtpService.EnviarMensaje(
-                                        itemUsuarios.correo,
-                                        typeBody.Supervisor,
-                                        itemUsuarios.nombres + "(" + itemUsuarios.idUsuario + ")",
-                                        item.idcambio,
-                                        item.mantenimientoNombre);
+                                    tipo = "2",
+                                    usuario = item.idUsuarioResponsable
+                                };
+
+                                String vResponseResult = "";
+                                HttpResponseMessage vHttpResponse = vConector.PostInfoUsuarios(vRequest, ref vResponseResult);
+                                if (vHttpResponse.StatusCode == System.Net.HttpStatusCode.OK)
+                                {
+                                    msgInfoUsuariosQueryResponse vUsuariosResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgInfoUsuariosQueryResponse>(vResponseResult);
+                                    foreach (msgInfoUsuariosQueryResponseItem itemUsuarios in vUsuariosResponse.resultSet1)
+                                    {
+                                        SmtpService vSmtpService = new SmtpService();
+                                        vSmtpService.EnviarMensaje(
+                                            itemUsuarios.correo,
+                                            typeBody.Supervisor,
+                                            itemUsuarios.nombres + "(" + itemUsuarios.idUsuario + ")",
+                                            item.idcambio,
+                                            item.mantenimientoNombre);
+                                    }
+                                }
+                            }
+                            else
+                            {
+
+                                msgInfoUsuarios vRequest = new msgInfoUsuarios()
+                                {
+                                    tipo = "5",
+                                };
+
+                                String vResponseResult = "";
+                                HttpResponseMessage vHttpResponse = vConector.PostInfoUsuarios(vRequest, ref vResponseResult);
+                                if (vHttpResponse.StatusCode == System.Net.HttpStatusCode.OK)
+                                {
+                                    msgInfoUsuariosQueryResponse vUsuariosResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgInfoUsuariosQueryResponse>(vResponseResult);
+                                    foreach (msgInfoUsuariosQueryResponseItem itemUsuarios in vUsuariosResponse.resultSet1)
+                                    {
+                                        SmtpService vSmtpService = new SmtpService();
+                                        vSmtpService.EnviarMensaje(
+                                            itemUsuarios.correo,
+                                            typeBody.Supervisor,
+                                            itemUsuarios.nombres + "(" + itemUsuarios.idUsuario + ")",
+                                            item.idcambio,
+                                            item.mantenimientoNombre);
+                                    }
                                 }
                             }
                         }
@@ -412,45 +441,126 @@ namespace ControlCambios.pages.customs
                     {
                         foreach (msgInfoCambiosQueryResponseItem item in vInfoCambioRowsResponse.resultSet1)
                         {
-                            msgInfoProcedimientos vRequestProcedimientos = new msgInfoProcedimientos()
+                            String vTipoCambio = String.Empty;
+                            msgInfoMantenimientos vRequestMantenimiento = new msgInfoMantenimientos()
                             {
                                 tipo = "3",
-                                idprocedimiento = item.idcambio
+                                idmantenimiento = item.idMantenimiento
                             };
 
-                            String vResponseProcedimientos = "";
-                            HttpResponseMessage vHttpResponseProcedimientos = vConector.PostInfoProcedimientos(vRequestProcedimientos, ref vResponseProcedimientos);
-                            if (vHttpResponseProcedimientos.StatusCode == System.Net.HttpStatusCode.OK)
+                            String vResponseMantenimientos = "";
+                            HttpResponseMessage vHttpResponseMantenimientos = vConector.PostInfoMantenimientos(vRequestMantenimiento, ref vResponseMantenimientos);
+                            if (vHttpResponseMantenimientos.StatusCode == System.Net.HttpStatusCode.OK)
                             {
-                                msgInfoProcedimientosQueryResponse vInfoProcedimientosResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgInfoProcedimientosQueryResponse>(vResponseProcedimientos);
-                                if (vInfoProcedimientosResponse.resultSet1.Count() > 0)
+                                msgInfoMantenimientosQueryResponse vInfoMantenimientosResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgInfoMantenimientosQueryResponse>(vResponseMantenimientos);
+                                if (vInfoMantenimientosResponse.resultSet1.Count() > 0)
                                 {
-                                    foreach (msgInfoProcedimientosQueryResponseItem itemProcedimientos in vInfoProcedimientosResponse.resultSet1)
+                                    foreach (msgInfoMantenimientosQueryResponseItem itemMantenimiento in vInfoMantenimientosResponse.resultSet1)
                                     {
-                                        msgInfoUsuarios vRequest = new msgInfoUsuarios()
-                                        {
-                                            tipo = "2",
-                                            usuario = itemProcedimientos.idUsuarioResponsable
-                                        };
+                                        vTipoCambio = itemMantenimiento.idTipoCambio;
+                                    }
+                                }
+                            }
 
-                                        String vResponseResult = "";
-                                        HttpResponseMessage vHttpResponse = vConector.PostInfoUsuarios(vRequest, ref vResponseResult);
-                                        if (vHttpResponse.StatusCode == System.Net.HttpStatusCode.OK)
+                            if (vTipoCambio.Equals("1"))
+                            {
+                                List<String> vUsuariosEnvio = new List<string>();
+                                msgInfoProcedimientos vRequestProcedimientos = new msgInfoProcedimientos()
+                                {
+                                    tipo = "3",
+                                    idprocedimiento = item.idcambio
+                                };
+
+                                String vResponseProcedimientos = "";
+                                HttpResponseMessage vHttpResponseProcedimientos = vConector.PostInfoProcedimientos(vRequestProcedimientos, ref vResponseProcedimientos);
+                                if (vHttpResponseProcedimientos.StatusCode == System.Net.HttpStatusCode.OK)
+                                {
+                                    msgInfoProcedimientosQueryResponse vInfoProcedimientosResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgInfoProcedimientosQueryResponse>(vResponseProcedimientos);
+                                    if (vInfoProcedimientosResponse.resultSet1.Count() > 0)
+                                    {
+                                        foreach (msgInfoProcedimientosQueryResponseItem itemProcedimientos in vInfoProcedimientosResponse.resultSet1)
                                         {
-                                            msgInfoUsuariosQueryResponse vUsuariosResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgInfoUsuariosQueryResponse>(vResponseResult);
-                                            foreach (msgInfoUsuariosQueryResponseItem itemUsuarios in vUsuariosResponse.resultSet1)
+                                            msgInfoUsuarios vRequest = new msgInfoUsuarios()
                                             {
-                                                SmtpService vSmtpService = new SmtpService();
-                                                vSmtpService.EnviarMensaje(
-                                                    itemUsuarios.correo,
-                                                    typeBody.CAB,
-                                                    itemUsuarios.nombres + "(" + itemUsuarios.idUsuario + ")",
-                                                    item.idcambio,
-                                                    item.mantenimientoNombre);
+                                                tipo = "2",
+                                                usuario = itemProcedimientos.idUsuarioResponsable
+                                            };
+
+                                            String vResponseResult = "";
+                                            HttpResponseMessage vHttpResponse = vConector.PostInfoUsuarios(vRequest, ref vResponseResult);
+                                            if (vHttpResponse.StatusCode == System.Net.HttpStatusCode.OK)
+                                            {
+                                                msgInfoUsuariosQueryResponse vUsuariosResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgInfoUsuariosQueryResponse>(vResponseResult);
+                                                foreach (msgInfoUsuariosQueryResponseItem itemUsuarios in vUsuariosResponse.resultSet1)
+                                                {
+                                                    Boolean vFlag = true;
+                                                    for (int i = 0; i < vUsuariosEnvio.Count; i++)
+                                                    {
+                                                        if (vUsuariosEnvio[i].Equals(itemUsuarios.idUsuario))
+                                                            vFlag = false;
+                                                    }
+
+                                                    if (vFlag)
+                                                    {
+                                                        SmtpService vSmtpService = new SmtpService();
+                                                        vSmtpService.EnviarMensaje(
+                                                            itemUsuarios.correo,
+                                                            typeBody.CAB,
+                                                            itemUsuarios.nombres + "(" + itemUsuarios.idUsuario + ")",
+                                                            item.idcambio,
+                                                            item.mantenimientoNombre);
+
+                                                        vUsuariosEnvio.Add(itemUsuarios.idUsuario);
+                                                    }
+                                                }
                                             }
                                         }
                                     }
                                 }
+                            }
+                            else
+                            {
+                                msgInfoImplementadores vInfoImplementadoresRequest = new msgInfoImplementadores()
+                                {
+                                    tipo = "2",
+                                    idcambio = Convert.ToString(Session["GETIDCAMBIO"])
+                                };
+
+                                String vResponseImplementadores = "";
+                                HttpResponseMessage vHttpResponseImplmentadores = vConector.PostImplementadores(vInfoImplementadoresRequest, ref vResponseImplementadores);
+                                if (vHttpResponseImplmentadores.StatusCode == System.Net.HttpStatusCode.OK)
+                                {
+                                    msgInfoImplementadoresQueryResponse vInfoImplementadoresResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgInfoImplementadoresQueryResponse>(vResponseImplementadores);
+                                    if (vInfoImplementadoresResponse.resultSet1.Count() > 0)
+                                    {
+                                        foreach (msgInfoImplementadoresQueryResponseItem itemImplementacion in vInfoImplementadoresResponse.resultSet1)
+                                        {
+                                            msgInfoUsuarios vRequest = new msgInfoUsuarios()
+                                            {
+                                                tipo = "2",
+                                                usuario = itemImplementacion.usuario
+                                            };
+
+                                            String vResponseResult = "";
+                                            HttpResponseMessage vHttpResponse = vConector.PostInfoUsuarios(vRequest, ref vResponseResult);
+                                            if (vHttpResponse.StatusCode == System.Net.HttpStatusCode.OK)
+                                            {
+                                                msgInfoUsuariosQueryResponse vUsuariosResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgInfoUsuariosQueryResponse>(vResponseResult);
+                                                foreach (msgInfoUsuariosQueryResponseItem itemUsuarios in vUsuariosResponse.resultSet1)
+                                                {
+                                                    SmtpService vSmtpService = new SmtpService();
+                                                    vSmtpService.EnviarMensaje(
+                                                        itemUsuarios.correo,
+                                                        typeBody.CAB,
+                                                        itemUsuarios.nombres + "(" + itemUsuarios.idUsuario + ")",
+                                                        item.idcambio,
+                                                        item.mantenimientoNombre);
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
                             }
                         }
                     }

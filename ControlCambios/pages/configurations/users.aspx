@@ -54,13 +54,13 @@
 
     <nav>
         <div class="nav nav-pills " id="nav-tab" role="tablist">
-            <a class="nav-item nav-link active" id="nav-datos-tab" data-toggle="tab" href="#nav-usuarios" role="tab" aria-controls="nav-home" aria-selected="true">Creación de Usuarios</a>
-            <a class="nav-item nav-link" id="nav_tecnicos_tab" data-toggle="tab" href="#nav-buscar" role="tab" aria-controls="nav-profile" aria-selected="false">Modificar Usuarios</a>
+            <a class="nav-item nav-link active" id="nav_datos_tab" data-toggle="tab" href="#usuarios" role="tab" aria-controls="nav-home" aria-selected="true">Creación de Usuarios</a>
+            <a class="nav-item nav-link" id="nav_tecnicos_tab" data-toggle="tab" href="#buscar" role="tab" aria-controls="nav-profile" aria-selected="false">Modificar Usuarios</a>
         </div>
     </nav>
     <br />
     <div class="tab-content" id="nav-tabContent">
-        <div class="tab-pane fade show active" id="nav-usuarios" role="tabpanel" aria-labelledby="nav-datos-tab">
+        <div class="tab-pane fade show active" id="usuarios" role="tabpanel" aria-labelledby="nav-datos-tab" >
             <div id="smartwizard">
                 <ul>
                     <li><a href="#step-1">Creación Usuario<br />
@@ -82,9 +82,7 @@
                                         <asp:UpdatePanel ID="UpdatePanel1" runat="server">
                                             <ContentTemplate>
                                                 <div class="row">
-
                                                     <div class="col-md-6">
-
                                                         <div class="form-group row">
                                                             <label class="col-sm-3 col-form-label">Usuario</label>
                                                             <div class="col-sm-9">
@@ -95,6 +93,7 @@
                                                                     <asp:ListItem Value="4">Implementador</asp:ListItem>
                                                                     <asp:ListItem Value="5">Promotor</asp:ListItem>
                                                                     <asp:ListItem Value="6">CAB Manager</asp:ListItem>
+                                                                    <asp:ListItem Value="7">Supervisor QA</asp:ListItem>
                                                                 </asp:DropDownList>
                                                             </div>
                                                         </div>
@@ -107,10 +106,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-
                                                 </div>
-
-
                                                 <h5>¿Tiene este usuario un Supervisor de cambios standard?</h5>
                                                 <hr />
                                                 <div class="row">
@@ -263,7 +259,7 @@
                 </div>
             </div>
         </div>
-        <div class="tab-pane fade" id="nav-buscar" role="tabpanel" aria-labelledby="nav-tecnicos-tab">
+        <div class="tab-pane fade" id="buscar" role="tabpanel" aria-labelledby="nav_tecnicos_tab" >
             <asp:UpdatePanel ID="UpdateDivBusquedas" runat="server" UpdateMode="Conditional">
                 <ContentTemplate>
                     <div class="row">

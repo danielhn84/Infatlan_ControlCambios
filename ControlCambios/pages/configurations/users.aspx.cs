@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Net.Http;
+using System.Threading;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -118,6 +119,7 @@ namespace ControlCambios.pages.configurations
                             case "4": vCargo = "Implementador"; break;
                             case "5": vCargo = "Promotor"; break;
                             case "6": vCargo = "CAB Manager"; break;
+                            case "7": vCargo = "Supervisor QA"; break;
                         }
 
                         vDatos.Rows.Add(
@@ -210,8 +212,12 @@ namespace ControlCambios.pages.configurations
                     msgUpdateGeneral vUsuariosResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgUpdateGeneral>(vResponseResult);
                     if (vUsuariosResponse.updateCount1.Equals("1"))
                     {
-                        //LimpiarUsuario();
-                        Response.Redirect("/pages/configurations/users.aspx");
+                        LimpiarUsuario();
+                        Mensaje("Creado con exito", WarningType.Success);
+
+                        CargarUsuarios();
+                        UpdateDivBusquedas.Update();
+                       
                     }
                 }
             }
@@ -228,7 +234,10 @@ namespace ControlCambios.pages.configurations
             TxApellidos.Text = String.Empty;
             DDLCargo.SelectedIndex = 0;
             DDLSupervisor.SelectedIndex = 0;
-            UpdatePanel2.Update();
+            DDLCambiosEstandar.SelectedIndex = 0;
+            DDLUsuariosCambioEstandar.SelectedIndex = 0;
+            DIVUsuarioEstandar.Visible = false;
+            //UpdatePanel2.Update();
         }
 
         protected void BtnCancelar_Click(object sender, EventArgs e)
@@ -256,6 +265,7 @@ namespace ControlCambios.pages.configurations
         {
             try
             {
+                LbUsuarioMensaje.Text = "";
                 string vIdUsuario = e.CommandArgument.ToString();
                 if (e.CommandName == "UsuarioEstado")
                 {
@@ -284,6 +294,8 @@ namespace ControlCambios.pages.configurations
                             TxModificarCorreo.Text = itemUsuarios.correo;
                             TxModificarNombres.Text = itemUsuarios.nombres;
                             TxModificarApellidos.Text = itemUsuarios.apellidos;
+                            TxPassword.Text = itemUsuarios.password;
+                            TxPasswordConfirmacion.Text = itemUsuarios.password;
 
                             DDLCargoModificar.SelectedIndex = CargarInformacionDDL(DDLCargoModificar, itemUsuarios.idcargo);
 
@@ -309,11 +321,14 @@ namespace ControlCambios.pages.configurations
         {
             try
             {
-                if (TxModificarPassword.Text.Equals(""))
-                    throw new Exception("Por favor ingrese un password.");
+                HttpService vConector = new HttpService();
+                vConfigurations = (msgLoginResponse)Session["AUTHCLASS"];
 
-                if (TxModificarPassword.Text != TxModificarPasswordConfirmar.Text)
-                    throw new Exception("Error en la verificación del password.");
+                if (!TxModificarPassword.Text.Equals(""))
+                {
+                    if (TxModificarPassword.Text != TxModificarPasswordConfirmar.Text)
+                        throw new Exception("Error en la verificación del password.");
+                }
 
                 String Supervisor = "admin";
                 if (DDLCargoModificar.SelectedValue.Equals("0"))
@@ -337,15 +352,39 @@ namespace ControlCambios.pages.configurations
                         SupervisorSTD = DDLUsuariosCambioEstandarModificar.SelectedValue;
                 }
 
+                String vPassword = String.Empty;
+                msgInfoUsuarios vRequestCambios = new msgInfoUsuarios()
+                {
+                    tipo = "2",
+                    usuario = TxModificarUsuario.Text
+                };
 
+                String vResponseCambiosResult = "";
+                HttpResponseMessage vHttpResponseCambios = vConector.PostInfoUsuarios(vRequestCambios, ref vResponseCambiosResult);
+                if (vHttpResponseCambios.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    msgInfoUsuariosQueryResponse vUsuariosCambiosResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgInfoUsuariosQueryResponse>(vResponseCambiosResult);
+                    foreach (msgInfoUsuariosQueryResponseItem itemUsuarios in vUsuariosCambiosResponse.resultSet1)
+                    {
+                        vPassword = itemUsuarios.password;
+                    }
+                }
                 Generales vGenerales = new Generales();
-                HttpService vConector = new HttpService();
-                vConfigurations = (msgLoginResponse)Session["AUTHCLASS"];
+                String vPasswordFinal = string.Empty;
+                if (TxModificarPassword.Text.Equals(""))
+                {
+                    vPasswordFinal = vPassword;
+                }
+                else
+                {
+                    vPasswordFinal = vGenerales.MD5Hash(TxModificarPassword.Text);
+                }
+      
                 msgInfoUsuarios vRequest = new msgInfoUsuarios()
                 {
                     tipo = "9",
                     usuario = TxModificarUsuario.Text,
-                    password = vGenerales.MD5Hash(TxModificarPassword.Text),
+                    password = vPasswordFinal,
                     nombres = TxModificarNombres.Text,
                     apellidos = TxModificarApellidos.Text,
                     correo = TxModificarCorreo.Text,

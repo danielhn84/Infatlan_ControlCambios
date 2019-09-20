@@ -44,30 +44,30 @@ namespace ControlCambios.classes
             return (msgGeneralesResponse)vCoverage;
         }
 
-        public msgCatEquiposResponse getCatEquipos(String vTipo)
+        public msgCatEquiposQueryResponse getCatEquipos(String vTipo)
         {
             var client = new System.Net.WebClient() { Encoding = Encoding.UTF8 };
             var response = client.DownloadString(string.Format("{0}{1}", ConfigurationManager.AppSettings["Server"], "CatalogoEquipos?tipo=" + vTipo ));
-            var vCoverage = Newtonsoft.Json.JsonConvert.DeserializeObject<msgCatEquiposResponse>(response);
+            var vCoverage = Newtonsoft.Json.JsonConvert.DeserializeObject<msgCatEquiposQueryResponse>(response);
 
-            return (msgCatEquiposResponse)vCoverage;
+            return (msgCatEquiposQueryResponse)vCoverage;
         }
         
-        public msgCatSistemasResponse getCatSistemas(String vTipo) 
+        public msgCatSistemasQueryResponse getCatSistemas(String vTipo) 
         {
             var client = new System.Net.WebClient() { Encoding = Encoding.UTF8 };
             var response = client.DownloadString(string.Format("{0}{1}", ConfigurationManager.AppSettings["Server"], "CatalogoSistemas?tipo=" + vTipo));
-            var vCoverage = Newtonsoft.Json.JsonConvert.DeserializeObject<msgCatSistemasResponse>(response);
+            var vCoverage = Newtonsoft.Json.JsonConvert.DeserializeObject<msgCatSistemasQueryResponse>(response);
 
-            return (msgCatSistemasResponse)vCoverage;
+            return (msgCatSistemasQueryResponse)vCoverage;
         }
-        public msgCatSistemasResponse getCatSistemas(String vTipo, String vParametro)
+        public msgCatSistemasQueryResponse getCatSistemas(String vTipo, String vParametro)
         {
             var client = new System.Net.WebClient() { Encoding = Encoding.UTF8 };
             var response = client.DownloadString(string.Format("{0}{1}", ConfigurationManager.AppSettings["Server"], "CatalogoSistemas?tipo=" + vTipo + "&parametro=" + vParametro));
-            var vCoverage = Newtonsoft.Json.JsonConvert.DeserializeObject<msgCatSistemasResponse>(response);
+            var vCoverage = Newtonsoft.Json.JsonConvert.DeserializeObject<msgCatSistemasQueryResponse>(response);
 
-            return (msgCatSistemasResponse)vCoverage;
+            return (msgCatSistemasQueryResponse)vCoverage;
         }
 
         public HttpResponseMessage PostRelacionesCambios(msgRelacionesCambios vDatos, ref String vJsonResult)
@@ -449,11 +449,70 @@ namespace ControlCambios.classes
             return vResponse;
         }
 
-
-        public String TextConverter(String vString)
+        public HttpResponseMessage PostImplementadores(msgInfoImplementadores vDatos, ref String vJsonResult)
         {
-            return "";
+            HttpResponseMessage vResponse = null;
+            try
+            {
+                System.Net.Http.HttpClient client = new HttpClient();
+
+                String vTestJson = Newtonsoft.Json.JsonConvert.SerializeObject(vDatos);
+                var httpContent = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(vDatos));
+                httpContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+                vResponse = client.PostAsync(ConfigurationManager.AppSettings["Server"] + "InfoImplementadores", httpContent).Result;
+
+                var vContents = vResponse.Content.ReadAsStringAsync();
+                vJsonResult = vContents.Result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return vResponse;
         }
 
+        public HttpResponseMessage PostEquipos(msgCatEquipos vDatos, ref String vJsonResult)
+        {
+            HttpResponseMessage vResponse = null;
+            try
+            {
+                System.Net.Http.HttpClient client = new HttpClient();
+
+                String vTestJson = Newtonsoft.Json.JsonConvert.SerializeObject(vDatos);
+                var httpContent = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(vDatos));
+                httpContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+                vResponse = client.PostAsync(ConfigurationManager.AppSettings["Server"] + "GeneralEquipos", httpContent).Result;
+
+                var vContents = vResponse.Content.ReadAsStringAsync();
+                vJsonResult = vContents.Result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return vResponse;
+        }
+
+        public HttpResponseMessage PostSistemas(msgCatSistemas vDatos, ref String vJsonResult)
+        {
+            HttpResponseMessage vResponse = null;
+            try
+            {
+                System.Net.Http.HttpClient client = new HttpClient();
+
+                String vTestJson = Newtonsoft.Json.JsonConvert.SerializeObject(vDatos);
+                var httpContent = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(vDatos));
+                httpContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+                vResponse = client.PostAsync(ConfigurationManager.AppSettings["Server"] + "GeneralSistemas", httpContent).Result;
+
+                var vContents = vResponse.Content.ReadAsStringAsync();
+                vJsonResult = vContents.Result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return vResponse;
+        }
     }
 }

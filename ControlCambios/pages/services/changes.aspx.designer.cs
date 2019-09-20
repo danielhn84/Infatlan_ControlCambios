@@ -49,6 +49,15 @@ namespace ControlCambios.pages.services {
         protected global::System.Web.UI.WebControls.Button BtnAsignarUsuario;
         
         /// <summary>
+        /// Control BtnAutorizarQA.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button BtnAutorizarQA;
+        
+        /// <summary>
         /// Control BtnGuardarCambio.
         /// </summary>
         /// <remarks>
@@ -209,15 +218,6 @@ namespace ControlCambios.pages.services {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputRadioButton RBRiesgoBaja;
-        
-        /// <summary>
-        /// Control TxObservaciones.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxObservaciones;
         
         /// <summary>
         /// Control TxMantenimientoDescripcion.
@@ -571,6 +571,15 @@ namespace ControlCambios.pages.services {
         protected global::System.Web.UI.WebControls.Button BtnDescargarDeposito1;
         
         /// <summary>
+        /// Control LbNombreDeposito1.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LbNombreDeposito1;
+        
+        /// <summary>
         /// Control DIVDeposito2.
         /// </summary>
         /// <remarks>
@@ -607,6 +616,15 @@ namespace ControlCambios.pages.services {
         protected global::System.Web.UI.WebControls.Button BtnDescargarDeposito2;
         
         /// <summary>
+        /// Control LbNombreDeposito2.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LbNombreDeposito2;
+        
+        /// <summary>
         /// Control DIVDeposito3.
         /// </summary>
         /// <remarks>
@@ -641,6 +659,15 @@ namespace ControlCambios.pages.services {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button BtnDescargarDeposito3;
+        
+        /// <summary>
+        /// Control LbNombreDeposito3.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LbNombreDeposito3;
         
         /// <summary>
         /// Control CriticidadRadio1.
@@ -742,13 +769,13 @@ namespace ControlCambios.pages.services {
         protected global::System.Web.UI.WebControls.TextBox TxHorarioFinalPromotor;
         
         /// <summary>
-        /// Control DDLCertificacion.
+        /// Control TxObservaciones.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DDLCertificacion;
+        protected global::System.Web.UI.WebControls.TextBox TxObservaciones;
         
         /// <summary>
         /// Control DIVQAArchivo.
@@ -787,6 +814,15 @@ namespace ControlCambios.pages.services {
         protected global::System.Web.UI.WebControls.Button BtnArchivosCertificacion;
         
         /// <summary>
+        /// Control DDLCertificacion.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList DDLCertificacion;
+        
+        /// <summary>
         /// Control UpdatePanel6.
         /// </summary>
         /// <remarks>
@@ -805,6 +841,42 @@ namespace ControlCambios.pages.services {
         protected global::System.Web.UI.WebControls.Button BtnCertificarCambio;
         
         /// <summary>
+        /// Control UpdateCabImplementador.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel UpdateCabImplementador;
+        
+        /// <summary>
+        /// Control DDLCABImplementadores.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList DDLCABImplementadores;
+        
+        /// <summary>
+        /// Control BtnCABAgregarImplementador.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button BtnCABAgregarImplementador;
+        
+        /// <summary>
+        /// Control GVCABImplementadores.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView GVCABImplementadores;
+        
+        /// <summary>
         /// Control DDLRevisionQA.
         /// </summary>
         /// <remarks>
@@ -812,24 +884,6 @@ namespace ControlCambios.pages.services {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList DDLRevisionQA;
-        
-        /// <summary>
-        /// Control TxRevisionQAInicio.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxRevisionQAInicio;
-        
-        /// <summary>
-        /// Control TxRevisionQAFinal.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxRevisionQAFinal;
         
         /// <summary>
         /// Control UpdateRevisionQA.
@@ -848,6 +902,33 @@ namespace ControlCambios.pages.services {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button BtnRevisionQA;
+        
+        /// <summary>
+        /// Control DIVCabHorarios.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl DIVCabHorarios;
+        
+        /// <summary>
+        /// Control TxRevisionQAInicio.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TxRevisionQAInicio;
+        
+        /// <summary>
+        /// Control TxRevisionQAFinal.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TxRevisionQAFinal;
         
         /// <summary>
         /// Control UpdatePanel7.
@@ -1118,6 +1199,42 @@ namespace ControlCambios.pages.services {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button BtnResolucion;
+        
+        /// <summary>
+        /// Control DIVCierreEvidencia.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl DIVCierreEvidencia;
+        
+        /// <summary>
+        /// Control FUEvidenciaCierre.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.FileUpload FUEvidenciaCierre;
+        
+        /// <summary>
+        /// Control DIVCierreEvidenciaDescargar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl DIVCierreEvidenciaDescargar;
+        
+        /// <summary>
+        /// Control BtnEnvidenciaCierreDescargar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button BtnEnvidenciaCierreDescargar;
         
         /// <summary>
         /// Control DDLCerrarCambio.
@@ -1507,6 +1624,15 @@ namespace ControlCambios.pages.services {
         protected global::System.Web.UI.WebControls.TextBox TxProcedimientosDetalle;
         
         /// <summary>
+        /// Control DIVResponsable.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl DIVResponsable;
+        
+        /// <summary>
         /// Control DDLProcedimientosResponsable.
         /// </summary>
         /// <remarks>
@@ -1784,5 +1910,23 @@ namespace ControlCambios.pages.services {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button BtnProcederQA;
+        
+        /// <summary>
+        /// Control UpdatePanel14.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel UpdatePanel14;
+        
+        /// <summary>
+        /// Control BtnCerrarCambioFinal.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button BtnCerrarCambioFinal;
     }
 }

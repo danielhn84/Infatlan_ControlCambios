@@ -5,12 +5,22 @@ using System.Web;
 
 namespace ControlCambios.messages
 {
-    public class msgCatSistemasResponse
+
+    public class msgCatSistemas
     {
-        public msgCatSistemasResponseItem[] resultSet1 { get; set; }
+        public String tipo { get; set; }
+        public String parametro { get; set; }
+        public String idequipo { get; set; }
+        public String nombre { get; set; }
+        public String descripcion { get; set; }
     }
 
-    public class msgCatSistemasResponseItem
+    public class msgCatSistemasQueryResponse
+    {
+        public msgCatSistemasQueryResponseItem[] resultSet1 { get; set; }
+    }
+
+    public class msgCatSistemasQueryResponseItem
     {
         public String idCatEquipo { get; set; }
         public String descripcion { get; set; }

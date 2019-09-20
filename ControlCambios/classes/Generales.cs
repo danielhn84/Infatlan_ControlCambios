@@ -41,6 +41,9 @@ namespace ControlCambios.classes
                         case "6":
                             vActual = Permisos.CABManager;
                             break;
+                        case "7":
+                            vActual = Permisos.SupervisorQA;
+                            break;
                     }
 
                     if (vTieneAcceso.Equals(vActual))
@@ -74,6 +77,7 @@ namespace ControlCambios.classes
         QualityAssurance,
         CABManager,
         Implementador,
-        Promotor
+        Promotor,
+        SupervisorQA
     }
 }

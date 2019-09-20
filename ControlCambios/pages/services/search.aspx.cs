@@ -19,7 +19,7 @@ namespace ControlCambios.pages.services
             if (!Page.IsPostBack)
             {
                 String vBusqueda = Request.QueryString["busqueda"];
-
+                
                 if (Convert.ToBoolean(Session["AUTH"]))
                 {
                     vConfigurations = (msgLoginResponse)Session["AUTHCLASS"];
@@ -95,7 +95,7 @@ namespace ControlCambios.pages.services
                                 case "1": vEstado = "Pendiente revisión QA"; break;
                                 case "2": vEstado = "CAB Manager"; break;
                                 case "3": vEstado = "Implementación"; break;
-                                case "4": vEstado = "Revisión QA"; break;
+                                case "4": vEstado = "Revisión Promotor"; break;
                                 case "5": vEstado = "Cambio terminado / No cerrado"; break;
                                 case "6": vEstado = "Cambio cerrado"; break;
                             }
@@ -120,6 +120,7 @@ namespace ControlCambios.pages.services
 
                 GVBusqueda.DataSource = vDatos;
                 GVBusqueda.DataBind();
+                Session["BUSQUEDACAMBIOS"] = vDatos;
                 foreach (GridViewRow row in GVBusqueda.Rows)
                 {
                     msgInfoCambios vInfoCambiosRowRequest = new msgInfoCambios()
@@ -165,12 +166,27 @@ namespace ControlCambios.pages.services
                     vTipo = "3";
                     vBusqueda = TxBuscarNumero.Text;
                 }
+                else if (!TxBuscarNombre.Text.Equals(""))
+                {
+                    vTipo = "4";
+                    vBusqueda = TxBuscarNombre.Text;
+                }
+                else if (!TxFechaCambio.Text.Equals(""))
+                {
+                    vTipo = "11";
+                    vBusqueda = Convert.ToDateTime(TxFechaCambio.Text).ToString("yyyy-MM-dd");
+                }
+                else if (!DDLTipoCambio.SelectedValue.Equals("0"))
+                {
+                    vTipo = "10";
+                    vBusqueda = DDLTipoCambio.SelectedValue;
+                }
                 else
                 {
                     vTipo = "4";
                     vBusqueda = TxBuscarNombre.Text;
                 }
-             
+
                 HttpService vConector = new HttpService();
                 vConfigurations = (msgLoginResponse)Session["AUTHCLASS"];
                 DataTable vDatos = new DataTable();
@@ -204,7 +220,7 @@ namespace ControlCambios.pages.services
                                 case "1": vEstado = "Pendiente revisión QA"; break;
                                 case "2": vEstado = "CAB Manager"; break;
                                 case "3": vEstado = "Implementación"; break;
-                                case "4": vEstado = "Revisión QA"; break;
+                                case "4": vEstado = "Revisión Promotor"; break;
                                 case "5": vEstado = "Cambio terminado / No cerrado"; break;
                                 case "6": vEstado = "Cambio cerrado"; break;
                             }
@@ -228,6 +244,11 @@ namespace ControlCambios.pages.services
                 }
                 GVBusqueda.DataSource = vDatos;
                 GVBusqueda.DataBind();
+                Session["BUSQUEDACAMBIOS"] = vDatos;
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "GoBottom();", true);
+                LimpiarBusqueda();
+                
+                
                 foreach (GridViewRow row in GVBusqueda.Rows)
                 {
                     msgInfoCambios vInfoCambiosRowRequest = new msgInfoCambios()
@@ -258,8 +279,17 @@ namespace ControlCambios.pages.services
                 }
                 DivBusqueda.Visible = true;
                 UpdateDivBusquedas.Update();
+                
             }
             catch (Exception Ex) { Mensaje(Ex.Message, WarningType.Danger); }
+        }
+
+        void LimpiarBusqueda()
+        {
+            TxBuscarNombre.Text = String.Empty;
+            TxBuscarNumero.Text = String.Empty;
+            TxFechaCambio.Text = String.Empty;
+            DDLTipoCambio.SelectedIndex = -1;
         }
 
         protected void GVBusqueda_RowCommand(object sender, GridViewCommandEventArgs e)
@@ -383,5 +413,14 @@ namespace ControlCambios.pages.services
             }
             catch (Exception Ex) { Mensaje(Ex.Message, WarningType.Danger); CerrarModal("CerrarModal"); }
         }
+
+        protected void GVBusqueda_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            GVBusqueda.PageIndex = e.NewPageIndex;
+            GVBusqueda.DataSource = (DataTable)Session["BUSQUEDACAMBIOS"];
+            GVBusqueda.DataBind();
+        }
+
+        
     }
 }

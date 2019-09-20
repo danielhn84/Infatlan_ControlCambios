@@ -13,6 +13,9 @@ namespace ControlCambios.messages
         public String deposito2 { get; set; }
         public String deposito3 { get; set; }
         public String usuario { get; set; }
+        public String depot1nombre { get; set; }
+        public String depot2nombre { get; set; }
+        public String depot3nombre { get; set; }
     }
 
     public class msgInfoArchivosQueryResponse
@@ -26,6 +29,9 @@ namespace ControlCambios.messages
         public String deposito1 { get; set; }
         public String deposito2 { get; set; }
         public String deposito3 { get; set; }
+        public String depot1nombre { get; set; }
+        public String depot2nombre { get; set; }
+        public String depot3nombre { get; set; }
     }
 }
 

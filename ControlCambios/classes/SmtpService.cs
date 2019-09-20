@@ -56,7 +56,7 @@ namespace ControlCambios.classes
                         mail.AlternateViews.Add(CreateHtmlMessage(PopulateBody(
                             Usuario,
                             "Cambio #" + Cambio + " (" + Nombre + ") creado pendiente de revisión por QA",
-                            ConfigurationManager.AppSettings["Host"] + "/pages/services/search.aspx",
+                            ConfigurationManager.AppSettings["Host"] + "/pages/services/search.aspx?busqueda=" + Nombre,
                             "Te informamos que el cambio ha sido autorizado y esta a la espera de tu revisión y certificación para proceder con el proceso, " +
                             "para certificar el cambio entra al aplicativo y ve a la sección de cambios."
                             ), Server.MapPath("/images/logo.png")));
@@ -65,7 +65,7 @@ namespace ControlCambios.classes
                         mail.AlternateViews.Add(CreateHtmlMessage(PopulateBody(
                             Usuario,
                             "Cambio #" + Cambio + " (" + Nombre + ") creado pendiente de autorización por los CAB Manager",
-                            ConfigurationManager.AppSettings["Host"] + "/pages/services/search.aspx",
+                            ConfigurationManager.AppSettings["Host"] + "/pages/services/search.aspx?busqueda=" + Nombre,
                             "Te informamos que el cambio ha sido certificado por QA y esta a la espera de tu revisión y autorización para proceder con el proceso, " +
                             "para autorizar el cambio entra al aplicativo y ve a la sección de cambios."
                             ), Server.MapPath("/images/logo.png")));
@@ -74,7 +74,7 @@ namespace ControlCambios.classes
                         mail.AlternateViews.Add(CreateHtmlMessage(PopulateBody(
                             Usuario,
                             "Cambio #" + Cambio + " (" + Nombre + ") creado pendiente de implementación",
-                            ConfigurationManager.AppSettings["Host"] + "/pages/services/search.aspx",
+                            ConfigurationManager.AppSettings["Host"] + "/pages/services/search.aspx?busqueda=" + Nombre,
                             "Te informamos que el cambio ha sido autorizado por el CAB Manager y esta a la espera de tu implementación en las fechas programadas, " +
                             "para implementar el cambio entra al aplicativo y ve a la sección de cambios."
                             ), Server.MapPath("/images/logo.png")));
@@ -83,7 +83,7 @@ namespace ControlCambios.classes
                         mail.AlternateViews.Add(CreateHtmlMessage(PopulateBody(
                             Usuario,
                             "Cambio #" + Cambio + " (" + Nombre + ") esta implementado y pendiente de revisión por parte de QA",
-                            ConfigurationManager.AppSettings["Host"] + "/pages/services/search.aspx",
+                            ConfigurationManager.AppSettings["Host"] + "/pages/services/search.aspx?busqueda=" + Nombre,
                             "Te informamos que el cambio ha sido implementado y esta a la espera de tu revisión y certificación, " +
                             "para revisar el cambio entra al aplicativo y ve a la sección de cambios."
                             ), Server.MapPath("/images/logo.png")));
@@ -91,8 +91,8 @@ namespace ControlCambios.classes
                     case typeBody.QARevision:
                         mail.AlternateViews.Add(CreateHtmlMessage(PopulateBody(
                             Usuario,
-                            "Cambio #" + Cambio + " (" + Nombre + ") esta revisado por QA para su cierre",
-                            ConfigurationManager.AppSettings["Host"] + "/pages/services/search.aspx",
+                            "Cambio #" + Cambio + " (" + Nombre + ") esta revisado por el promotor para su cierre",
+                            ConfigurationManager.AppSettings["Host"] + "/pages/services/search.aspx?busqueda=" + Nombre,
                             "Te informamos que el cambio ha sido revisado y certificado para finalizar el proceso, " +
                             "para revisar el cambio y darlo por finalizado entra al aplicativo y ve a la sección de cambios."
                             ), Server.MapPath("/images/logo.png")));
@@ -101,7 +101,7 @@ namespace ControlCambios.classes
                         mail.AlternateViews.Add(CreateHtmlMessage(PopulateBody(
                             Usuario,
                             "Cambio #" + Cambio + " (" + Nombre + ") se ha finalizado",
-                            ConfigurationManager.AppSettings["Host"] + "/pages/services/search.aspx",
+                            ConfigurationManager.AppSettings["Host"] + "/pages/services/search.aspx?busqueda=" + Nombre,
                             "Te informamos que el cambio se ha finalizado, " +
                             "para revisar el cambio entra al aplicativo y ve a la sección de cambios."
                             ), Server.MapPath("/images/logo.png")));
@@ -110,8 +110,17 @@ namespace ControlCambios.classes
                         mail.AlternateViews.Add(CreateHtmlMessage(PopulateBody(
                             Usuario,
                             "Cambio #" + Cambio + " (" + Nombre + ") se te ha devuelto",
-                            ConfigurationManager.AppSettings["Host"] + "/pages/services/search.aspx",
+                            ConfigurationManager.AppSettings["Host"] + "/pages/services/search.aspx?busqueda=" + Nombre,
                             "Te informamos que el cambio no se aprobo, QA se comunicara contigo en breve, " +
+                            "para revisar el cambio entra al aplicativo y ve a la sección de cambios."
+                            ), Server.MapPath("/images/logo.png")));
+                        break;
+                    case typeBody.PromotorReEnvio:
+                        mail.AlternateViews.Add(CreateHtmlMessage(PopulateBody(
+                            Usuario,
+                            "Cambio #" + Cambio + " (" + Nombre + ") esta implementado y pendiente de revisión por tu parte",
+                            ConfigurationManager.AppSettings["Host"] + "/pages/services/search.aspx?busqueda=" + Nombre,
+                            "Te informamos que el cambio ha sido implementado y esta a la espera de tu revisión y certificación, " +
                             "para revisar el cambio entra al aplicativo y ve a la sección de cambios."
                             ), Server.MapPath("/images/logo.png")));
                         break;

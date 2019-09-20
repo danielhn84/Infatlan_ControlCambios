@@ -41,24 +41,26 @@
                     <p class="card-description">
                         Los cambios solo apareceran si te fuerón asignados para autorización.
                     </p>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Numero</label>
-                                <div class="col-sm-9">
-                                    <asp:TextBox ID="TxBuscarNumero" placeholder="Ej. 1000" class="form-control" runat="server" TextMode="Number"></asp:TextBox>
+                    <asp:Panel DefaultButton="BtnBuscarCambio" runat="server">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Numero</label>
+                                    <div class="col-sm-9">
+                                        <asp:TextBox ID="TxBuscarNumero" placeholder="Ej. 1000" class="form-control" runat="server" TextMode="Number"></asp:TextBox>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Nombre</label>
+                                    <div class="col-sm-9">
+                                        <asp:TextBox ID="TxBuscarNombre" placeholder="Ej. Mantenimiento" class="form-control" runat="server" TextMode="SingleLine"></asp:TextBox>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Nombre</label>
-                                <div class="col-sm-9">
-                                    <asp:TextBox ID="TxBuscarNombre" placeholder="Ej. Mantenimiento" class="form-control" runat="server" TextMode="SingleLine"></asp:TextBox>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    </asp:Panel>
                     <div class="row">
                         <div class="d-flex justify-content-between align-items-end flex-wrap">
                             <asp:UpdatePanel ID="UpdatePrincipalConfirmacion" runat="server">
@@ -113,7 +115,7 @@
                                                     <asp:BoundField DataField="idcambio" HeaderText="No.Cambio" />
                                                     <asp:BoundField DataField="mantenimientoNombre" HeaderText="Nombre" />
                                                     <asp:BoundField DataField="fechaSolicitud" HeaderText="Fecha" />
-                                                    <asp:BoundField DataField="idUsuarioResponsable" HeaderText="Asignado" />
+                                                    <asp:BoundField DataField="idUsuarioResponsable" HeaderText="Asignado" Visible="false"/>
                                                 </Columns>
                                             </asp:GridView>
                                         </ContentTemplate>

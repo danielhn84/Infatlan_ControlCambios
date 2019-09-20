@@ -44,24 +44,28 @@ namespace ControlCambios
                 if (vHttpResponse.StatusCode == System.Net.HttpStatusCode.OK)
                 {
                     msgLoginResponse vLoginResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgLoginResponse>(vResponseResult);
-
-                    if (vLoginResponse.resultSet1[0].error.Equals("Success"))
+                    if (vLoginResponse.resultSet1.Count() > 0)
                     {
-                        Session["AUTHCLASS"] = vLoginResponse;
-                        Session["AUTH"] = true;
-                        Logs vLog = new Logs();
-                        vLog.postLog("Login", "Usuario ingresado con exito", TxUsername.Text);
+                        if (vLoginResponse.resultSet1[0].error.Equals("Success"))
+                        {
+                            Session["AUTHCLASS"] = vLoginResponse;
+                            Session["AUTH"] = true;
+                            Logs vLog = new Logs();
+                            vLog.postLog("Login", "Usuario ingresado con exito", TxUsername.Text);
 
-                        Response.Redirect("/default.aspx");
-                    }
-                    else if (vLoginResponse.resultSet1[0].error.Equals("Error"))
-                    {
-                        Session["AUTH"] = false;
-                        Logs vLog = new Logs();
-                        vLog.postLog("Login", "Intento fallido de ingreso", TxUsername.Text);
+                            Response.Redirect("/default.aspx");
+                        }
+                        else if (vLoginResponse.resultSet1[0].error.Equals("Error"))
+                        {
+                            Session["AUTH"] = false;
+                            Logs vLog = new Logs();
+                            vLog.postLog("Login", "Intento fallido de ingreso", TxUsername.Text);
 
-                        throw new Exception(vLoginResponse.resultSet1[0].mensaje);
+                            throw new Exception(vLoginResponse.resultSet1[0].mensaje);
+                        }
                     }
+                    else
+                        throw new Exception("Usuario no existe o esta desactivado");
                 }
             }
             catch (Exception Ex)
