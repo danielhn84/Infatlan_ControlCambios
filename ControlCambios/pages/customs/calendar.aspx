@@ -10,8 +10,10 @@
     <link href="//cdnjs.cloudflare.com/ajax/libs/qtip2/3.0.3/jquery.qtip.min.css" rel="stylesheet" />
     <link rel="shortcut icon" href="/images/logo_mini.png" />
     <link href="/css/calendar.css" rel="stylesheet" />
+    
 </head>
 <body>
+    
     <form id="form1" runat="server">
     <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true">
     </asp:ScriptManager>

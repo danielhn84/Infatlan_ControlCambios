@@ -87,6 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="css\animate.min.css" />
+    <Content Include="css\breadcrumb.css" />
     <Content Include="css\calendar.css" />
     <Content Include="css\chosen.css" />
     <Content Include="css\chosen.min.css" />

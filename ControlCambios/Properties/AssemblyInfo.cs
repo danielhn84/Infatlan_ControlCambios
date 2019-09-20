@@ -12,7 +12,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyProduct("ControlCambios")]
 [assembly: AssemblyCopyright("Copyright Infatlan ©2019")]
 [assembly: AssemblyTrademark("Infatlan")]
-[assembly: AssemblyCulture("Infatlan")]
+[assembly: AssemblyCulture("")]
 
 // Si ComVisible se establece en false, los componentes COM no verán los 
 // tipos de este ensamblado. Si necesita obtener acceso a un tipo de este ensamblado desde 

@@ -53,6 +53,8 @@ namespace ControlCambios
                             Logs vLog = new Logs();
                             vLog.postLog("Login", "Usuario ingresado con exito", TxUsername.Text);
 
+                           
+
                             Response.Redirect("/default.aspx");
                         }
                         else if (vLoginResponse.resultSet1[0].error.Equals("Error"))

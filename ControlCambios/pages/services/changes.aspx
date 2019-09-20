@@ -6,7 +6,7 @@
     <link href="/css/smart_wizard_theme_arrows.css" rel="stylesheet" type="text/css" />
     <link href="/css/smart_wizard_theme_dots.css" rel="stylesheet" type="text/css" />
     <link href="/css/GridStyle.css" rel="stylesheet" />
-
+    <link href="/css/breadcrumb.css" rel="stylesheet" />
     <script type="text/javascript">
         var updateProgress = null;
 
@@ -54,6 +54,15 @@
             </div>
         </ProgressTemplate>
     </asp:UpdateProgress>
+    <div class="container">
+	    <div class="row align-top">
+		    <ul class="breadcrumb">
+			    <li class="completed"><a href="/default.aspx">Dashboard</a></li>
+			    <li><a href="javascript:void(0);">Control de Cambios</a></li>
+			    <li class="active"><a href="javascript:void(0);">Crear</a></li>
+		    </ul>
+	    </div>
+    </div>
     <div class="row">
         <div class="col-md-12 grid-margin">
             <div class="d-flex justify-content-between flex-wrap">

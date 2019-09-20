@@ -49,14 +49,14 @@
                                     </div>
                                 </div>
                                 <div class="my-2 d-flex justify-content-between align-items-center">
-                                    <div class="form-check">
+                                    <%--<div class="form-check">
                                         <label class="form-check-label text-muted">
-                                            <input type="checkbox" class="form-check-input">
+                                            <input type="checkbox" class="form-check-input" id="CBSession" runat="server">
                                             Mantener la Session
                    
                                         </label>
                                     </div>
-                                    <a href="#" class="auth-link text-black">Olvidaste tu password?</a>
+                                    <a href="#" class="auth-link text-black">Olvidaste tu password?</a>--%>
                                 </div>
                                 <div class="my-3">
                                     <asp:Button ID="BtnLogin" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" runat="server" Text="Entrar" OnClick="BtnLogin_Click" />                              
