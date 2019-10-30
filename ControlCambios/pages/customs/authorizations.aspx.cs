@@ -102,6 +102,10 @@ namespace ControlCambios.pages.customs
                 }
                 GVBusqueda.DataSource = vDatos;
                 GVBusqueda.DataBind();
+                Session["BUSQUEDACAMBIOSAUTH"] = vDatos;
+
+
+
                 foreach (GridViewRow row in GVBusqueda.Rows)
                 {
                     msgInfoAprobaciones vInfoAprobacionesRowRequest = new msgInfoAprobaciones()
@@ -617,6 +621,41 @@ namespace ControlCambios.pages.customs
             }
             catch (Exception Ex) { Mensaje(Ex.Message, WarningType.Warning); }
 
+        }
+
+        protected void GVBusqueda_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            HttpService vConector = new HttpService();
+            GVBusqueda.PageIndex = e.NewPageIndex;
+            GVBusqueda.DataSource = (DataTable)Session["BUSQUEDACAMBIOSAUTH"];
+            GVBusqueda.DataBind();
+            foreach (GridViewRow row in GVBusqueda.Rows)
+            {
+                msgInfoAprobaciones vInfoAprobacionesRowRequest = new msgInfoAprobaciones()
+                {
+                    tipo = "3",
+                    idaprobacion = row.Cells[2].Text
+                };
+                String vResponseRowAprobaciones = "";
+                HttpResponseMessage vHttpResponseRowAprobaciones = vConector.PostInfoAprobaciones(vInfoAprobacionesRowRequest, ref vResponseRowAprobaciones);
+
+                if (vHttpResponseRowAprobaciones.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    msgInfoAprobacionesQueryResponse vInfoAprobacionesRowsResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgInfoAprobacionesQueryResponse>(vResponseRowAprobaciones);
+                    if (vInfoAprobacionesRowsResponse.resultSet1.Count() > 0)
+                    {
+
+                        if (vInfoAprobacionesRowsResponse.resultSet1[0].estado.Equals("true"))
+                        {
+                            Button button = row.FindControl("BtnAutorizar") as Button;
+                            button.Text = "Autorizado";
+                            button.CssClass = "btn btn-success mr-2 ";
+                            button.Enabled = false;
+                            button.CommandName = "Cerrado";
+                        }
+                    }
+                }
+            }
         }
     }
 }

@@ -1,17 +1,21 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/main.Master" AutoEventWireup="true" CodeBehind="default.aspx.cs" Inherits="ControlCambios._default" %>
 
+
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <link href="/css/GridStyle.css" rel="stylesheet" />
     <link href="/css/breadcrumb.css" rel="stylesheet" />
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <div class="container">
+
+    <div class="container col-md-12 grid-margin">
 	    <div class="row align-top">
 		    <ul class="breadcrumb">
 			    <li class="active"><a href="/default.aspx">Dashboard</a></li>
 		    </ul>
 	    </div>
     </div>
+
     <div class="row">
         <div class="col-md-12 grid-margin">
             <div class="d-flex justify-content-between flex-wrap">
@@ -25,13 +29,9 @@
                 <asp:UpdatePanel ID="UpdatePanel1" runat="server">
                     <ContentTemplate>
                         <div class="d-flex justify-content-between align-items-end flex-wrap">
-                            <button type="button" class="btn btn-light bg-white btn-icon mr-3 d-none d-md-block ">
-                                <i class="mdi mdi-download text-muted"></i>
-                            </button>
-                            <button type="button" class="btn btn-light bg-white btn-icon mr-3 mt-2 mt-xl-0">
-                                <i class="mdi mdi-clock-outline text-muted"></i>
-                            </button>
-                            <asp:Button ID="BtnReporteSummary" class="btn btn-primary mt-2 mt-xl-0" runat="server" Text="Descargar Reporte" OnClick="BtnReporteSummary_Click"  />
+                            
+                            <asp:Button ID="BtnReporteSummary" class="btn btn-primary mt-2 mt-xl-0" runat="server" Text="Descargar Reporte" OnClientClick="window.open('dashboard.aspx','_blank');" OnClick="BtnReporteSummary_Click"  />
+                            
                         </div>
                     </ContentTemplate>
                 </asp:UpdatePanel>
@@ -108,6 +108,7 @@
                                         PagerStyle-CssClass="pager"
                                         HeaderStyle-CssClass="header"
                                         RowStyle-CssClass="rows"
+                                        GridLines="None" 
                                         AutoGenerateColumns="false" OnRowCommand="GVBusqueda_RowCommand">
                                         <Columns>
                                             <asp:TemplateField HeaderText="Select" HeaderStyle-Width="150px">

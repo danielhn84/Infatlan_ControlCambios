@@ -1,6 +1,7 @@
 ﻿using ControlCambios.classes;
 using ControlCambios.messages;
 using ControlCambios.pages.services;
+using Microsoft.Reporting.WebForms;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -173,7 +174,13 @@ namespace ControlCambios
 
         protected void BtnReporteSummary_Click(object sender, EventArgs e)
         {
-            Mensaje("Reportes en construcción.", WarningType.Info);
+            try
+            {
+                
+           
+            }
+            catch (Exception Ex) { Mensaje(Ex.Message, WarningType.Danger); }
+            
         }
     }
 }

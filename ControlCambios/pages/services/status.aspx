@@ -46,9 +46,10 @@
                                         PagerStyle-CssClass="pager"
                                         HeaderStyle-CssClass="header"
                                         RowStyle-CssClass="rows"
+                                        GridLines="None"
                                         AutoGenerateColumns="false" OnRowCommand="GVNotificaciones_RowCommand">
                                         <Columns>
-                                            <asp:TemplateField HeaderText="Select" HeaderStyle-Width="150px">
+                                            <asp:TemplateField HeaderText="Select" HeaderStyle-Width="150px" Visible="false">
                                                 <HeaderTemplate>
                                                     Notificación
                                                 </HeaderTemplate>

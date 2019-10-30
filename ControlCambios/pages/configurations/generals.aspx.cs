@@ -383,6 +383,52 @@ namespace ControlCambios.pages.configurations
             catch (Exception Ex) { Mensaje(Ex.Message, WarningType.Danger); }
         }
 
-        
+        protected void TxBuscarEquipo_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                String vBusqueda = TxBuscarEquipo.Text;
+                DataTable vDatos =  (DataTable)Session["DATOSEQUIPOS"];
+
+                if (vBusqueda.Equals(""))
+                {
+                    GVBusquedaEquipos.DataSource = vDatos;
+                    GVBusquedaEquipos.DataBind();
+                    UpdateGridView.Update();
+                }
+                else
+                {
+                    EnumerableRowCollection<DataRow> filtered = vDatos.AsEnumerable()
+                        .Where(r => r.Field<String>("nombre").Contains(vBusqueda)
+                        || r.Field<String>("ip").Contains(vBusqueda)
+                        || r.Field<String>("ubicacion").Contains(vBusqueda));
+
+
+                    DataTable vDatosFiltrados = new DataTable();
+                    vDatosFiltrados.Columns.Add("idCatEquipo");
+                    vDatosFiltrados.Columns.Add("nombre");
+                    vDatosFiltrados.Columns.Add("tipoEquipo");
+                    vDatosFiltrados.Columns.Add("ip");
+                    vDatosFiltrados.Columns.Add("ubicacion");
+                    foreach (DataRow item in filtered)
+                    {
+                        vDatosFiltrados.Rows.Add(
+                            item["idCatEquipo"].ToString(),
+                            item["nombre"].ToString(),
+                            item["tipoEquipo"].ToString(),
+                            item["ip"].ToString(),
+                            item["ubicacion"].ToString()
+                            );
+                    }
+
+                    GVBusquedaEquipos.DataSource = vDatosFiltrados;
+                    GVBusquedaEquipos.DataBind();
+                    UpdateGridView.Update();
+                }
+
+                
+            }
+            catch (Exception Ex) { Mensaje(Ex.Message, WarningType.Danger); }
+        }
     }
 }

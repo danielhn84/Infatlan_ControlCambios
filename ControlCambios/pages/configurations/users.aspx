@@ -28,7 +28,7 @@
     </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <div class="container">
+    <div class="container col-md-12 grid-margin">
 	    <div class="row align-top">
 		    <ul class="breadcrumb">
 			    <li class="completed"><a href="/default.aspx">Dashboard</a></li>
@@ -284,6 +284,7 @@
                                                         RowStyle-CssClass="rows"
                                                         AutoGenerateColumns="false"
                                                         AllowPaging="true"
+                                                        GridLines="None"
                                                         PageSize="10" OnPageIndexChanging="GVBusqueda_PageIndexChanging" OnRowCommand="GVBusqueda_RowCommand">
                                                         <Columns>
                                                             <asp:TemplateField HeaderText="Select" HeaderStyle-Width="60px">

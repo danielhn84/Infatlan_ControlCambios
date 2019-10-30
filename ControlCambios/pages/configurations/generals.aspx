@@ -28,7 +28,7 @@
     </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <div class="container">
+    <div class="container col-md-12 grid-margin">
 	    <div class="row align-top">
 		    <ul class="breadcrumb">
 			    <li class="completed"><a href="/default.aspx">Dashboard</a></li>
@@ -149,7 +149,18 @@
                     <div class="card">
                         <div class="card-body">
                             <h4 class="card-title">Equipos creados</h4>
-
+                             <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Buscar</label>
+                                    <div class="col-sm-9">
+                                        <asp:UpdatePanel ID="UpdatePanel5" runat="server">
+                                            <ContentTemplate>
+                                                <asp:TextBox ID="TxBuscarEquipo" runat="server" placeholder="Ej. 150.150.1.1 / BASA" class="form-control" AutoPostBack="true" OnTextChanged="TxBuscarEquipo_TextChanged"></asp:TextBox>
+                                            </ContentTemplate>
+                                        </asp:UpdatePanel>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="table-responsive">
                                     <asp:UpdatePanel ID="UpdateGridView" runat="server" UpdateMode="Conditional">
@@ -161,6 +172,8 @@
                                                 RowStyle-CssClass="rows"
                                                 AutoGenerateColumns="false"
                                                 AllowPaging="true"
+                                                GridLines="None"
+                                                AllowSorting="True"
                                                 PageSize="10" OnPageIndexChanging="GVBusquedaEquipos_PageIndexChanging" OnRowCommand="GVBusquedaEquipos_RowCommand">
                                                 <Columns>
                                                     <asp:TemplateField HeaderText="Select" HeaderStyle-Width="60px" >
@@ -179,11 +192,19 @@
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
                                                     <asp:BoundField DataField="idCatEquipo" HeaderText="Id" />
-                                                    <asp:BoundField DataField="nombre" HeaderText="Nombre" />
+                                                    <asp:BoundField DataField="nombre" HeaderText="Nombre"  />
                                                     <asp:BoundField DataField="tipoEquipo" HeaderText="Tipo" />
                                                     <asp:BoundField DataField="ip" HeaderText="IP" />
                                                     <asp:BoundField DataField="ubicacion" HeaderText="Ubicación" />
                                                 </Columns>
+                                                 
+                        
+                                                <PagerStyle  HorizontalAlign="Center" />  
+                                                <SelectedRowStyle BackColor="#000099" Font-Bold="True" ForeColor="White" />  
+                                                <SortedAscendingCellStyle BackColor="#F1F1F1" />  
+                                                <SortedAscendingHeaderStyle BackColor="#808080" />  
+                                                <SortedDescendingCellStyle BackColor="#CAC9C9" />  
+                                                <SortedDescendingHeaderStyle BackColor="#383838" />  
                                             </asp:GridView>
                                         </ContentTemplate>
                                     </asp:UpdatePanel>
@@ -266,7 +287,7 @@
                     </div>
                 </div>
             </div>
-
+            
             <div class="row">
                 <div class="col-12 grid-margin stretch-card">
                     <div class="card">
@@ -284,6 +305,7 @@
                                                 RowStyle-CssClass="rows"
                                                 AutoGenerateColumns="false"
                                                 AllowPaging="true"
+                                                GridLines="None"
                                                 PageSize="10" OnPageIndexChanging="GVBusquedaSistemas_PageIndexChanging" OnRowCommand="GVBusquedaSistemas_RowCommand" >
                                                 <Columns>
                                                     <asp:TemplateField HeaderText="Select" HeaderStyle-Width="60px" Visible="false">

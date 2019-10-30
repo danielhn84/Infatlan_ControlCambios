@@ -2,6 +2,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <link href="/css/GridStyle.css" rel="stylesheet" />
     <link href="/css/breadcrumb.css" rel="stylesheet" />
+    <link href="/css/pager.css" rel="stylesheet" />
     <script type="text/javascript">
     function openModal() {
         $('#AutorizarModal').modal('show');
@@ -9,7 +10,7 @@
 </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <div class="container">
+    <div class="container col-md-12 grid-margin">
 	    <div class="row align-top">
 		    <ul class="breadcrumb">
 			    <li class="completed"><a href="/default.aspx">Dashboard</a></li>
@@ -94,10 +95,13 @@
                                         <ContentTemplate>
                                             <asp:GridView ID="GVBusqueda" runat="server"
                                                 CssClass="mydatagrid"
-                                                PagerStyle-CssClass="pager"
+                                                PagerStyle-CssClass="pgr"
                                                 HeaderStyle-CssClass="header"
                                                 RowStyle-CssClass="rows"
-                                                AutoGenerateColumns="false" OnRowCommand="GVBusqueda_RowCommand" >
+                                                GridLines="None"
+                                                AllowPaging="true"
+                                                PageSize="10"
+                                                AutoGenerateColumns="false" OnRowCommand="GVBusqueda_RowCommand" OnPageIndexChanging="GVBusqueda_PageIndexChanging" >
                                                 <Columns>
                                                     <asp:TemplateField HeaderText="Select" HeaderStyle-Width="60px">
                                                         <HeaderTemplate>

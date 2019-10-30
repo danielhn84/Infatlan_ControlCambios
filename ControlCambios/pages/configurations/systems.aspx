@@ -22,6 +22,7 @@
                             PagerStyle-CssClass="pager"
                             HeaderStyle-CssClass="header"
                             RowStyle-CssClass="rows"
+                            GridLines="None"
                             AutoGenerateColumns="false">
                             <Columns>
                                 <asp:TemplateField HeaderText="Select" HeaderStyle-Width="150px">
@@ -59,6 +60,7 @@
                             PagerStyle-CssClass="pager"
                             HeaderStyle-CssClass="header"
                             RowStyle-CssClass="rows"
+                            GridLines="None"
                             AutoGenerateColumns="false">
                             <Columns>
                                 <asp:TemplateField HeaderText="Select" HeaderStyle-Width="150px">

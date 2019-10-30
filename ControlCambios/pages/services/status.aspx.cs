@@ -29,7 +29,7 @@ namespace ControlCambios.pages.services
 
                     ObtenerAprobaciones();
                 }
-                LbCambio.Text = "1";//Convert.ToString(Session["CAMBIOCREADO"]);
+                LbCambio.Text = Convert.ToString(Session["CAMBIOCREADO"]);
             }
         }
 
@@ -43,41 +43,128 @@ namespace ControlCambios.pages.services
                 vDatos.Columns.Add("usuario");
                 vDatos.Columns.Add("estado");
                 vDatos.Columns.Add("fechaCreacion");
+                VerificarAprobadores(vConector, ref vDatos);
 
-                msgInfoAprobaciones vInfoAprobacionesRequest = new msgInfoAprobaciones()
+                if (vDatos.Rows.Count == 0)
                 {
-                    tipo = "3",
-                    idaprobacion = Convert.ToString(Session["CAMBIOCREADO"])
-                };
-                String vResponseAprobaciones = "";
-                HttpResponseMessage vHttpResponseAprobaciones = vConector.PostInfoAprobaciones(vInfoAprobacionesRequest, ref vResponseAprobaciones);
-
-                if (vHttpResponseAprobaciones.StatusCode == System.Net.HttpStatusCode.OK)
-                {
-                    msgInfoAprobacionesQueryResponse vInfoAprobacionesResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgInfoAprobacionesQueryResponse>(vResponseAprobaciones);
-                    if (vInfoAprobacionesResponse.resultSet1.Count() > 0)
+                    msgInfoUsuarios vUsuariosRequest = new msgInfoUsuarios() { tipo = "2", usuario = vConfigurations.resultSet1[0].idUsuario };
+                    String vUsuarioResponse = String.Empty;
+                    HttpResponseMessage vHttpResponseUsuarios = vConector.PostInfoUsuarios(vUsuariosRequest, ref vUsuarioResponse);
+                    if (vHttpResponseUsuarios.StatusCode == System.Net.HttpStatusCode.OK)
                     {
-                        foreach (msgInfoAprobacionesQueryResponseItem item in vInfoAprobacionesResponse.resultSet1)
+                        msgInfoUsuariosQueryResponse vInfoUsuariosResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgInfoUsuariosQueryResponse>(vUsuarioResponse);
+                        if (vInfoUsuariosResponse.resultSet1.Count() > 0)
                         {
-                            EnviarMensaje();
+                            foreach (msgInfoUsuariosQueryResponseItem itemUsuarios in vInfoUsuariosResponse.resultSet1)
+                            {
 
-                            vDatos.Rows.Add(
-                                item.idUsuarioAprobador,
-                                (Convert.ToBoolean(item.estado) == false ? "Pendiente" : "Aprobada"),
-                                item.fechaCreacion);
+                                String Aprobador = String.Empty;
+                                msgInfoMantenimientos vRequestMantenimiento = new msgInfoMantenimientos()
+                                {
+                                    tipo = "3",
+                                    idmantenimiento = Convert.ToString(Session["CAMBIOCREADO"])
+                                };
+
+                                String vResponseMantenimientos = "";
+                                HttpResponseMessage vHttpResponseMantenimientos = vConector.PostInfoMantenimientos(vRequestMantenimiento, ref vResponseMantenimientos);
+                                if (vHttpResponseMantenimientos.StatusCode == System.Net.HttpStatusCode.OK)
+                                {
+                                    msgInfoMantenimientosQueryResponse vInfoMantenimientosResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgInfoMantenimientosQueryResponse>(vResponseMantenimientos);
+                                    if (vInfoMantenimientosResponse.resultSet1.Count() > 0)
+                                    {
+                                        foreach (msgInfoMantenimientosQueryResponseItem itemMantenimiento in vInfoMantenimientosResponse.resultSet1)
+                                        {
+                                            if (itemMantenimiento.idTipoCambio.Equals("1"))
+                                            {
+                                                if (itemUsuarios.dependenciaSTD != null)
+                                                {
+                                                    if (itemUsuarios.dependenciaSTD.Equals(""))
+                                                        Aprobador = itemUsuarios.dependencia;
+                                                    else
+                                                        Aprobador = itemUsuarios.dependenciaSTD;
+                                                }
+                                                else
+                                                    Aprobador = itemUsuarios.dependencia;
+                                            }
+                                            else
+                                                Aprobador = itemUsuarios.dependencia;
+                                        }
+                                    }
+                                }
+
+
+                                msgInfoAprobaciones vInfoAprobacionesReinsertRequest = new msgInfoAprobaciones()
+                                {
+                                    tipo = "1",
+                                    idaprobacion = "",
+                                    aprobador = Aprobador,
+                                    estado = "0",
+                                    usuario = vConfigurations.resultSet1[0].idUsuario
+                                };
+                                String vResponseAprobacionesReinsert = "";
+                                HttpResponseMessage vHttpResponseAprobacionesReinsert = vConector.PostInfoAprobaciones(vInfoAprobacionesReinsertRequest, ref vResponseAprobacionesReinsert);
+                                if (vHttpResponseAprobacionesReinsert.StatusCode == System.Net.HttpStatusCode.OK)
+                                {
+                                    msgInfoAprobacionesCreateResponse vInfoAprobacionesResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgInfoAprobacionesCreateResponse>(vResponseAprobacionesReinsert);
+                                    if (vInfoAprobacionesResponse.updateCount1.Equals("1"))
+                                    {
+                                        //INGRESO DE IDCAMBIO REL IDEQUIPOS
+                                        msgRelacionesCambios vRelAprobacionesRequest = new msgRelacionesCambios()
+                                        {
+                                            tipo = "2",
+                                            subtipo = "1", //CREATE
+                                            principal = Convert.ToString(Session["CAMBIOCREADO"]),
+                                            secundario = vInfoAprobacionesResponse.resultSet1[0].idAprobacion
+                                        };
+
+                                        String vRelAprobacionesResponse = "";
+                                        HttpResponseMessage vHttpResponseRelPruebas = vConector.PostRelacionesCambios(vRelAprobacionesRequest, ref vRelAprobacionesResponse);
+                                    }
+                                }
+                            }
                         }
                     }
+
+                    VerificarAprobadores(vConector, ref vDatos);
                 }
 
                 GVNotificaciones.DataSource = vDatos;
                 GVNotificaciones.DataBind();
 
             }
-                
+
             catch (Exception)
             {
 
                 throw;
+            }
+        }
+
+        private void VerificarAprobadores(HttpService vConector,ref DataTable vDatos)
+        {
+            msgInfoAprobaciones vInfoAprobacionesRequest = new msgInfoAprobaciones()
+            {
+                tipo = "3",
+                idaprobacion = Convert.ToString(Session["CAMBIOCREADO"])
+            };
+            String vResponseAprobaciones = "";
+            HttpResponseMessage vHttpResponseAprobaciones = vConector.PostInfoAprobaciones(vInfoAprobacionesRequest, ref vResponseAprobaciones);
+
+            if (vHttpResponseAprobaciones.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                msgInfoAprobacionesQueryResponse vInfoAprobacionesResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgInfoAprobacionesQueryResponse>(vResponseAprobaciones);
+                if (vInfoAprobacionesResponse.resultSet1.Count() > 0)
+                {
+                    foreach (msgInfoAprobacionesQueryResponseItem item in vInfoAprobacionesResponse.resultSet1)
+                    {
+                        EnviarMensaje();
+
+                        vDatos.Rows.Add(
+                            item.idUsuarioAprobador,
+                            (Convert.ToBoolean(item.estado) == false ? "Pendiente" : "Aprobada"),
+                            item.fechaCreacion);
+                    }
+                }
             }
         }
 

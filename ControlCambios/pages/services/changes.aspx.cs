@@ -93,7 +93,9 @@ namespace ControlCambios.pages.services
                                     {
                                         if (item.pasos.Equals("0"))
                                         {
-
+                                            BtnAutorizarQA.Visible = false;
+                                            BtnAsignarUsuario.Text = "Asignar QA";
+                                            BtnAsignarUsuario.CssClass = "btn btn-light bg-white mr-2 ";
                                         }
                                         if (item.pasos.Equals("1"))
                                         {
@@ -101,6 +103,7 @@ namespace ControlCambios.pages.services
                                             if (vConfigurations.resultSet1[0].idCargo.Equals("1") || vConfigurations.resultSet1[0].idCargo.Equals("4"))
                                             {
                                                 BtnGuardarCambio.Text = "Modificar";
+                                                BtnAsignarUsuario.Visible = false;
                                                 Mensaje("Permisos de Edición", WarningType.Success);
                                             }
                                             else
@@ -108,8 +111,6 @@ namespace ControlCambios.pages.services
                                                 DeshabilitarPaso1();
                                                 
                                             }
-                                            
-                                            
 
                                             LIPaso2.Visible = true;
                                             CargarrQADatosPromotor(item.idcambio);
@@ -535,6 +536,9 @@ namespace ControlCambios.pages.services
             BtnGuardarCambio.Text = "Bloqueado";
             BtnGuardarCambio.CssClass = "btn btn-primary mr-2";
 
+
+
+
             BtnAsignarUsuario.Visible = false;
 
         }
@@ -692,8 +696,16 @@ namespace ControlCambios.pages.services
                             Session["MANTENIMIENTOSESSION"] = itemCambio.idMantenimiento;
                             Session["CALENDARIOSESSION"] = itemCambio.idCalendario;
 
-                            BtnAsignarUsuario.Text = "" + itemCambio.idUsuarioResponsable;
-                            BtnAsignarUsuario.CssClass = "btn btn-success mr-2 ";
+                            if (itemCambio.idUsuarioResponsable.Equals(""))
+                            {
+                                BtnAsignarUsuario.Text = "Asignar QA";
+                                BtnAsignarUsuario.CssClass = "btn btn-light bg-white mr-2 ";
+                            }
+                            else
+                            {
+                                BtnAsignarUsuario.Text = "" + itemCambio.idUsuarioResponsable;
+                                BtnAsignarUsuario.CssClass = "btn btn-success mr-2 ";
+                            }
                             Session["USUARIOASIGNADO"] = itemCambio.idUsuarioResponsable;
 
                             if (itemCambio.idResolucion.Equals("1"))
@@ -2180,6 +2192,12 @@ namespace ControlCambios.pages.services
                 vConfigurations = (msgLoginResponse)Session["AUTHCLASS"];
                 Validaciones();
 
+                Generales vGenerales = new Generales();
+
+                if (!vGenerales.PermisosEntrada(Permisos.Promotor, vConfigurations.resultSet1[0].idCargo) && !vGenerales.PermisosEntrada(Permisos.Implementador, vConfigurations.resultSet1[0].idCargo))
+                    throw new Exception("No tienes permisos para realizar esta accion.");
+             
+
 
                 if (Convert.ToBoolean(Session["CIERRE"]))
                 {
@@ -2552,6 +2570,7 @@ namespace ControlCambios.pages.services
             Session["CIERRE"] = null;
 
             Session["CABIMPLEMTADORES"] = null;
+
         }
 
         protected void DDLTipoMantenimiento_SelectedIndexChanged(object sender, EventArgs e)
@@ -2951,6 +2970,7 @@ namespace ControlCambios.pages.services
                 }
                 else //----------------------------------------------------------------------------------------------
                 {
+
                     //MANTENIMIENTOS
                     msgInfoMantenimientos vRequestMantenimiento = new msgInfoMantenimientos()
                     {
@@ -3173,7 +3193,7 @@ namespace ControlCambios.pages.services
                             Session["CAMBIOCREADO"] = vIdCambioCreado;
                             if (!vIdCambioCreado.Equals(""))
                             {
-
+                                
                                 msgInfoUsuarios vUsuariosRequest = new msgInfoUsuarios() { tipo = "2", usuario = vConfigurations.resultSet1[0].idUsuario };
                                 String vUsuarioResponse = String.Empty;
                                 HttpResponseMessage vHttpResponseUsuarios = vConector.PostInfoUsuarios(vUsuariosRequest, ref vUsuarioResponse);
@@ -3669,6 +3689,9 @@ namespace ControlCambios.pages.services
                     {
 
                         vDatosCabImplementadores = (DataTable)Session["CABIMPLEMTADORES"];
+
+                        if (vDatosCabImplementadores == null)
+                            throw new Exception("Ingresa los implementadores del cambio");
 
                         foreach (DataRow item in vDatosCabImplementadores.Rows)
                         {
@@ -4607,7 +4630,7 @@ namespace ControlCambios.pages.services
                             {
                                 msgInfoUsuarios vRequest = new msgInfoUsuarios()
                                 {
-                                    tipo = "5"
+                                    tipo = "11"
                                 };
 
                                 String vResponseResult = "";

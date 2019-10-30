@@ -2,6 +2,7 @@
     width: 100%;
     border: solid 1px transparent;
     min-width: 80%;
+    border-collapse: collapse;
 }
 
 .header {
@@ -10,10 +11,10 @@
     font-size: smaller;
     color: #808080;
     border: none 0px transparent;
- 
     height: 25px;
     text-align: center;
     font-size: 16px;
+    
 }
 
 .rows {

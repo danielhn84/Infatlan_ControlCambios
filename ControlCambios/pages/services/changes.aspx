@@ -54,7 +54,7 @@
             </div>
         </ProgressTemplate>
     </asp:UpdateProgress>
-    <div class="container">
+    <div class="container col-md-12 grid-margin">
 	    <div class="row align-top">
 		    <ul class="breadcrumb">
 			    <li class="completed"><a href="/default.aspx">Dashboard</a></li>
@@ -421,6 +421,7 @@
                                                         PagerStyle-CssClass="pager"
                                                         HeaderStyle-CssClass="header"
                                                         RowStyle-CssClass="rows"
+                                                        GridLines="None"
                                                         AutoGenerateColumns="false" OnRowCommand="GVSistemas_RowCommand">
                                                         <Columns>
                                                             <asp:TemplateField HeaderText="Select" HeaderStyle-Width="150px">
@@ -464,6 +465,7 @@
                                                         PagerStyle-CssClass="pager"
                                                         HeaderStyle-CssClass="header"
                                                         RowStyle-CssClass="rows"
+                                                        GridLines="None"
                                                         AutoGenerateColumns="false"
                                                         OnRowCommand="GVEquipos_RowCommand">
                                                         <Columns>
@@ -504,6 +506,7 @@
                                                     <asp:GridView ID="GVPersonal" runat="server"
                                                         CssClass="mydatagrid"
                                                         PagerStyle-CssClass="pager"
+                                                        GridLines="None"
                                                         HeaderStyle-CssClass="header"
                                                         RowStyle-CssClass="rows"
                                                         AutoGenerateColumns="false" OnRowCommand="GVPersonal_RowCommand">
@@ -547,6 +550,7 @@
                                                         PagerStyle-CssClass="pager"
                                                         HeaderStyle-CssClass="header"
                                                         RowStyle-CssClass="rows"
+                                                        GridLines="None"
                                                         AutoGenerateColumns="false" OnRowCommand="GVComunicaciones_RowCommand">
                                                         <Columns>
                                                             <asp:TemplateField HeaderText="Select" HeaderStyle-Width="150px">
@@ -595,6 +599,7 @@
                                                         PagerStyle-CssClass="pager"
                                                         HeaderStyle-CssClass="header"
                                                         RowStyle-CssClass="rows"
+                                                        GridLines="None"
                                                         AutoGenerateColumns="false"
                                                         OnRowCommand="GVProcedimientos_RowCommand">
                                                         <Columns>
@@ -645,6 +650,7 @@
                                                         CssClass="mydatagrid"
                                                         PagerStyle-CssClass="pager"
                                                         HeaderStyle-CssClass="header"
+                                                        GridLines="None"
                                                         RowStyle-CssClass="rows"
                                                         AutoGenerateColumns="false" OnRowCommand="GVRollback_RowCommand">
                                                         <Columns>
@@ -695,6 +701,7 @@
                                                         PagerStyle-CssClass="pager"
                                                         HeaderStyle-CssClass="header"
                                                         RowStyle-CssClass="rows"
+                                                        GridLines="None"
                                                         AutoGenerateColumns="false" OnRowCommand="GVPruebas_RowCommand">
                                                         <Columns>
                                                             <asp:TemplateField HeaderText="Select" HeaderStyle-Width="150px">
@@ -759,7 +766,7 @@
                                             <div class="col-md-6">
                                                 <div class="form-group row">                                            
                                                     <div class="col-sm-9">
-                                                        <asp:Label ID="LbNombreDeposito1" runat="server" Text="Label"></asp:Label>
+                                                        <asp:Label ID="LbNombreDeposito1" runat="server" Text=""></asp:Label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -786,7 +793,7 @@
                                             <div class="col-md-6">
                                                 <div class="form-group row">                                            
                                                     <div class="col-sm-9">
-                                                        <asp:Label ID="LbNombreDeposito2" runat="server" Text="Label"></asp:Label>
+                                                        <asp:Label ID="LbNombreDeposito2" runat="server" Text=""></asp:Label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -813,7 +820,7 @@
                                             <div class="col-md-6">
                                                 <div class="form-group row">                                            
                                                     <div class="col-sm-9">
-                                                        <asp:Label ID="LbNombreDeposito3" runat="server" Text="Label"></asp:Label>
+                                                        <asp:Label ID="LbNombreDeposito3" runat="server" Text=""></asp:Label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1042,6 +1049,7 @@
                                                         PagerStyle-CssClass="pager"
                                                         HeaderStyle-CssClass="header"
                                                         RowStyle-CssClass="rows"
+                                                        GridLines="None"
                                                         AutoGenerateColumns="false" OnRowCommand="GVCABImplementadores_RowCommand">
                                                         <Columns>
                                                             <asp:TemplateField HeaderText="Select" HeaderStyle-Width="150px">
@@ -1142,6 +1150,7 @@
                                                 HeaderStyle-CssClass="header"
                                                 RowStyle-CssClass="rows"
                                                 AutoGenerateColumns="false"
+                                                GridLines="None"
                                                 OnRowCommand="GVProcedimientos_RowCommand">
                                                 <Columns>
                                                     <asp:BoundField DataField="responsable" HeaderText="Responsable" Visible="false" />
@@ -1178,6 +1187,7 @@
                                                 PagerStyle-CssClass="pager"
                                                 HeaderStyle-CssClass="header"
                                                 RowStyle-CssClass="rows"
+                                                GridLines="None"
                                                 AutoGenerateColumns="false" OnRowCommand="GVRollback_RowCommand">
                                                 <Columns>
                                                     <asp:BoundField DataField="responsable" HeaderText="Responsable" />
@@ -1213,6 +1223,7 @@
                                                 PagerStyle-CssClass="pager"
                                                 HeaderStyle-CssClass="header"
                                                 RowStyle-CssClass="rows"
+                                                GridLines="None"
                                                 AutoGenerateColumns="false" OnRowCommand="GVPruebas_RowCommand">
                                                 <Columns>
                                                     <asp:BoundField DataField="responsable" HeaderText="Responsable" />
@@ -2088,7 +2099,7 @@
         </div>
     </div>
 
-    <%--MODAL DE CONFIRMACION QA--%>
+    <%--MODAL DE CIERRE QA--%>
     <div class="modal fade" id="CierreFinalModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
