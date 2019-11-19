@@ -28,7 +28,7 @@
                         placement: { from: from, align: align }
                     });
             }
-        }
+        } 
     </script>
     <script>
         function button_click(objTextBox, objBtnID) {
@@ -36,7 +36,7 @@
                 document.getElementById(objBtnID).focus();
                 document.getElementById(objBtnID).click();
             }
-        }
+        } 
     </script>
     <style>
         /* Fixed/sticky icon bar (vertically aligned 50% from the top of the screen) */
@@ -79,7 +79,7 @@
     </asp:ContentPlaceHolder>
 </head>
 <body>
-
+    <!-- TEST GITHUB -->
     <form id="FrmCambios" runat="server">
         <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
 
