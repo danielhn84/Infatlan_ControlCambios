@@ -1897,7 +1897,7 @@ namespace ControlCambios.pages.services
                 GVProcedimientos.DataBind();
                 Session["DATAPROCEDIMIENTOS"] = vDatosProcedimientos;
             }
-            catch (Exception Ex) { LbMensajeProcedimientos.Text = Ex.Message; }
+            catch (Exception Ex) { Mensaje(Ex.Message, WarningType.Danger); }
         }
 
         protected void BtnCrearRollback_Click(object sender, EventArgs e)

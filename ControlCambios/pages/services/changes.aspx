@@ -2143,7 +2143,7 @@
             // Smart Wizard
             $('#smartwizard').smartWizard({
                 selected: 0,
-                theme: 'arrows',
+                theme: 'circles',
                 transitionEffect: 'fade',
                 toolbarSettings: {
                     toolbarPosition: 'none'

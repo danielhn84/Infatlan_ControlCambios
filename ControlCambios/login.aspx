@@ -70,7 +70,7 @@
                         </div>
                     </div>
                     <div class="col-lg-6 login-half-bg d-flex flex-row">
-                        <p class="text-white font-weight-medium text-center flex-grow align-self-end">Copyright Infatlan &copy; 2019  Derechos Reservados.</p>
+                        <p class="text-black font-weight-medium text-center flex-grow align-self-end">Copyright Infatlan &copy; 2019  Derechos Reservados.</p>
                     </div>
                 </div>
             </div>

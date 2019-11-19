@@ -5,15 +5,19 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <link href="/css/GridStyle.css" rel="stylesheet" />
     <link href="/css/breadcrumb.css" rel="stylesheet" />
+
+    
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
+    
+
     <div class="container col-md-12 grid-margin">
-	    <div class="row align-top">
-		    <ul class="breadcrumb">
-			    <li class="active"><a href="/default.aspx">Dashboard</a></li>
-		    </ul>
-	    </div>
+        <div class="row align-top">
+            <ul class="breadcrumb">
+                <li class="active"><a href="/default.aspx">Dashboard</a></li>
+            </ul>
+        </div>
     </div>
 
     <div class="row">
@@ -24,14 +28,14 @@
                         <h2>Control de Cambios</h2>
                         <p class="mb-md-0">Pagina de Inicio</p>
                     </div>
-                    
+
                 </div>
                 <asp:UpdatePanel ID="UpdatePanel1" runat="server">
                     <ContentTemplate>
-                        <div class="d-flex justify-content-between align-items-end flex-wrap">
-                            
-                            <asp:Button ID="BtnReporteSummary" class="btn btn-primary mt-2 mt-xl-0" runat="server" Text="Descargar Reporte" OnClientClick="window.open('dashboard.aspx','_blank');" OnClick="BtnReporteSummary_Click"  />
-                            
+                        <div class="d-flex justify-content-between align-items-end flex-wrap" runat="server" id="divBtnDashboard" visible="false">
+
+                            <asp:Button ID="BtnReporteSummary" class="btn btn-primary mt-2 mt-xl-0" runat="server" Text="Descargar Reporte" OnClientClick="window.open('dashboard.aspx','_blank');" OnClick="BtnReporteSummary_Click" />
+
                         </div>
                     </ContentTemplate>
                 </asp:UpdatePanel>
@@ -108,7 +112,7 @@
                                         PagerStyle-CssClass="pager"
                                         HeaderStyle-CssClass="header"
                                         RowStyle-CssClass="rows"
-                                        GridLines="None" 
+                                        GridLines="None"
                                         AutoGenerateColumns="false" OnRowCommand="GVBusqueda_RowCommand">
                                         <Columns>
                                             <asp:TemplateField HeaderText="Select" HeaderStyle-Width="150px">
@@ -122,7 +126,7 @@
                                             <asp:BoundField DataField="idcambio" HeaderText="No.Cambio" />
                                             <asp:BoundField DataField="mantenimientoNombre" HeaderText="Nombre" />
                                             <asp:BoundField DataField="fechaSolicitud" HeaderText="Fecha" />
-                                            <asp:BoundField DataField="idUsuarioResponsable" HeaderText="Asignado" Visible ="false"/>
+                                            <asp:BoundField DataField="idUsuarioResponsable" HeaderText="Asignado" Visible="false" />
                                             <asp:BoundField DataField="estado" HeaderText="Estado" />
                                         </Columns>
                                     </asp:GridView>

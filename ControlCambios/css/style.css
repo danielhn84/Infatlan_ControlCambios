@@ -21134,7 +21134,7 @@ dl li {
 /* Sidebar */
 .sidebar {
     min-height: calc(100vh - 60px);
-    background: #f3f3f3;
+    background: #f8f9fa;
     font-family: "Roboto", sans-serif;
     font-weight: 400;
     padding: 0;
@@ -21433,12 +21433,12 @@ dl li {
 }
 
 .navbar .navbar-menu-wrapper {
-  background: #ffffff;
+  background: #3b579d;
   transition: width 0.25s ease;
   -webkit-transition: width 0.25s ease;
   -moz-transition: width 0.25s ease;
   -ms-transition: width 0.25s ease;
-  color: #9b9b9b;
+  color: #ffffff;
   padding-left: 1.062rem;
   padding-right: 1.062rem;
   width: calc(100% - 257px);
@@ -21493,7 +21493,7 @@ dl li {
 }
 
 .navbar .navbar-menu-wrapper .navbar-nav .nav-item.nav-search .input-group {
-  background: #ececec;
+  background: #ffffff;
   border-radius: 4px;
   padding: 0 .75rem;
 }
@@ -21502,7 +21502,7 @@ dl li {
 .navbar .navbar-menu-wrapper .navbar-nav .nav-item.nav-search .input-group .input-group-text {
   background: transparent;
   border: 0;
-  color: #000;
+  color: #fff;
   padding: 0;
 }
 
@@ -21568,7 +21568,7 @@ dl li {
 .navbar .navbar-menu-wrapper .navbar-nav .nav-item.nav-profile .nav-link .nav-profile-name {
   margin-left: .5rem;
   margin-right: .5rem;
-  color: #4a4a4a;
+  color: #fff;
   font-weight: 500;
 }
 
@@ -21579,7 +21579,7 @@ dl li {
 }
 
 .navbar .navbar-menu-wrapper .navbar-nav .nav-item.nav-profile .nav-link::after {
-  color: #4a4a4a;
+  color: #fff;
 }
 
 .navbar .navbar-menu-wrapper .navbar-nav .nav-item.dropdown .dropdown-menu {

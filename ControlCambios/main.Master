@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="/vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="/vendors/base/vendor.bundle.base.css">
     <link rel="stylesheet" href="/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
-    <link rel="stylesheet" href="/css/animate.min.css"  />
+    <link rel="stylesheet" href="/css/animate.min.css" />
     <link rel="stylesheet" href="/css/style.css">
     <link rel="shortcut icon" href="/images/logo_mini.png" />
 
@@ -38,18 +38,54 @@
             }
         }
     </script>
+    <style>
+        /* Fixed/sticky icon bar (vertically aligned 50% from the top of the screen) */
+        .icon-bar {
+            position: fixed;
+            top: 95%;
+            -webkit-transform: translateY(-50%);
+            -ms-transform: translateY(-50%);
+            transform: translateY(-50%) translateX(30%);
+        }
 
+            /* Style the icon bar links */
+            .icon-bar a {
+                display: block;
+                text-align: center;
+                padding: 5px;
+                transition: all 0.3s ease;
+                color: white;
+                font-size: 14px;
+            }
+
+                /* Style the social media icons with color, if you want */
+                .icon-bar a:hover {
+                    background-color: indianred;
+                    color: #fff;
+                    text-decoration: solid;
+                }
+
+        .bug {
+            background: #27367f;
+            color: white;
+        }
+    </style>
+    <script type="text/javascript">
+        function openBugModal() {
+            $('#BugsModal').modal('show');
+        }
+    </script>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
-<body >
+<body>
 
     <form id="FrmCambios" runat="server">
         <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
 
-        <div class="container-scroller">
-            <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
-                <div class="navbar-brand-wrapper d-flex justify-content-center">
+        <div class="container-scroller ">
+            <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row ">
+                <div class="navbar-brand-wrapper d-flex justify-content-center ">
                     <div class="navbar-brand-inner-wrapper d-flex justify-content-between align-items-center w-100">
                         <a class="navbar-brand brand-logo" href="#">
                             <img src="/images/logo.png" alt="logo" /></a>
@@ -60,7 +96,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+                <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end ">
                     <ul class="navbar-nav mr-lg-4 w-100">
                         <li class="nav-item nav-search d-none d-lg-block w-100">
                             <div class="input-group">
@@ -71,10 +107,10 @@
                                 </div>
                                 <asp:UpdatePanel ID="UpdateMensaje" runat="server">
                                     <ContentTemplate>
-                                        <asp:TextBox ID="TxBuscarCambio" class="form-control" placeholder="Buscar cambio por nombre" aria-label="search" aria-describedby="search" runat="server" OnTextChanged="TxBuscarCambio_TextChanged" style="width: 600px;" ></asp:TextBox>
+                                        <asp:TextBox ID="TxBuscarCambio" class="form-control" placeholder="Buscar cambio por nombre" aria-label="search" aria-describedby="search" runat="server" OnTextChanged="TxBuscarCambio_TextChanged" Style="width: 600px;"></asp:TextBox>
                                     </ContentTemplate>
                                 </asp:UpdatePanel>
-                                
+
                             </div>
                         </li>
                     </ul>
@@ -116,19 +152,11 @@
                 </div>
             </nav>
 
-            <div class="container-fluid page-body-wrapper" >
+            <div class="container-fluid page-body-wrapper">
                 <!-- partial:partials/_sidebar.html -->
-                <nav class="sidebar sidebar-offcanvas" id="sidebar" >
+                <nav class="sidebar sidebar-icon-only" id="sidebar">
                     <ul class="nav">
-                        <li class="nav-item">
-                            <div class="nav-link">
-                                <a href="/pages/services/changes.aspx" class="btn btn-facebook btn-block" >
-                                    <i class="mdi mdi-creation menu-icon"></i>
-                                    <span class="menu-title">Crear Control</span>
 
-                                </a>
-                            </div>
-                        </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/default.aspx">
                                 <i class="mdi mdi-home menu-icon"></i>
@@ -149,7 +177,7 @@
                             </div>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/pages/customs/events.aspx" >
+                            <a class="nav-link" href="/pages/customs/events.aspx">
                                 <i class="mdi mdi-calendar menu-icon"></i>
                                 <span class="menu-title">Calendario</span>
                             </a>
@@ -178,14 +206,21 @@
                                 <span class="menu-title">Logs</span>
                             </a>
                         </li>
-                        
+
                     </ul>
+                    <div class="icon-bar">
+                        <a href="javascript:openBugModal()" class="bug"><i class="mdi mdi-bug"></i> Bugs</a>
+
+                    </div>
                 </nav>
 
                 <div class="main-panel">
                     <div class="content-wrapper">
+
                         <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
                         </asp:ContentPlaceHolder>
+
+
                     </div>
                     <footer class="footer">
                         <div class="d-sm-flex justify-content-center justify-content-sm-between">
@@ -193,6 +228,55 @@
                             <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Infatlan <i class="mdi mdi-network text-danger"></i></span>
                         </div>
                     </footer>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="BugsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="ModalLabelCierreFinal">Reportar Bug</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Error</label>
+                                    <div class="col-sm-9">
+                                        <asp:DropDownList ID="DDLBugTipos" runat="server" class="form-control">
+                                            <asp:ListItem Value="0">Seleccione un tipo</asp:ListItem>
+                                            <asp:ListItem Value="1">Error en información</asp:ListItem>
+                                            <asp:ListItem Value="2">Envio de correos</asp:ListItem>
+                                            <asp:ListItem Value="3">Procesos</asp:ListItem>
+                                            <asp:ListItem Value="4">Otros</asp:ListItem>
+                                        </asp:DropDownList>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Descripcion</label>
+                                    <div class="col-sm-9">
+                                        <asp:TextBox ID="TxBugDescripcion" placeholder="..." class="form-control" runat="server" TextMode="MultiLine"></asp:TextBox>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <asp:UpdatePanel ID="UpdatePanel14" runat="server">
+                            <ContentTemplate>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                <asp:Button ID="BtnBugInsert" runat="server" Text="Enviar" class="btn btn-success" />
+                            </ContentTemplate>
+                        </asp:UpdatePanel>
+                    </div>
                 </div>
             </div>
         </div>
