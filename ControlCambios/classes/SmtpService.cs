@@ -64,7 +64,7 @@ namespace ControlCambios.classes
                     case typeBody.QA:
                         mail.AlternateViews.Add(CreateHtmlMessage(PopulateBody(
                             Usuario,
-                            "Cambio #" + Cambio + " (" + Nombre + ") creado pendiente de autorización por los CAB Manager",
+                            "Cambio #" + Cambio + " (" + Nombre + ") creado, pendiente de autorización por el CAB Manager",
                             ConfigurationManager.AppSettings["Host"] + "/pages/services/search.aspx?busqueda=" + Nombre,
                             "Te informamos que el cambio ha sido certificado por QA y esta a la espera de tu revisión y autorización para proceder con el proceso, " +
                             "para autorizar el cambio entra al aplicativo y ve a la sección de cambios."
@@ -82,16 +82,16 @@ namespace ControlCambios.classes
                     case typeBody.Implementacion:
                         mail.AlternateViews.Add(CreateHtmlMessage(PopulateBody(
                             Usuario,
-                            "Cambio #" + Cambio + " (" + Nombre + ") esta implementado y pendiente de revisión por parte de QA",
+                            "Cambio #" + Cambio + " (" + Nombre + ") esta implementado y pendiente de revisión",
                             ConfigurationManager.AppSettings["Host"] + "/pages/services/search.aspx?busqueda=" + Nombre,
-                            "Te informamos que el cambio ha sido implementado y esta a la espera de tu revisión y certificación, " +
+                            "Te informamos que el cambio ha sido implementado y esta a la espera de la revisión y certificación por parte del implementador " +
                             "para revisar el cambio entra al aplicativo y ve a la sección de cambios."
                             ), Server.MapPath("/images/logo.png")));
                         break;
                     case typeBody.QARevision:
                         mail.AlternateViews.Add(CreateHtmlMessage(PopulateBody(
                             Usuario,
-                            "Cambio #" + Cambio + " (" + Nombre + ") esta revisado por el promotor para su cierre",
+                            "Cambio #" + Cambio + " (" + Nombre + ") esta revisado por el implementador y pendiente de tu revision para el cierre",
                             ConfigurationManager.AppSettings["Host"] + "/pages/services/search.aspx?busqueda=" + Nombre,
                             "Te informamos que el cambio ha sido revisado y certificado para finalizar el proceso, " +
                             "para revisar el cambio y darlo por finalizado entra al aplicativo y ve a la sección de cambios."
@@ -118,9 +118,9 @@ namespace ControlCambios.classes
                     case typeBody.PromotorReEnvio:
                         mail.AlternateViews.Add(CreateHtmlMessage(PopulateBody(
                             Usuario,
-                            "Cambio #" + Cambio + " (" + Nombre + ") esta implementado y pendiente de revisión por tu parte",
+                            "Cambio #" + Cambio + " (" + Nombre + ") esta implementado y pendiente de revisión",
                             ConfigurationManager.AppSettings["Host"] + "/pages/services/search.aspx?busqueda=" + Nombre,
-                            "Te informamos que el cambio ha sido implementado y esta a la espera de tu revisión y certificación, " +
+                            "Te informamos que el cambio ha sido implementado y esta a la espera de la revisión y certificación del implementador, " +
                             "para revisar el cambio entra al aplicativo y ve a la sección de cambios."
                             ), Server.MapPath("/images/logo.png")));
                         break;

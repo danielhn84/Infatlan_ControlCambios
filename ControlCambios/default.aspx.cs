@@ -102,10 +102,34 @@ namespace ControlCambios
                             switch (item.pasos)
                             {
                                 case "0": vEstado = "Correcciones promotor"; break;
-                                case "1": vEstado = "Pendiente revisión QA"; break;
+                                case "1":
+                                    msgInfoAprobaciones vInfoAprobacionesRowRequest = new msgInfoAprobaciones()
+                                    {
+                                        tipo = "3",
+                                        idaprobacion = item.idcambio
+                                    };
+                                    String vResponseRowAprobaciones = "";
+                                    HttpResponseMessage vHttpResponseRowAprobaciones = vConector.PostInfoAprobaciones(vInfoAprobacionesRowRequest, ref vResponseRowAprobaciones);
+
+                                    if (vHttpResponseRowAprobaciones.StatusCode == System.Net.HttpStatusCode.OK)
+                                    {
+                                        msgInfoAprobacionesQueryResponse vInfoAprobacionesRowsResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgInfoAprobacionesQueryResponse>(vResponseRowAprobaciones);
+                                        if (vInfoAprobacionesRowsResponse.resultSet1.Count() > 0)
+                                        {
+                                            foreach (msgInfoAprobacionesQueryResponseItem itemAprobacion in vInfoAprobacionesRowsResponse.resultSet1)
+                                            {
+                                                if (itemAprobacion.estado.Equals("true"))
+                                                    vEstado = "Pendiente revisión QA";
+                                                else
+                                                    vEstado = "Autorización";
+                                            }
+                                        }
+                                    }
+
+                                    break;
                                 case "2": vEstado = "CAB Manager"; break;
                                 case "3": vEstado = "Implementación"; break;
-                                case "4": vEstado = "Revisión QA"; break;
+                                case "4": vEstado = "Revisión Implementador"; break;
                                 case "5": vEstado = "Cambio terminado / No cerrado"; break;
                                 case "6": vEstado = "Cambio cerrado"; break;
                             }

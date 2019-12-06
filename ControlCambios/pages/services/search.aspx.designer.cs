@@ -85,6 +85,15 @@ namespace ControlCambios.pages.services {
         protected global::System.Web.UI.WebControls.DropDownList DDLTipoCambio;
         
         /// <summary>
+        /// Control DivFecha.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl DivFecha;
+        
+        /// <summary>
         /// Control TxFechaCambio.
         /// </summary>
         /// <remarks>
@@ -92,6 +101,15 @@ namespace ControlCambios.pages.services {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox TxFechaCambio;
+        
+        /// <summary>
+        /// Control DDLCambioEstado.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList DDLCambioEstado;
         
         /// <summary>
         /// Control UpdatePrincipalConfirmacion.

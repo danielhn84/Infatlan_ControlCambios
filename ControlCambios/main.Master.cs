@@ -62,7 +62,7 @@ namespace ControlCambios
             try
             {
                 vConfigurations = (msgLoginResponse)Session["AUTHCLASS"];
-                if (vConfigurations.resultSet1[0].idCargo.Equals("1"))
+                if (vConfigurations.resultSet1[0].idCargo.Equals("1") || vConfigurations.resultSet1[0].idCargo.Equals("2"))
                 {
                     String vConfiguracionesHtml = "<li class=\"nav-item dropdown mr-1\">" + Environment.NewLine +
                             "<a class=\"nav-link count-indicator dropdown-toggle d-flex justify-content-center align-items-center\" id=\"messageDropdown\" href=\"#\" data-toggle=\"dropdown\">" + Environment.NewLine +

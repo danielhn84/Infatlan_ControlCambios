@@ -24,7 +24,7 @@ namespace ControlCambios.pages.configurations
                     vConfigurations = (msgLoginResponse)Session["AUTHCLASS"];
 
                     Generales vGenerales = new Generales();
-                    if (!vGenerales.PermisosEntrada(Permisos.Administrador, vConfigurations.resultSet1[0].idCargo))
+                    if (!vGenerales.PermisosEntrada(Permisos.Supervisor, vConfigurations.resultSet1[0].idCargo))
                     {
                         Logs vLog = new Logs();
                         vLog.postLog("Generals", "Usuario intento ingresar a las configs generales y no tiene permiso", vConfigurations.resultSet1[0].idUsuario);
@@ -195,7 +195,7 @@ namespace ControlCambios.pages.configurations
                     {
                         LimpiarEquipos();
                         Mensaje("Ingresado con Exito", WarningType.Success);
-
+                        CargarEquiposSistemas();
                         CargarEquipos();
                     }
                 }
@@ -399,9 +399,8 @@ namespace ControlCambios.pages.configurations
                 else
                 {
                     EnumerableRowCollection<DataRow> filtered = vDatos.AsEnumerable()
-                        .Where(r => r.Field<String>("nombre").Contains(vBusqueda)
-                        || r.Field<String>("ip").Contains(vBusqueda)
-                        || r.Field<String>("ubicacion").Contains(vBusqueda));
+                        .Where(r => r.Field<String>("nombre").ToUpper().Contains(vBusqueda.ToUpper())
+                        || r.Field<String>("ip").Contains(vBusqueda));
 
 
                     DataTable vDatosFiltrados = new DataTable();
@@ -410,16 +409,21 @@ namespace ControlCambios.pages.configurations
                     vDatosFiltrados.Columns.Add("tipoEquipo");
                     vDatosFiltrados.Columns.Add("ip");
                     vDatosFiltrados.Columns.Add("ubicacion");
-                    foreach (DataRow item in filtered)
+                    if (filtered.Count() > 0)
                     {
-                        vDatosFiltrados.Rows.Add(
-                            item["idCatEquipo"].ToString(),
-                            item["nombre"].ToString(),
-                            item["tipoEquipo"].ToString(),
-                            item["ip"].ToString(),
-                            item["ubicacion"].ToString()
-                            );
+                        foreach (DataRow item in filtered)
+                        {
+                            vDatosFiltrados.Rows.Add(
+                                item["idCatEquipo"].ToString(),
+                                item["nombre"].ToString(),
+                                item["tipoEquipo"].ToString(),
+                                item["ip"].ToString(),
+                                item["ubicacion"].ToString()
+                                );
+                        }
                     }
+                    else
+                        throw new Exception("No se encontro ningun resultado.");
 
                     GVBusquedaEquipos.DataSource = vDatosFiltrados;
                     GVBusquedaEquipos.DataBind();
@@ -427,6 +431,55 @@ namespace ControlCambios.pages.configurations
                 }
 
                 
+            }
+            catch (Exception Ex) { Mensaje(Ex.Message, WarningType.Danger); }
+        }
+
+        protected void TxBuscarSistema_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                String vBusqueda = TxBuscarSistema.Text;
+                DataTable vDatos = (DataTable)Session["DATOSSISTEMAS"];
+
+                if (vBusqueda.Equals(""))
+                {
+                    GVBusquedaSistemas.DataSource = vDatos;
+                    GVBusquedaSistemas.DataBind();
+                    UpdatePanel4.Update();
+                }
+                else
+                {
+                    EnumerableRowCollection<DataRow> filtered = vDatos.AsEnumerable()
+                        .Where(r => r.Field<String>("sistema").ToUpper().Contains(vBusqueda.ToUpper()));
+
+
+                    DataTable vDatosFiltrados = new DataTable();
+                    vDatosFiltrados.Columns.Add("idCatSistemas");
+                    vDatosFiltrados.Columns.Add("idCatEquipo");
+                    vDatosFiltrados.Columns.Add("sistema");
+                    vDatosFiltrados.Columns.Add("descripcion");
+                    if (filtered.Count() > 0)
+                    {
+                        foreach (DataRow item in filtered)
+                        {
+                            vDatosFiltrados.Rows.Add(
+                                item["idCatSistemas"].ToString(),
+                                item["idCatEquipo"].ToString(),
+                                item["sistema"].ToString(),
+                                item["descripcion"].ToString()
+                                );
+                        }
+                    }
+                    else
+                        throw new Exception("No se encontro ningun resultado.");
+
+                    GVBusquedaSistemas.DataSource = vDatosFiltrados;
+                    GVBusquedaSistemas.DataBind();
+                    UpdatePanel4.Update();
+                }
+
+
             }
             catch (Exception Ex) { Mensaje(Ex.Message, WarningType.Danger); }
         }

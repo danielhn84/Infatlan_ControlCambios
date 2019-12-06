@@ -106,7 +106,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6" runat="server" id="DivFecha" visible="false">
                                         <div class="form-group row">
                                             <label class="col-sm-3 col-form-label">Fecha</label>
                                             <div class="col-sm-9">
@@ -114,10 +114,28 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Estado</label>
+                                            <div class="col-sm-9">
+                                                <asp:DropDownList ID="DDLCambioEstado" runat="server" class="form-control">
+                                                    <asp:ListItem Value="100">Selecione una Opción</asp:ListItem>
+                                                    <asp:ListItem Value="0">Correciones Promotor</asp:ListItem>
+                                                    <asp:ListItem Value="1">Revisión QA</asp:ListItem>
+                                                    <asp:ListItem Value="2">CAB Manager</asp:ListItem>
+                                                    <asp:ListItem Value="3">Implementación</asp:ListItem>
+                                                    <asp:ListItem Value="4">Revisión Implementador</asp:ListItem>
+                                                    <asp:ListItem Value="5">Cambio terminado / No cerrado</asp:ListItem>
+                                                    <asp:ListItem Value="6">Cambio cerrado</asp:ListItem>
+                                                </asp:DropDownList>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </ContentTemplate>
                         </asp:UpdatePanel>
                     </asp:Panel>
+
                     <div class="row">
                         <div class="d-flex justify-content-between align-items-end flex-wrap">
                             <asp:UpdatePanel ID="UpdatePrincipalConfirmacion" runat="server">
@@ -156,7 +174,7 @@
                                                 <Columns>
                                                     <asp:TemplateField HeaderText="Select" HeaderStyle-Width="60px">
                                                         <HeaderTemplate>
-                                                            Acción
+                                                            
                                                         </HeaderTemplate>
                                                         <ItemTemplate>
                                                             <asp:Button ID="BtnEntrar" runat="server" Text="Entrar" class="btn btn-facebook mr-2" CommandArgument='<%# Eval("idcambio") %>' CommandName="EntrarCambio" />
@@ -167,6 +185,15 @@
                                                         </HeaderTemplate>
                                                         <ItemTemplate>
                                                             <asp:Button ID="BtnCerrarCambio" runat="server" Text="Finalizar" class="btn btn-google mr-2" CommandArgument='<%# Eval("idcambio") %>' CommandName="CerrarCambio" />
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
+                                                    <asp:TemplateField HeaderText="Select" HeaderStyle-Width="50px">
+                                                        <HeaderTemplate>
+                                                        </HeaderTemplate>
+                                                        <ItemTemplate>
+                                                            <asp:LinkButton ID="BtnDocumento" runat="server" Text="Download" class="btn btn-inverse-success mr-2 " CommandArgument='<%# Eval("idcambio") %>' CommandName="DescargarDocumento" >
+                                                                <i class="mdi mdi-download text-success"></i>
+                                                            </asp:LinkButton>
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
                                                     <asp:BoundField DataField="idcambio" HeaderText="No.Cambio" />

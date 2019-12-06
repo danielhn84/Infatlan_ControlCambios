@@ -37,12 +37,29 @@
         }
     </script>
     <script type="text/javascript">
+        function openAutorizarCambio() {
+            $('#AutorizacionSupervisorModal').modal('show');
+        }
+    </script>
+    <script type="text/javascript">
         function ShowProgress() {
             document.getElementById('<% Response.Write(UpdateProgress1.ClientID); %>').style.display = "inline";
         }
     </script>
-    
-    
+    <style>
+        .checkbox .btn, .checkbox-inline .btn {
+        padding-left: 0;
+        min-width: 8em;
+        }
+        .checkbox label, .checkbox-inline label {
+        text-align: left;
+        padding-left: 0.5em;
+        }
+        .checkbox input[type="checkbox"]{
+            float:none;
+        }
+    </style>
+
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
@@ -55,21 +72,24 @@
         </ProgressTemplate>
     </asp:UpdateProgress>
     <div class="container col-md-12 grid-margin">
-	    <div class="row align-top">
-		    <ul class="breadcrumb">
-			    <li class="completed"><a href="/default.aspx">Dashboard</a></li>
-			    <li><a href="javascript:void(0);">Control de Cambios</a></li>
-			    <li class="active"><a href="javascript:void(0);">Crear</a></li>
-		    </ul>
-	    </div>
+        <div class="row align-top">
+            <ul class="breadcrumb">
+                <li class="completed"><a href="/default.aspx">Dashboard</a></li>
+                <li><a href="javascript:void(0);">Control de Cambios</a> </li>
+                <li class="active"><a href="javascript:void(0);">Crear</a></li>
+            </ul>
+        </div>
     </div>
     <div class="row">
         <div class="col-md-12 grid-margin">
             <div class="d-flex justify-content-between flex-wrap">
                 <div class="d-flex align-items-end flex-wrap">
                     <div class="mr-md-3 mr-xl-5">
-                        <h2>Control de Cambios</h2>
-                        <p class="mb-md-0">Creación de cambios</p>
+                        <h2>Control de Cambio <asp:Label ID="LbInfoNumeroCambio" runat="server" Text=""></asp:Label></h2>
+                        <p><asp:Label ID="LbInfoCreadoPor" runat="server" Text=""></asp:Label></p> 
+                        <p><asp:Label ID="LbInfoTelefono" runat="server" Text=""></asp:Label></p>
+                        <p><asp:Label ID="LbInfoQualityAssurance" runat="server" Text=""></asp:Label></p>
+                        
                     </div>
                     <%--<div class="d-flex">
                         <i class="mdi mdi-home text-muted hover-cursor"></i>
@@ -80,9 +100,9 @@
                 <div class="d-flex justify-content-between align-items-end flex-wrap">
                     <asp:UpdatePanel ID="UpdatePrincipalBotones" runat="server">
                         <ContentTemplate>
-                            <asp:Button ID="BtnAutorizarCambio" class="btn btn-success mr-2" runat="server" Text="Autorizar" visible="false" OnClick="BtnAutorizarCambio_Click" />
-                            <asp:Button ID="BtnAsignarUsuario" runat="server" class="btn btn-light bg-white mr-2 " data-toggle="modal" data-target="#UsuarioModal" Text="Asignar QA" visible="true"/>
-                            <asp:Button ID="BtnAutorizarQA" runat="server" class="btn btn-success mr-2 " Text="Autorizar QA" OnClick="BtnAutorizarQA_Click" visible="false"/>
+                            <asp:Button ID="BtnAutorizarCambio" class="btn btn-success mr-2" runat="server" Text="Autorizar" Visible="false" OnClick="BtnAutorizarCambio_Click" />
+                            <asp:Button ID="BtnAsignarUsuario" runat="server" class="btn btn-light bg-white mr-2 " data-toggle="modal" data-target="#UsuarioModal" Text="Asignar QA" Visible="true" />
+                            <asp:Button ID="BtnAutorizarQA" runat="server" class="btn btn-success mr-2 " Text="Autorizar QA" OnClick="BtnAutorizarQA_Click" Visible="false" />
                             <asp:Button ID="BtnGuardarCambio" class="btn btn-primary mr-2" runat="server" Text="Guardar" OnClick="BtnGuardarCambio_Click" />
                             <asp:Button ID="BtnCancelarCambio" class="btn btn-danger mr-2" runat="server" Text="Cancelar" OnClick="BtnCancelarCambio_Click" />
                         </ContentTemplate>
@@ -234,7 +254,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        
+
                                     </div>
                                 </div>
                             </div>
@@ -246,7 +266,7 @@
                                         <h4 class="card-title">Mantenimientos</h4>
                                         <div class="form-group">
                                             <label for="exampleInputPassword4">Descripcion del cambio</label>
-                                            <asp:TextBox ID="TxMantenimientoDescripcion" placeholder="..." class="form-control" runat="server" TextMode="MultiLine" style="height: 250px"></asp:TextBox>
+                                            <asp:TextBox ID="TxMantenimientoDescripcion" placeholder="..." class="form-control" runat="server" TextMode="MultiLine" Style="height: 250px"></asp:TextBox>
                                         </div>
                                         <asp:UpdatePanel ID="UpdatePanel2" runat="server">
                                             <ContentTemplate>
@@ -295,7 +315,7 @@
                                                                 </label>
                                                             </div>
                                                         </div>
-                                                    </div>                                                   
+                                                    </div>
                                                 </div>
                                                 <p>Si seleccionas <b>Emergencia</b> escribe el No.Ticket asociado</p>
                                                 <div class="form-group row">
@@ -387,6 +407,7 @@
                                             <div class="col-md-6" id="DIVDenegacionFinal" runat="server" visible="false">
                                                 <div class="form-group row">
                                                     <label class="col-sm-3 col-form-label">Fin</label>
+
                                                     <div class="col-sm-9">
                                                         <asp:TextBox ID="TxVentanaDenegacionFin" placeholder="ej. 2019/01/01 00:00:00" TextMode="DateTimeLocal" class="form-control" runat="server"></asp:TextBox>
                                                     </div>
@@ -440,7 +461,6 @@
                                                         </Columns>
                                                     </asp:GridView>
                                                 </div>
-
                                             </div>
                                         </div>
                                     </div>
@@ -611,7 +631,7 @@
                                                                     <asp:Button ID="BtnProcedimientoslDelete" runat="server" Text="borrar" class="btn btn-dark mr-2" CommandArgument='<%# Eval("detalle") %>' CommandName="DeleteRow" />
                                                                 </ItemTemplate>
                                                             </asp:TemplateField>
-                                                            <asp:BoundField DataField="responsable" HeaderText="Responsable" Visible="true"/>
+                                                            <asp:BoundField DataField="responsable" HeaderText="Responsable" Visible="true" />
                                                             <asp:BoundField DataField="detalle" HeaderText="Detalle Actividad" />
                                                             <asp:BoundField DataField="inicio" HeaderText="Inicio" />
                                                             <asp:BoundField DataField="fin" HeaderText="Fin" />
@@ -739,92 +759,118 @@
                             <div class="col-12 grid-margin stretch-card">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h4 class="card-title">Seleccione los archivos del cambio</h4>
-                                        <p class="card-description">
-                                            Por favor un maximo de 3 archivos en formato ZIP               
-                                        </p>
-                                        <div class="row" id="DIVDeposito1" runat="server" visible="true">
-                                            <div class="col-md-6">
-                                                <div class="form-group row">
-                                                    <label class="col-sm-3 col-form-label">Deposito 1</label>
-                                                    <div class="col-sm-9">
-                                                        <asp:FileUpload ID="FUDeposito1" accept="zip,application/zip,application/x-zip,application/x-zip-compressed" runat="server" class="form-control" />
+                                        <asp:UpdatePanel ID="UpdateRefreshDepositos" runat="server" UpdateMode="Conditional">
+                                            <ContentTemplate>
+                                                <h4 class="card-title">Seleccione los archivos del cambio</h4>
+                                                <p class="card-description">
+                                                    Por favor un maximo de 3 archivos en formato ZIP               
+                                                </p>
+                                                <div class="row" id="DIVDeposito1" runat="server" visible="true">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-3 col-form-label">Deposito 1</label>
+                                                            <div class="col-sm-9">
+                                                                <asp:FileUpload ID="FUDeposito1" accept="zip,application/zip,application/x-zip,application/x-zip-compressed" runat="server" class="form-control" />
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="row" id="DIVDescargarDeposito1" runat="server" visible="false">
-                                            <div class="col-md-6">
-                                                <div class="form-group row">
-                                                    <label class="col-sm-3 col-form-label">Deposito 1</label>
-                                                    <div class="col-sm-9">
-                                                        <asp:Button ID="BtnDescargarDeposito1" class="btn btn-primary mr-2" runat="server" Text="Descargar" OnClick="BtnDescargarDeposito1_Click" />
+
+                                                <div class="row" id="DIVDescargarDeposito1" runat="server" visible="false">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-3 col-form-label">Deposito 1</label>
+                                                            <div class="col-sm-3" style="text-align: right;">
+                                                                <asp:Button ID="BtnDescargarDeposito1" class="btn btn-success mr-2" runat="server" Text="Descargar" OnClick="BtnDescargarDeposito1_Click" />
+                                                            </div>
+                                                            <div class="col-sm-3" style="text-align: left;">
+                                                                <asp:UpdatePanel ID="UpdatePanel16" runat="server">
+                                                                    <ContentTemplate>
+                                                                        <asp:Button ID="BtnBorrarDeposito1" class="btn btn-danger mr-2" runat="server" Text="Borrar" OnClick="BtnBorrarDeposito1_Click" />
+                                                                    </ContentTemplate>
+                                                                </asp:UpdatePanel>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group row">
+                                                            <div class="col-sm-9">
+                                                                <asp:Label ID="LbNombreDeposito1" runat="server" Text=""></asp:Label>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group row">                                            
-                                                    <div class="col-sm-9">
-                                                        <asp:Label ID="LbNombreDeposito1" runat="server" Text=""></asp:Label>
+                                                <div class="row" id="DIVDeposito2" runat="server" visible="true">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-3 col-form-label">Deposito 2</label>
+                                                            <div class="col-sm-9">
+                                                                <asp:FileUpload ID="FUDeposito2" accept="zip,application/zip,application/x-zip,application/x-zip-compressed" runat="server" class="form-control" />
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="row" id="DIVDeposito2" runat="server" visible="true">
-                                            <div class="col-md-6">
-                                                <div class="form-group row">
-                                                    <label class="col-sm-3 col-form-label">Deposito 2</label>
-                                                    <div class="col-sm-9">
-                                                        <asp:FileUpload ID="FUDeposito2" accept="zip,application/zip,application/x-zip,application/x-zip-compressed" runat="server" class="form-control" />
+                                                <div class="row" id="DIVDescargarDeposito2" runat="server" visible="false">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-3 col-form-label">Deposito 2</label>
+                                                            <div class="col-sm-3" style="text-align: right;">
+                                                                <asp:Button ID="BtnDescargarDeposito2" class="btn btn-success mr-2" runat="server" Text="Descargar" OnClick="BtnDescargarDeposito2_Click" />
+                                                            </div>
+                                                            <div class="col-sm-3" style="text-align: left;">
+                                                                <asp:UpdatePanel ID="UpdatePanel15" runat="server">
+                                                                    <ContentTemplate>
+                                                                        <asp:Button ID="BtnBorrarDeposito2" class="btn btn-danger mr-2" runat="server" Text="Borrar" OnClick="BtnBorrarDeposito2_Click" />
+                                                                    </ContentTemplate>
+                                                                </asp:UpdatePanel>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group row">
+                                                            <div class="col-sm-9">
+                                                                <asp:Label ID="LbNombreDeposito2" runat="server" Text=""></asp:Label>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="row" id="DIVDescargarDeposito2" runat="server" visible="false">
-                                            <div class="col-md-6">
-                                                <div class="form-group row">
-                                                    <label class="col-sm-3 col-form-label">Deposito 2</label>
-                                                    <div class="col-sm-9">
-                                                        <asp:Button ID="BtnDescargarDeposito2" class="btn btn-primary mr-2" runat="server" Text="Descargar" OnClick="BtnDescargarDeposito2_Click" />
+                                                <div class="row" id="DIVDeposito3" runat="server" visible="true">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-3 col-form-label">Deposito 3</label>
+                                                            <div class="col-sm-9">
+                                                                <asp:FileUpload ID="FUDeposito3" accept="zip,application/zip,application/x-zip,application/x-zip-compressed" runat="server" class="form-control" />
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group row">                                            
-                                                    <div class="col-sm-9">
-                                                        <asp:Label ID="LbNombreDeposito2" runat="server" Text=""></asp:Label>
+                                                <div class="row" id="DIVDescargarDeposito3" runat="server" visible="false">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-3 col-form-label">Deposito 3</label>
+                                                            <div class="col-sm-3" style="text-align: right;">
+                                                                <asp:Button ID="BtnDescargarDeposito3" class="btn btn-success mr-2" runat="server" Text="Descargar" OnClick="BtnDescargarDeposito3_Click" />
+                                                            </div>
+                                                            <div class="col-sm-3" style="text-align: left;">
+                                                                <asp:UpdatePanel ID="UpdatePanel17" runat="server">
+                                                                    <ContentTemplate>
+                                                                        <asp:Button ID="BtnBorrarDeposito3" runat="server" class="btn btn-danger mr-2" Text="Borrar" OnClick="BtnBorrarDeposito3_Click" />
+                                                                    </ContentTemplate>
+                                                                </asp:UpdatePanel>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group row">
+
+                                                            <div class="col-sm-9">
+                                                                <asp:Label ID="LbNombreDeposito3" class="col-form-label" runat="server" Text=""></asp:Label>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="row" id="DIVDeposito3" runat="server" visible="true">
-                                            <div class="col-md-6">
-                                                <div class="form-group row">
-                                                    <label class="col-sm-3 col-form-label">Deposito 3</label>
-                                                    <div class="col-sm-9">
-                                                        <asp:FileUpload ID="FUDeposito3" accept="zip,application/zip,application/x-zip,application/x-zip-compressed" runat="server" class="form-control" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row" id="DIVDescargarDeposito3" runat="server" visible="false">
-                                            <div class="col-md-6">
-                                                <div class="form-group row">
-                                                    <label class="col-sm-3 col-form-label">Deposito 3</label>
-                                                    <div class="col-sm-9">
-                                                        <asp:Button ID="BtnDescargarDeposito3" class="btn btn-primary mr-2" runat="server" Text="Descargar" OnClick="BtnDescargarDeposito3_Click" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group row">                                            
-                                                    <div class="col-sm-9">
-                                                        <asp:Label ID="LbNombreDeposito3" runat="server" Text=""></asp:Label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                            </ContentTemplate>
+                                        </asp:UpdatePanel>
                                     </div>
                                 </div>
                             </div>
@@ -954,8 +1000,9 @@
 
                                 </div>
                                 <div class="form-group">
-                                    <h5><label for="exampleInputPassword4">Observaciones del cambio</label></h5>
-                                    <asp:TextBox ID="TxObservaciones" placeholder="Ingrese una observación del cambio" class="form-control" runat="server" TextMode="MultiLine" style="height: 250px"></asp:TextBox>
+                                    <h5>
+                                        <label for="exampleInputPassword4">Observaciones del cambio</label></h5>
+                                    <asp:TextBox ID="TxObservaciones" placeholder="Ingrese una observación del cambio" class="form-control" runat="server" TextMode="MultiLine" Style="height: 250px"></asp:TextBox>
                                 </div>
                                 <h5>Certificación</h5>
                                 <hr />
@@ -994,7 +1041,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>                                
+                                </div>
                                 <div class="row">
                                     <div class="d-flex justify-content-between align-items-end flex-wrap">
                                         <asp:UpdatePanel ID="UpdatePanel6" runat="server">
@@ -1033,7 +1080,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
-                                                <div class="form-group row">                                            
+                                                <div class="form-group row">
                                                     <div class="col-sm-9">
                                                         <asp:Button ID="BtnCABAgregarImplementador" class="btn btn-success mr-2" runat="server" Text="(+) Implementador" OnClick="BtnCABAgregarImplementador_Click" />
                                                     </div>
@@ -1042,7 +1089,7 @@
                                         </div>
 
                                         <div class="row">
-                                            <div class="col-12 grid-margin stretch-card">                                     
+                                            <div class="col-12 grid-margin stretch-card">
                                                 <div class="table-responsive">
                                                     <asp:GridView ID="GVCABImplementadores" runat="server"
                                                         CssClass="mydatagrid"
@@ -1125,7 +1172,7 @@
                                     </div>
 
                                 </div>
-                                
+
                             </div>
                         </div>
                     </div>
@@ -1520,7 +1567,7 @@
                                         <div class="form-group row">
                                             <label class="col-sm-3 col-form-label">Descargar</label>
                                             <div class="col-sm-9">
-                                                <asp:Button ID="BtnEnvidenciaCierreDescargar" class="btn btn-primary mr-2" runat="server" Text="Descargar" OnClick="BtnEnvidenciaCierreDescargar_Click"  />
+                                                <asp:Button ID="BtnEnvidenciaCierreDescargar" class="btn btn-primary mr-2" runat="server" Text="Descargar" OnClick="BtnEnvidenciaCierreDescargar_Click" />
                                             </div>
                                         </div>
                                     </div>
@@ -1543,7 +1590,7 @@
                                     <div class="d-flex justify-content-between align-items-end flex-wrap">
                                         <asp:UpdatePanel ID="UpdatePanel10" runat="server">
                                             <ContentTemplate>
-                                                <asp:Button ID="BtnCerrarCambio" class="btn btn-success mr-2" runat="server" Text="Finalizar Cambio" OnClick="BtnCerrarCambio_Click1"/>
+                                                <asp:Button ID="BtnCerrarCambio" class="btn btn-success mr-2" runat="server" Text="Finalizar Cambio" OnClick="BtnCerrarCambio_Click1" />
                                             </ContentTemplate>
                                         </asp:UpdatePanel>
                                     </div>
@@ -1992,6 +2039,18 @@
                                     <asp:DropDownList ID="DDLUsuarios" class="form-control" runat="server"></asp:DropDownList>
                                 </div>
                             </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">Todos</label>
+                                <div class="col-sm-9">
+                                    <div class="checkbox">
+                                        <label class="btn btn-default">
+                                            <asp:CheckBox ID="CbTodosQA" runat="server" Text="Seleccionar todos en QA" />
+                                        </label>
+                                    </div>
+                                    
+                                </div>
+                            </div>
                         </ContentTemplate>
                     </asp:UpdatePanel>
 
@@ -2026,7 +2085,16 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <label class="label">¿Estas seguro de ejecutar esta acción?</label>
+                    <asp:UpdatePanel ID="UpdateMensajeWarning" runat="server" UpdateMode="Conditional">
+                        <ContentTemplate>
+                            <label class="label">¿Estas seguro de ejecutar esta acción?</label>
+                            <br /><br />
+                            <asp:Label ID="LbWarningTipoCambio" runat="server" Text="" Style="color: indianred"></asp:Label>
+                        </ContentTemplate>
+                        <Triggers>
+                            <asp:PostBackTrigger ControlID="BtnProcedeCreacion" />
+                        </Triggers>
+                    </asp:UpdatePanel>
                 </div>
                 <div class="modal-footer">
                     <asp:UpdatePanel ID="UpdatePanel3" runat="server">
@@ -2043,7 +2111,7 @@
         </div>
     </div>
 
-    <%--MODAL DE CONFIRMACION CIERRE--%>
+    <%--MODAL DE CONFIRMACION CIERRE PASO 5--%>
     <div class="modal fade" id="ConfirmacionCierreModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -2099,7 +2167,7 @@
         </div>
     </div>
 
-    <%--MODAL DE CIERRE QA--%>
+    <%--MODAL DE CIERRE FINAL--%>
     <div class="modal fade" id="CierreFinalModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -2126,6 +2194,54 @@
             </div>
         </div>
     </div>
+
+    <%--MODAL DE SUPERVISOR AUTORIZACION--%>
+    <div class="modal fade" id="AutorizacionSupervisorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="ModalLabelSupervisro">Autorizar cambio</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <asp:UpdatePanel ID="UpdatePanel18" runat="server">
+                        <ContentTemplate>
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">Acción</label>
+                                <div class="col-sm-9">
+                                    <asp:DropDownList ID="DDLAutorizarSupervisorOpciones" class="form-control" runat="server">
+                                        <asp:ListItem Value="0">Seleccione una acción</asp:ListItem>
+                                        <asp:ListItem Value="1">Autorizar cambio</asp:ListItem>
+                                        <asp:ListItem Value="2">Regresar a promotor</asp:ListItem>
+                                    </asp:DropDownList>
+                                </div>
+                            </div>
+
+                        </ContentTemplate>
+                    </asp:UpdatePanel>
+
+                    <asp:UpdatePanel ID="UpdatePanel19" runat="server" UpdateMode="Conditional">
+                        <ContentTemplate>
+                            <div class="form-group row">
+                                <asp:Label ID="LbAutorizarError" runat="server" Text="" Class="col-sm-12" Style="color: indianred; text-align: center;"></asp:Label>
+                            </div>
+                        </ContentTemplate>
+                    </asp:UpdatePanel>
+                </div>
+                <div class="modal-footer">
+                    <asp:UpdatePanel ID="UpdatePanel20" runat="server">
+                        <ContentTemplate>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <asp:Button ID="BtnAutorizarCambioEnviar" runat="server" Text="Asignar" class="btn btn-primary" OnClick="BtnAutorizarCambioEnviar_Click"  />
+                        </ContentTemplate>
+                    </asp:UpdatePanel>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
     <script type="text/javascript" src="/js/jquery.smartWizard.js"></script>

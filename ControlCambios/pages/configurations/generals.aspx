@@ -29,13 +29,13 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="container col-md-12 grid-margin">
-	    <div class="row align-top">
-		    <ul class="breadcrumb">
-			    <li class="completed"><a href="/default.aspx">Dashboard</a></li>
+        <div class="row align-top">
+            <ul class="breadcrumb">
+                <li class="completed"><a href="/default.aspx">Dashboard</a></li>
                 <li class="completed"><a href="javascript:void(0);">Configuraciones</a></li>
-			    <li class="active"><a href="javascript:void(0);">Generales</a></li>
-		    </ul>
-	    </div>
+                <li class="active"><a href="javascript:void(0);">Generales</a></li>
+            </ul>
+        </div>
     </div>
     <div class="row">
         <div class="col-md-12 grid-margin">
@@ -45,7 +45,7 @@
                         <h2>Control de Equipos / Sistemas</h2>
                         <p class="mb-md-0">Configuraciones</p>
                     </div>
-                    
+
                 </div>
                 <div class="d-flex justify-content-between align-items-end flex-wrap">
                     <asp:UpdatePanel ID="UpdatePrincipalBotones" runat="server">
@@ -100,7 +100,7 @@
                                             <div class="form-group row">
                                                 <label class="col-sm-3 col-form-label">IP</label>
                                                 <div class="col-sm-9">
-                                                    <asp:TextBox ID="TxEquipoIp" placeholder="Ej. 192.168.1.1" class="form-control" runat="server" TextMode="SingleLine" ></asp:TextBox>
+                                                    <asp:TextBox ID="TxEquipoIp" placeholder="Ej. 192.168.1.1" class="form-control" runat="server" TextMode="SingleLine"></asp:TextBox>
                                                 </div>
                                             </div>
                                         </div>
@@ -108,7 +108,7 @@
                                             <div class="form-group row">
                                                 <label class="col-sm-3 col-form-label">Ubicacion</label>
                                                 <div class="col-sm-9">
-                                                    <asp:TextBox ID="TxEquipoUbicacion" placeholder="Ej. Data center SONISA" class="form-control" runat="server" TextMode="SingleLine" ></asp:TextBox>
+                                                    <asp:TextBox ID="TxEquipoUbicacion" placeholder="Ej. Data center SONISA" class="form-control" runat="server" TextMode="SingleLine"></asp:TextBox>
                                                 </div>
                                             </div>
                                         </div>
@@ -149,7 +149,7 @@
                     <div class="card">
                         <div class="card-body">
                             <h4 class="card-title">Equipos creados</h4>
-                             <div class="col-md-6">
+                            <div class="col-md-6">
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">Buscar</label>
                                     <div class="col-sm-9">
@@ -176,7 +176,7 @@
                                                 AllowSorting="True"
                                                 PageSize="10" OnPageIndexChanging="GVBusquedaEquipos_PageIndexChanging" OnRowCommand="GVBusquedaEquipos_RowCommand">
                                                 <Columns>
-                                                    <asp:TemplateField HeaderText="Select" HeaderStyle-Width="60px" >
+                                                    <asp:TemplateField HeaderText="Select" HeaderStyle-Width="60px">
                                                         <HeaderTemplate>
                                                             Acción
                                                         </HeaderTemplate>
@@ -192,19 +192,19 @@
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
                                                     <asp:BoundField DataField="idCatEquipo" HeaderText="Id" />
-                                                    <asp:BoundField DataField="nombre" HeaderText="Nombre"  />
+                                                    <asp:BoundField DataField="nombre" HeaderText="Nombre" />
                                                     <asp:BoundField DataField="tipoEquipo" HeaderText="Tipo" />
                                                     <asp:BoundField DataField="ip" HeaderText="IP" />
                                                     <asp:BoundField DataField="ubicacion" HeaderText="Ubicación" />
                                                 </Columns>
-                                                 
-                        
-                                                <PagerStyle  HorizontalAlign="Center" />  
-                                                <SelectedRowStyle BackColor="#000099" Font-Bold="True" ForeColor="White" />  
-                                                <SortedAscendingCellStyle BackColor="#F1F1F1" />  
-                                                <SortedAscendingHeaderStyle BackColor="#808080" />  
-                                                <SortedDescendingCellStyle BackColor="#CAC9C9" />  
-                                                <SortedDescendingHeaderStyle BackColor="#383838" />  
+
+
+                                                <PagerStyle HorizontalAlign="Center" />
+                                                <SelectedRowStyle BackColor="#000099" Font-Bold="True" ForeColor="White" />
+                                                <SortedAscendingCellStyle BackColor="#F1F1F1" />
+                                                <SortedAscendingHeaderStyle BackColor="#808080" />
+                                                <SortedDescendingCellStyle BackColor="#CAC9C9" />
+                                                <SortedDescendingHeaderStyle BackColor="#383838" />
                                             </asp:GridView>
                                         </ContentTemplate>
                                     </asp:UpdatePanel>
@@ -233,8 +233,8 @@
                                             <div class="form-group row">
                                                 <label class="col-sm-3 col-form-label">Equipo</label>
                                                 <div class="col-sm-9">
-                                                   <asp:DropDownList ID="DDLSistemaEquipo" runat="server" class="form-control"  AutoPostBack="True">
-                                                   </asp:DropDownList>
+                                                    <asp:DropDownList ID="DDLSistemaEquipo" runat="server" class="form-control" AutoPostBack="True">
+                                                    </asp:DropDownList>
                                                 </div>
                                             </div>
                                         </div>
@@ -244,7 +244,7 @@
                                             <div class="form-group row">
                                                 <label class="col-sm-3 col-form-label">Sistema</label>
                                                 <div class="col-sm-9">
-                                                    <asp:TextBox ID="TxSistemaNombre" placeholder="Ej. ocb.bancatlan.hn" class="form-control" runat="server" TextMode="SingleLine" ></asp:TextBox>
+                                                    <asp:TextBox ID="TxSistemaNombre" placeholder="Ej. ocb.bancatlan.hn" class="form-control" runat="server" TextMode="SingleLine"></asp:TextBox>
                                                 </div>
                                             </div>
                                         </div>
@@ -252,7 +252,7 @@
                                             <div class="form-group row">
                                                 <label class="col-sm-3 col-form-label">Descripción</label>
                                                 <div class="col-sm-9">
-                                                    <asp:TextBox ID="TxSistemaDescripcion" placeholder="Ej. ..." class="form-control" runat="server" TextMode="SingleLine" ></asp:TextBox>
+                                                    <asp:TextBox ID="TxSistemaDescripcion" placeholder="Ej. ..." class="form-control" runat="server" TextMode="SingleLine"></asp:TextBox>
                                                 </div>
                                             </div>
                                         </div>
@@ -287,13 +287,24 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="row">
                 <div class="col-12 grid-margin stretch-card">
                     <div class="card">
                         <div class="card-body">
                             <h4 class="card-title">Sistemas creados</h4>
-
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Buscar</label>
+                                    <div class="col-sm-9">
+                                        <asp:UpdatePanel ID="UpdatePanel6" runat="server">
+                                            <ContentTemplate>
+                                                <asp:TextBox ID="TxBuscarSistema" runat="server" placeholder="Ej. BASA" class="form-control" AutoPostBack="true" OnTextChanged="TxBuscarSistema_TextChanged" ></asp:TextBox>
+                                            </ContentTemplate>
+                                        </asp:UpdatePanel>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="table-responsive">
                                     <asp:UpdatePanel ID="UpdatePanel4" runat="server" UpdateMode="Conditional">
@@ -306,7 +317,8 @@
                                                 AutoGenerateColumns="false"
                                                 AllowPaging="true"
                                                 GridLines="None"
-                                                PageSize="10" OnPageIndexChanging="GVBusquedaSistemas_PageIndexChanging" OnRowCommand="GVBusquedaSistemas_RowCommand" >
+                                                AllowSorting="True"
+                                                PageSize="10" OnPageIndexChanging="GVBusquedaSistemas_PageIndexChanging" OnRowCommand="GVBusquedaSistemas_RowCommand">
                                                 <Columns>
                                                     <asp:TemplateField HeaderText="Select" HeaderStyle-Width="60px" Visible="false">
                                                         <HeaderTemplate>
@@ -323,11 +335,17 @@
                                                             <asp:Button ID="BtnSistemaModificar" runat="server" Text="Modificar" class="btn btn-google mr-2" CommandArgument='<%# Eval("idCatSistemas") %>' CommandName="UsuarioModificar" />
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
-                                                    <asp:BoundField DataField="idCatSistemas" HeaderText="Id" />
+                                                    <asp:BoundField DataField="idCatSistemas" HeaderText="Id" Visible="false"/>
                                                     <asp:BoundField DataField="idCatEquipo" HeaderText="Equipo" />
                                                     <asp:BoundField DataField="sistema" HeaderText="Sistema" />
                                                     <asp:BoundField DataField="descripcion" HeaderText="Descripción" />
                                                 </Columns>
+                                                <PagerStyle HorizontalAlign="Center" />
+                                                <SelectedRowStyle BackColor="#000099" Font-Bold="True" ForeColor="White" />
+                                                <SortedAscendingCellStyle BackColor="#F1F1F1" />
+                                                <SortedAscendingHeaderStyle BackColor="#808080" />
+                                                <SortedDescendingCellStyle BackColor="#CAC9C9" />
+                                                <SortedDescendingHeaderStyle BackColor="#383838" />
                                             </asp:GridView>
                                         </ContentTemplate>
                                     </asp:UpdatePanel>
@@ -369,7 +387,7 @@
                     <asp:UpdatePanel ID="UpdateEstadoBotones" runat="server">
                         <ContentTemplate>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                            <asp:Button ID="BtnEquipoEstado" runat="server" Text="Modificar" class="btn btn-primary" OnClick="BtnEquipoEstado_Click"  />
+                            <asp:Button ID="BtnEquipoEstado" runat="server" Text="Modificar" class="btn btn-primary" OnClick="BtnEquipoEstado_Click" />
                         </ContentTemplate>
                     </asp:UpdatePanel>
                 </div>
@@ -381,7 +399,8 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="ModalLabelModificacion">Modificar Equipo <asp:Label ID="LbEquipoModificar" runat="server" Text=""></asp:Label></h4>
+                    <h4 class="modal-title" id="ModalLabelModificacion">Modificar Equipo
+                        <asp:Label ID="LbEquipoModificar" runat="server" Text=""></asp:Label></h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -389,8 +408,8 @@
                 <div class="modal-body">
                     <asp:UpdatePanel ID="UpdateModificarUsuario" runat="server">
                         <ContentTemplate>
-                   
-                            
+
+
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group row">
@@ -401,10 +420,10 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                         </ContentTemplate>
                     </asp:UpdatePanel>
-                    
+
                 </div>
                 <div class="modal-footer">
                     <asp:UpdatePanel ID="UpdateModificacionBotones" runat="server">

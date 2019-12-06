@@ -21493,7 +21493,7 @@ dl li {
 }
 
 .navbar .navbar-menu-wrapper .navbar-nav .nav-item.nav-search .input-group {
-  background: #ffffff;
+  background: #fff;
   border-radius: 4px;
   padding: 0 .75rem;
 }
@@ -21502,7 +21502,7 @@ dl li {
 .navbar .navbar-menu-wrapper .navbar-nav .nav-item.nav-search .input-group .input-group-text {
   background: transparent;
   border: 0;
-  color: #fff;
+  color: #000;
   padding: 0;
 }
 

@@ -103,6 +103,15 @@ namespace ControlCambios.pages.configurations {
         protected global::System.Web.UI.WebControls.TextBox TxUsuario;
         
         /// <summary>
+        /// Control BtnBuscarUsuario.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button BtnBuscarUsuario;
+        
+        /// <summary>
         /// Control TxCorreo.
         /// </summary>
         /// <remarks>
@@ -182,6 +191,24 @@ namespace ControlCambios.pages.configurations {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel UpdateDivBusquedas;
+        
+        /// <summary>
+        /// Control UpdatePanel5.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel UpdatePanel5;
+        
+        /// <summary>
+        /// Control TxBuscarUsuario.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TxBuscarUsuario;
         
         /// <summary>
         /// Control UpdateGridView.

@@ -10,6 +10,7 @@ using System.Threading;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Configuration;
 
 namespace ControlCambios.pages.configurations
 {
@@ -27,7 +28,7 @@ namespace ControlCambios.pages.configurations
                     vConfigurations = (msgLoginResponse)Session["AUTHCLASS"];
 
                     Generales vGenerales = new Generales();
-                    if (!vGenerales.PermisosEntrada(Permisos.Administrador, vConfigurations.resultSet1[0].idCargo))
+                    if (!vGenerales.PermisosEntrada(Permisos.Supervisor, vConfigurations.resultSet1[0].idCargo))
                     {
                         Logs vLog = new Logs();
                         vLog.postLog("Users", "Usuario intento ingresar a las configs de usuario y no tiene permiso", vConfigurations.resultSet1[0].idUsuario);
@@ -154,11 +155,11 @@ namespace ControlCambios.pages.configurations
                 if (TxUsuario.Text.Equals(""))
                     throw new Exception("Por favor ingrese un usuario.");
 
-                if (TxPassword.Text.Equals(""))
-                    throw new Exception("Por favor ingrese un password.");
+                //if (TxPassword.Text.Equals(""))
+                //    throw new Exception("Por favor ingrese un password.");
 
-                if (TxPassword.Text != TxPasswordConfirmacion.Text)
-                    throw new Exception("Error en la verificación del password.");
+                //if (TxPassword.Text != TxPasswordConfirmacion.Text)
+                //    throw new Exception("Error en la verificación del password.");
 
                 if (TxCorreo.Text.Equals(""))
                     throw new Exception("Por favor ingrese un correo valido.");
@@ -217,8 +218,13 @@ namespace ControlCambios.pages.configurations
 
                         CargarUsuarios();
                         UpdateDivBusquedas.Update();
-                       
+
                     }
+                }
+                else
+                {
+                    if(vResponseResult.Contains("PRIMARY KEY"))
+                        throw new Exception("Usuario ya existe en sistema");
                 }
             }
             catch (Exception Ex) { Mensaje(Ex.Message, WarningType.Danger); }
@@ -238,6 +244,7 @@ namespace ControlCambios.pages.configurations
             DDLUsuariosCambioEstandar.SelectedIndex = 0;
             DIVUsuarioEstandar.Visible = false;
             //UpdatePanel2.Update();
+            CargarSupervisores();
         }
 
         protected void BtnCancelar_Click(object sender, EventArgs e)
@@ -497,6 +504,85 @@ namespace ControlCambios.pages.configurations
             {
                 DIVUsuarioEstandarModificar.Visible = false;
             }
+        }
+
+        protected void BtnBuscarUsuario_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (TxUsuario.Text == String.Empty)
+                    throw new Exception("Ingrese un usuario para proceder con la busqueda.");
+
+                LdapService vLdap = new LdapService();
+                DataTable vDatos = vLdap.GetDatosUsuario(ConfigurationManager.AppSettings["ActiveDirectory"], TxUsuario.Text);
+
+                if (vDatos.Rows.Count > 0)
+                {
+                    TxCorreo.Text = vDatos.Rows[0]["mail"].ToString();
+                    TxNombres.Text = vDatos.Rows[0]["givenName"].ToString();
+                    TxApellidos.Text = vDatos.Rows[0]["sn"].ToString();
+                }
+                else
+                {
+                    TxCorreo.Text = String.Empty;
+                    TxNombres.Text = string.Empty;
+                    TxApellidos.Text = String.Empty;
+                    throw new Exception("No existe el usuario buscado");
+                }
+
+            }
+            catch (Exception Ex) { Mensaje(Ex.Message, WarningType.Danger); }
+        }
+
+        protected void TxBuscarUsuario_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                String vBusqueda = TxBuscarUsuario.Text;
+                DataTable vDatos = (DataTable)Session["DATOSSEG"];
+
+                if (vBusqueda.Equals(""))
+                {
+                    GVBusqueda.DataSource = vDatos;
+                    GVBusqueda.DataBind();
+                    UpdateGridView.Update();
+                }
+                else
+                {
+                    EnumerableRowCollection<DataRow> filtered = vDatos.AsEnumerable()
+                        .Where(r => r.Field<String>("idUsuario").ToUpper().Contains(vBusqueda.ToUpper())
+                        || r.Field<String>("nombres").ToUpper().Contains(vBusqueda.ToUpper())
+                        || r.Field<String>("apellidos").ToUpper().Contains(vBusqueda.ToUpper())
+                        || r.Field<String>("correo").ToUpper().Contains(vBusqueda.ToUpper()));
+
+
+                    DataTable vDatosFiltrados = new DataTable();
+                    vDatosFiltrados.Columns.Add("idUsuario");
+                    vDatosFiltrados.Columns.Add("nombres");
+                    vDatosFiltrados.Columns.Add("apellidos");
+                    vDatosFiltrados.Columns.Add("correo");
+                    vDatosFiltrados.Columns.Add("estado");
+                    vDatosFiltrados.Columns.Add("perfil");
+                    foreach (DataRow item in filtered)
+                    {
+                        vDatosFiltrados.Rows.Add(
+                            item["idUsuario"].ToString(),
+                            item["nombres"].ToString(),
+                            item["apellidos"].ToString(),
+                            item["correo"].ToString(),
+                            item["estado"].ToString(),
+                            item["perfil"].ToString()
+                            );
+                    }
+
+                    GVBusqueda.DataSource = vDatosFiltrados;
+                    GVBusqueda.DataBind();
+                    UpdateGridView.Update();
+                }
+
+
+            }
+            catch (Exception Ex) { Mensaje(Ex.Message, WarningType.Danger); }
         }
     }
 }

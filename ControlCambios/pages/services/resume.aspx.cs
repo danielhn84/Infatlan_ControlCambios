@@ -8,31 +8,31 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace ControlCambios
+namespace ControlCambios.pages.services
 {
-    public partial class dashboard : System.Web.UI.Page
+    public partial class resume : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
             {
+                String vIdCambio = Request.QueryString["id"];
+
                 if (Convert.ToBoolean(Session["AUTH"]))
                 {
-
-
-
                     ServerReport serverReport = ReportViewer1.ServerReport;
                     serverReport.ReportServerCredentials = new ReportServerCredentials(@"report_user", "kEbn2HUzd$Fs2T", "adbancat.hn");
 
                     serverReport.ReportServerUrl =
                         new Uri("http://10.128.0.52/ReportServer");
-                    serverReport.ReportPath = "/Control Cambios/dashboard";
+                    serverReport.ReportPath = "/Control Cambios/Reporte Cambios";
 
-                    //ReportParameter salesOrderNumber = new ReportParameter();
-                    //salesOrderNumber.Name = "SalesOrderNumber";
-                    //salesOrderNumber.Values.Add("SO43661");
 
-                    //ReportViewer1.ServerReport.SetParameters(new ReportParameter[] { salesOrderNumber });
+                    ReportParameter vReportParameter = new ReportParameter();
+                    vReportParameter.Name = "IDCAMBIO";
+                    vReportParameter.Values.Add(vIdCambio);
+
+                    ReportViewer1.ServerReport.SetParameters(new ReportParameter[] { vReportParameter });
                 }
                 else
                     Response.Redirect("/login.aspx");
@@ -51,7 +51,6 @@ namespace ControlCambios
             _password = password;
             _domain = domain;
         }
-
         public WindowsIdentity ImpersonationUser
         {
             get
@@ -60,7 +59,6 @@ namespace ControlCambios
                 return null;
             }
         }
-
         public ICredentials NetworkCredentials
         {
             get
@@ -69,9 +67,6 @@ namespace ControlCambios
                 return new NetworkCredential(_userName, _password, _domain);
             }
         }
-
-       
-
         public bool GetFormsCredentials(out Cookie authCookie, out string user, out string password, out string authority)
         {
             // Do not use forms credentials to authenticate.

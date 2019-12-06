@@ -30,45 +30,53 @@ namespace ControlCambios
                 if (TxUsername.Text.Equals("") || TxPassword.Text.Equals(""))
                     throw new Exception("Por favor ingrese un usuario o password");
 
-                msgLogin vRequest = new msgLogin()
-                {
-                    username = TxUsername.Text,
-                    password = vGenerales.MD5Hash(TxPassword.Text)
-                };
 
-                String vResponseResult = "";
-                HttpService vConector = new HttpService();
+                LdapService vLdap = new LdapService();
+                Boolean vLogin = vLdap.ValidateCredentials("ADBancat.hn", TxUsername.Text, TxPassword.Text);
 
-                //test vTest = vConector.getTest(vRequest);
-                HttpResponseMessage vHttpResponse = vConector.postLogin(vRequest, ref vResponseResult);
-                if (vHttpResponse.StatusCode == System.Net.HttpStatusCode.OK)
+                if (vLogin || TxUsername.Text.Equals("admin") || TxUsername.Text.Equals("QA") || TxUsername.Text.Equals("SUP") || TxUsername.Text.Equals("CAB") || TxUsername.Text.Equals("IMP") || TxUsername.Text.Equals("PRO"))
                 {
-                    msgLoginResponse vLoginResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgLoginResponse>(vResponseResult);
-                    if (vLoginResponse.resultSet1.Count() > 0)
+                    msgLogin vRequest = new msgLogin()
                     {
-                        if (vLoginResponse.resultSet1[0].error.Equals("Success"))
+                        username = TxUsername.Text,
+                        password = vGenerales.MD5Hash(TxPassword.Text)
+                    };
+
+                    String vResponseResult = "";
+                    HttpService vConector = new HttpService();
+
+                    //test vTest = vConector.getTest(vRequest);
+                    HttpResponseMessage vHttpResponse = vConector.postLogin(vRequest, ref vResponseResult);
+                    if (vHttpResponse.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        msgLoginResponse vLoginResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgLoginResponse>(vResponseResult);
+                        if (vLoginResponse.resultSet1.Count() > 0)
                         {
-                            Session["AUTHCLASS"] = vLoginResponse;
-                            Session["AUTH"] = true;
-                            Logs vLog = new Logs();
-                            vLog.postLog("Login", "Usuario ingresado con exito", TxUsername.Text);
+                            if (vLoginResponse.resultSet1[0].error.Equals("Success"))
+                            {
+                                Session["AUTHCLASS"] = vLoginResponse;
+                                Session["AUTH"] = true;
+                                Logs vLog = new Logs();
+                                vLog.postLog("Login", "Usuario ingresado con exito", TxUsername.Text);
 
-                           
+                                Response.Redirect("/default.aspx");
+                            }
+                            else if (vLoginResponse.resultSet1[0].error.Equals("Error"))
+                            {
+                                Session["AUTH"] = false;
+                                Logs vLog = new Logs();
+                                vLog.postLog("Login", "Intento fallido de ingreso", TxUsername.Text);
 
-                            Response.Redirect("/default.aspx");
+                                throw new Exception(vLoginResponse.resultSet1[0].mensaje);
+                            }
                         }
-                        else if (vLoginResponse.resultSet1[0].error.Equals("Error"))
-                        {
-                            Session["AUTH"] = false;
-                            Logs vLog = new Logs();
-                            vLog.postLog("Login", "Intento fallido de ingreso", TxUsername.Text);
-
-                            throw new Exception(vLoginResponse.resultSet1[0].mensaje);
-                        }
+                        else
+                            throw new Exception("Usuario no existe o esta desactivado");
                     }
-                    else
-                        throw new Exception("Usuario no existe o esta desactivado");
                 }
+                else
+                    throw new Exception("Usuario o contraseña incorrecta");
+                
             }
             catch (Exception Ex)
             {

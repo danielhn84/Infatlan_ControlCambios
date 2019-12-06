@@ -8,6 +8,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Web;
+using System.Data;
 
 namespace ControlCambios.classes
 {
@@ -20,8 +21,61 @@ namespace ControlCambios.classes
         {
             using (var context = new PrincipalContext(ContextType.Domain, domain))
             {
+                DataTable vDatosAD = new DataTable();
+                try
+                {
+                    DirectorySearcher search = new DirectorySearcher(context.Name);
+                    search.Filter = "(&(objectClass=user)(anr=" + username + "))";
+                    search.PropertiesToLoad.Add("givenName");
+                    search.PropertiesToLoad.Add("sn");
+                    search.PropertiesToLoad.Add("mail");
+                    SearchResult result = search.FindOne();
+
+                    vDatosAD.Columns.Add("givenName");
+                    vDatosAD.Columns.Add("sn");
+                    vDatosAD.Columns.Add("mail");
+                    vDatosAD.Rows.Add(
+                        result.Properties["givenName"][0].ToString(),
+                        result.Properties["sn"][0].ToString(),
+                        result.Properties["mail"][0].ToString()
+                    );
+                }
+                catch {}
+
                 return context.ValidateCredentials(username, password);
             }
+        }
+
+        public DataTable GetDatosUsuario(string domain, string username)
+        {
+            DataTable vDatosAD = new DataTable();
+            try
+            {
+                DirectorySearcher search = new DirectorySearcher(domain);
+                search.Filter = "(&(objectClass=user)(anr=" + username + "))";
+                search.PropertiesToLoad.Add("givenName");
+                search.PropertiesToLoad.Add("sn");
+                search.PropertiesToLoad.Add("mail");
+                SearchResult result = search.FindOne();
+
+                vDatosAD.Columns.Add("givenName");
+                vDatosAD.Columns.Add("sn");
+                vDatosAD.Columns.Add("mail");
+
+                if (result != null)
+                {
+                    vDatosAD.Rows.Add(
+                        result.Properties["givenName"][0].ToString(),
+                        result.Properties["sn"][0].ToString(),
+                        result.Properties["mail"][0].ToString()
+                    );
+                }
+            }
+            catch
+            {
+                throw;
+            }
+            return vDatosAD;
         }
 
         public bool IsUserInAdGroup(string domain, string username, string adGroupName)

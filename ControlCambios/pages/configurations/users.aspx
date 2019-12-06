@@ -29,13 +29,13 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="container col-md-12 grid-margin">
-	    <div class="row align-top">
-		    <ul class="breadcrumb">
-			    <li class="completed"><a href="/default.aspx">Dashboard</a></li>
+        <div class="row align-top">
+            <ul class="breadcrumb">
+                <li class="completed"><a href="/default.aspx">Dashboard</a></li>
                 <li class="completed"><a href="javascript:void(0);">Configuraciones</a></li>
-			    <li class="active"><a href="javascript:void(0);">Usuarios</a></li>
-		    </ul>
-	    </div>
+                <li class="active"><a href="javascript:void(0);">Usuarios</a></li>
+            </ul>
+        </div>
     </div>
     <div class="row">
         <div class="col-md-12 grid-margin">
@@ -45,7 +45,7 @@
                         <h2>Control de Usuarios</h2>
                         <p class="mb-md-0">Configuraciones</p>
                     </div>
-                    
+
                 </div>
                 <div class="d-flex justify-content-between align-items-end flex-wrap">
                     <asp:UpdatePanel ID="UpdatePrincipalBotones" runat="server">
@@ -65,16 +65,14 @@
     </nav>
     <br />
     <div class="tab-content" id="nav-tabContent">
-        <div class="tab-pane fade show active" id="usuarios" role="tabpanel" aria-labelledby="nav-datos-tab" >
-            <div id="smartwizard">
+        <div class="tab-pane fade show active" id="usuarios" role="tabpanel" aria-labelledby="nav-datos-tab">
+            <%--<div id="smartwizard">
                 <ul>
                     <li><a href="#step-1">Creación Usuario<br />
                         <small>Informacion Usuario</small></a></li>
-                    <li><a href="#step-2">Politicas<br />
-                        <small>Información Creación</small></a></li>
                 </ul>
                 <div>
-                    <div id="step-1" class="">
+                    <div id="step-1" class="">--%>
 
                         <div class="row">
                             <div class="col-12 grid-margin stretch-card">
@@ -158,8 +156,11 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group row">
                                                             <label class="col-sm-3 col-form-label">Usuario</label>
-                                                            <div class="col-sm-9">
+                                                            <div class="col-sm-6">
                                                                 <asp:TextBox ID="TxUsuario" placeholder="Ej. admin" class="form-control" runat="server" TextMode="SingleLine" autocomplete="off"></asp:TextBox>
+                                                            </div>
+                                                            <div class="col-sm-3">
+                                                                <asp:Button ID="BtnBuscarUsuario" style="width:100%" class="btn btn-dark mr-2" runat="server" Text="Buscar" OnClick="BtnBuscarUsuario_Click" />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -167,12 +168,12 @@
                                                         <div class="form-group row">
                                                             <label class="col-sm-3 col-form-label">Correo</label>
                                                             <div class="col-sm-9">
-                                                                <asp:TextBox ID="TxCorreo" placeholder="Ej. admin@banctlan.hn" class="form-control" runat="server" TextMode="SingleLine" autocomplete="off"></asp:TextBox>
+                                                                <asp:TextBox ID="TxCorreo" placeholder="Ej. admin@banctlan.hn" class="form-control" runat="server" TextMode="SingleLine" autocomplete="off" ReadOnly="true"></asp:TextBox>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="row">
+                                                <div class="row" runat="server" visible="false">
                                                     <div class="col-md-6">
                                                         <div class="form-group row">
                                                             <label class="col-sm-3 col-form-label">Password</label>
@@ -195,7 +196,7 @@
                                                         <div class="form-group row">
                                                             <label class="col-sm-3 col-form-label">Nombres</label>
                                                             <div class="col-sm-9">
-                                                                <asp:TextBox ID="TxNombres" placeholder="Ej. Juan Jose" class="form-control" runat="server" TextMode="SingleLine" autocomplete="off"></asp:TextBox>
+                                                                <asp:TextBox ID="TxNombres" placeholder="Ej. Juan Jose" class="form-control" runat="server" TextMode="SingleLine" autocomplete="off" ReadOnly="true"></asp:TextBox>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -203,7 +204,7 @@
                                                         <div class="form-group row">
                                                             <label class="col-sm-3 col-form-label">Apellidos</label>
                                                             <div class="col-sm-9">
-                                                                <asp:TextBox ID="TxApellidos" placeholder="Ej. Perez Perez" class="form-control" runat="server" TextMode="SingleLine" autocomplete="off"></asp:TextBox>
+                                                                <asp:TextBox ID="TxApellidos" placeholder="Ej. Perez Perez" class="form-control" runat="server" TextMode="SingleLine" autocomplete="off" ReadOnly="true"></asp:TextBox>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -238,33 +239,11 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div id="step-2" class="">
-                        <div class="row">
-                            <div class="col-12 grid-margin stretch-card">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h4 class="card-title">Información legal de usuario</h4>
-                                        <p class="card-description">
-                                            Politicas
-                                        </p>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group row">
-                                                    <p style="text-align: justify">El uso de la cuenta de usuario es responsabilidad de la persona a la que está asignada. La cuenta es para uso personal e intransferible. La cuenta de usuario se protegerá mediante una contraseña. Las cuentas de usuario (usuario y contraseña) son sensibles a mayúsculas y minúsculas, es decir que estas deben ser tecleadas como están. No compartir la cuenta de usuario con otras personas: compañeros de trabajo, amigos, familiares, etc.</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
+                    <%--</div>
                 </div>
-            </div>
+            </div>--%>
         </div>
-        <div class="tab-pane fade" id="buscar" role="tabpanel" aria-labelledby="nav_tecnicos_tab" >
+        <div class="tab-pane fade" id="buscar" role="tabpanel" aria-labelledby="nav_tecnicos_tab">
             <asp:UpdatePanel ID="UpdateDivBusquedas" runat="server" UpdateMode="Conditional">
                 <ContentTemplate>
                     <div class="row">
@@ -272,7 +251,18 @@
                             <div class="card">
                                 <div class="card-body">
                                     <h4 class="card-title">Usuarios creados</h4>
-
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Buscar</label>
+                                            <div class="col-sm-9">
+                                                <asp:UpdatePanel ID="UpdatePanel5" runat="server">
+                                                    <ContentTemplate>
+                                                        <asp:TextBox ID="TxBuscarUsuario" runat="server" placeholder="Buscar: Nombres / Apellidos / Usuario / Correo" class="form-control" AutoPostBack="true" OnTextChanged="TxBuscarUsuario_TextChanged" ></asp:TextBox>
+                                                    </ContentTemplate>
+                                                </asp:UpdatePanel>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="row">
                                         <div class="table-responsive">
                                             <asp:UpdatePanel ID="UpdateGridView" runat="server" UpdateMode="Conditional">
@@ -361,7 +351,7 @@
     <%--MODAL DE MODIFICACION--%>
     <div class="modal fade" id="ModificacionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);">
         <div class="modal-dialog" role="document">
-            <div class="modal-content" style="width: 800px; top: 360px; left: 50%; transform: translate(-50%, -50%);">
+            <div class="modal-content" style="width: 800px; top: 300px; left: 50%; transform: translate(-50%, -50%);">
                 <div class="modal-header">
                     <h4 class="modal-title" id="ModalLabelModificacion">Modificar Usuario</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -405,7 +395,7 @@
                                     <div class="form-group row">
                                         <label class="col-sm-3 col-form-label">Estandar</label>
                                         <div class="col-sm-9">
-                                            <asp:DropDownList ID="DDLCambiosEstandarModificar" runat="server" class="form-control" OnSelectedIndexChanged="DDLCambioEstandarModificar_SelectedIndexChanged" AutoPostBack="True" >
+                                            <asp:DropDownList ID="DDLCambiosEstandarModificar" runat="server" class="form-control" OnSelectedIndexChanged="DDLCambioEstandarModificar_SelectedIndexChanged" AutoPostBack="True">
                                                 <asp:ListItem Value="0">Selecione una Opción</asp:ListItem>
                                                 <asp:ListItem Value="1">SI</asp:ListItem>
                                                 <asp:ListItem Value="2">NO</asp:ListItem>
@@ -418,7 +408,7 @@
                                     <div class="form-group row" id="DIVUsuarioEstandarModificar" runat="server" visible="false">
                                         <label class="col-sm-3 col-form-label">Usuario</label>
                                         <div class="col-sm-9">
-                                            <asp:DropDownList ID="DDLUsuariosCambioEstandarModificar" runat="server" class="form-control" AutoPostBack="True" ></asp:DropDownList>
+                                            <asp:DropDownList ID="DDLUsuariosCambioEstandarModificar" runat="server" class="form-control" AutoPostBack="True"></asp:DropDownList>
                                         </div>
                                     </div>
                                 </div>
@@ -430,7 +420,7 @@
                                     <div class="form-group row">
                                         <label class="col-sm-3 col-form-label">Usuario</label>
                                         <div class="col-sm-9">
-                                            <asp:TextBox ID="TxModificarUsuario" placeholder="Ej. admin" class="form-control" runat="server" TextMode="SingleLine" autocomplete="off"></asp:TextBox>
+                                            <asp:TextBox ID="TxModificarUsuario" placeholder="Ej. admin" class="form-control" runat="server" TextMode="SingleLine" autocomplete="off" ReadOnly="true"></asp:TextBox>
                                         </div>
                                     </div>
                                 </div>
@@ -438,12 +428,12 @@
                                     <div class="form-group row">
                                         <label class="col-sm-3 col-form-label">Correo</label>
                                         <div class="col-sm-9">
-                                            <asp:TextBox ID="TxModificarCorreo" placeholder="Ej. admin@banctlan.hn" class="form-control" runat="server" TextMode="SingleLine" autocomplete="off"></asp:TextBox>
+                                            <asp:TextBox ID="TxModificarCorreo" placeholder="Ej. admin@banctlan.hn" class="form-control" runat="server" TextMode="SingleLine" autocomplete="off" ReadOnly="true"></asp:TextBox>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row" runat="server" visible="false">
                                 <div class="col-md-6">
                                     <div class="form-group row">
                                         <label class="col-sm-3 col-form-label">Password</label>
@@ -466,7 +456,7 @@
                                     <div class="form-group row">
                                         <label class="col-sm-3 col-form-label">Nombres</label>
                                         <div class="col-sm-9">
-                                            <asp:TextBox ID="TxModificarNombres" placeholder="Ej. Juan Jose" class="form-control" runat="server" TextMode="SingleLine" autocomplete="off"></asp:TextBox>
+                                            <asp:TextBox ID="TxModificarNombres" placeholder="Ej. Juan Jose" class="form-control" runat="server" TextMode="SingleLine" autocomplete="off" ReadOnly="true"></asp:TextBox>
                                         </div>
                                     </div>
                                 </div>
@@ -474,12 +464,12 @@
                                     <div class="form-group row">
                                         <label class="col-sm-3 col-form-label">Apellidos</label>
                                         <div class="col-sm-9">
-                                            <asp:TextBox ID="TxModificarApellidos" placeholder="Ej. Perez Perez" class="form-control" runat="server" TextMode="SingleLine" autocomplete="off"></asp:TextBox>
+                                            <asp:TextBox ID="TxModificarApellidos" placeholder="Ej. Perez Perez" class="form-control" runat="server" TextMode="SingleLine" autocomplete="off" ReadOnly="true"></asp:TextBox>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            
+
                         </ContentTemplate>
                     </asp:UpdatePanel>
                     <asp:UpdatePanel ID="UpdateUsuarioMensaje" runat="server" UpdateMode="Conditional">
@@ -518,10 +508,10 @@
             // Smart Wizard
             $('#smartwizard').smartWizard({
                 selected: 0,
-                theme: 'arrows',
+                theme: 'circles',
                 transitionEffect: 'fade',
                 toolbarSettings: {
-                    toolbarPosition: 'top'
+                    toolbarPosition: 'none'
                 }
             });
         });
