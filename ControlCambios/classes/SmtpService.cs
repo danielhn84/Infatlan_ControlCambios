@@ -21,7 +21,8 @@ namespace ControlCambios.classes
         QARevision,
         SupervisorCierre,
         PromotorRegreso,
-        PromotorReEnvio
+        PromotorReEnvio,
+        bugs
     }
     public class SmtpService : Page
     {
@@ -122,6 +123,14 @@ namespace ControlCambios.classes
                             ConfigurationManager.AppSettings["Host"] + "/pages/services/search.aspx?busqueda=" + Nombre,
                             "Te informamos que el cambio ha sido implementado y esta a la espera de la revisión y certificación del implementador, " +
                             "para revisar el cambio entra al aplicativo y ve a la sección de cambios."
+                            ), Server.MapPath("/images/logo.png")));
+                        break;
+                    case typeBody.bugs:
+                        mail.AlternateViews.Add(CreateHtmlMessage(PopulateBody(
+                            Usuario,
+                            "Tipor de error: " + Cambio ,
+                            ConfigurationManager.AppSettings["Host"] ,
+                            "Descripción del error: " + Nombre
                             ), Server.MapPath("/images/logo.png")));
                         break;
                 }

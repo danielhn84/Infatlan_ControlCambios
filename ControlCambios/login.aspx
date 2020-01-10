@@ -12,8 +12,15 @@
     <link rel="stylesheet" href="/vendors/base/vendor.bundle.base.css">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="shortcut icon" href="/images/logo_mini.png" />
+
+    <script type="text/javascript">
+        function openInformacionModal() {
+            $('#InformacionModal').modal('show');
+        }
+    </script>
+
 </head>
-<body>
+<body onload="openInformacionModal()">
     <div class="container-scroller">
         <div class="container-fluid page-body-wrapper full-page-wrapper">
             <div class="content-wrapper d-flex align-items-stretch auth auth-img-bg">
@@ -26,46 +33,50 @@
                             <h4>Bienvenidos | Control de Cambios</h4>
                             <h6 class="font-weight-light">Ingresa tus credenciales para ingresar al aplicativo</h6>
                             <form id="form1" runat="server">
-                                <div class="form-group">
-                                    <label for="exampleInputEmail">Usuario</label>
-                                    <div class="input-group">
-                                        <div class="input-group-prepend bg-transparent">
-                                            <span class="input-group-text bg-transparent border-right-0">
-                                                <i class="mdi mdi-account-outline text-primary"></i>
-                                            </span>
+                                <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+                                <asp:UpdatePanel ID="UpdateLogin" runat="server">
+                                    <ContentTemplate>
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail">Usuario</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend bg-transparent">
+                                                    <span class="input-group-text bg-transparent border-right-0">
+                                                        <i class="mdi mdi-account-outline text-primary"></i>
+                                                    </span>
+                                                </div>
+                                                <asp:TextBox ID="TxUsername" class="form-control form-control-lg border-left-0" placeholder="Username" runat="server"></asp:TextBox>
+                                            </div>
                                         </div>
-                                        <asp:TextBox ID="TxUsername" class="form-control form-control-lg border-left-0" placeholder="Username" runat="server"></asp:TextBox>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleInputPassword">Password</label>
-                                    <div class="input-group">
-                                        <div class="input-group-prepend bg-transparent">
-                                            <span class="input-group-text bg-transparent border-right-0">
-                                                <i class="mdi mdi-lock-outline text-primary"></i>
-                                            </span>
+                                        <div class="form-group">
+                                            <label for="exampleInputPassword">Password</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend bg-transparent">
+                                                    <span class="input-group-text bg-transparent border-right-0">
+                                                        <i class="mdi mdi-lock-outline text-primary"></i>
+                                                    </span>
+                                                </div>
+                                                <asp:TextBox ID="TxPassword" TextMode="Password" class="form-control form-control-lg border-left-0" placeholder="Password" runat="server"></asp:TextBox>
+                                            </div>
                                         </div>
-                                        <asp:TextBox ID="TxPassword" TextMode="Password" class="form-control form-control-lg border-left-0" placeholder="Password" runat="server"></asp:TextBox>
-                                    </div>
-                                </div>
-                                <div class="my-2 d-flex justify-content-between align-items-center">
-                                    <%--<div class="form-check">
+                                        <div class="my-2 d-flex justify-content-between align-items-center">
+                                            <!--<div class="form-check">
                                         <label class="form-check-label text-muted">
                                             <input type="checkbox" class="form-check-input" id="CBSession" runat="server">
                                             Mantener la Session
                    
                                         </label>
                                     </div>
-                                    <a href="#" class="auth-link text-black">Olvidaste tu password?</a>--%>
-                                </div>
-                                <div class="my-3">
-                                    <asp:Button ID="BtnLogin" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" runat="server" Text="Entrar" OnClick="BtnLogin_Click" />                              
-                                </div>
+                                    <a href="#" class="auth-link text-black">Olvidaste tu password?</a>-->
+                                        </div>
+                                        <div class="my-3">
+                                            <asp:Button ID="BtnLogin" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" runat="server" Text="Entrar" OnClick="BtnLogin_Click" />
+                                        </div>
 
-                                <div class="my-2 d-flex justify-content-center align-center" style="color:indianred;">
-                                    <asp:Label ID="LbMensaje" runat="server" Text=""></asp:Label>
-                                </div>
-
+                                        <div class="my-2 d-flex justify-content-center align-center" style="color: indianred;">
+                                            <asp:Label ID="LbMensaje" runat="server" Text=""></asp:Label>
+                                        </div>
+                                    </ContentTemplate>
+                                </asp:UpdatePanel>
                             </form>
                         </div>
                     </div>
@@ -76,7 +87,38 @@
             </div>
         </div>
     </div>
-
+    <div class="modal fade" id="InformacionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="ModalLabelSupervisro">Información Control de Cambios v1.0.1</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <h4 class="col-sm-12 col-form-label">Nueva versión</h4>
+                        <label class="col-sm-12 col-form-label">
+                            1. Ingresa con tu usuario de Active Directory
+                            <br />
+                            2. Cambios a nivel de supervisor 
+                            <br />
+                            3. Nuevos flujos de datos
+                            <br />
+                            4. Reportes y mantenimientos
+                        </label>
+                        <label class="col-sm-12 col-form-label" style="color: indianred">
+                            Este mensaje desaparecera la primera semana de enero.
+                        </label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="/vendors/base/vendor.bundle.base.js"></script>
     <script src="/js/off-canvas.js"></script>

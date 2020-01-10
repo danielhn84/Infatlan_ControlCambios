@@ -86,7 +86,10 @@ namespace ControlCambios
             }
             catch (Exception Ex) { Mensaje(Ex.Message, WarningType.Danger); }
         }
-
+        public void CerrarModal(String vModal)
+        {
+            ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(), "Pop", "$('#" + vModal + "').modal('hide');", true);
+        }
         void CargarNotifiaciones()
         {
             try
@@ -166,6 +169,64 @@ namespace ControlCambios
                 Response.Redirect("/pages/services/search.aspx?busqueda=" + TxBuscarCambio.Text);
             }
             catch {}
+        }
+
+        protected void BtnBugInsert_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+                if (DDLBugTipos.SelectedValue.Equals("0"))
+                {
+                    throw new Exception("Por favor seleccione un tipo de error");
+                }
+
+                if (TxBugDescripcion.Text.Equals(""))
+                {
+                    throw new Exception("Por favor escriba una descripción del error");
+                }
+
+                String vTipoError = String.Empty;
+                switch (DDLBugTipos.SelectedValue)
+                {
+                    case "1":
+                        vTipoError = "Error en información";
+                        break;
+                    case "2":
+                        vTipoError = "Envio de correos";
+                        break;
+                    case "3":
+                        vTipoError = "Procesos";
+                        break;
+                    case "4":
+                        vTipoError = "Otros";
+                        break;
+                }
+
+                SmtpService vSmtpService = new SmtpService();
+                Boolean vMensaje = vSmtpService.EnviarMensaje(
+                    "dehenriquez@bancatlan.hn",
+                    typeBody.bugs,
+                    "Daniel Henriquez",
+                    vTipoError,
+                    TxBugDescripcion.Text);
+
+                if (vMensaje)
+                {
+                    DDLBugTipos.SelectedIndex = -1;
+                    TxBugDescripcion.Text = String.Empty;
+
+                    LbBugMensaje.Text = "";
+                    UpdateBugMensaje.Update();
+                    CerrarModal("BugsModal");
+                }
+                
+            }
+            catch (Exception Ex)
+            {
+                LbBugMensaje.Text = Ex.Message;
+                UpdateBugMensaje.Update();
+            }
         }
     }
 }

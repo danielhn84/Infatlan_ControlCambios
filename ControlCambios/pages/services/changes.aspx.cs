@@ -3542,6 +3542,7 @@ namespace ControlCambios.pages.services
                 byte[] bytFile = fileData;
                 Response.OutputStream.Write(bytFile, 0, bytFile.Length);
                 Response.AddHeader("Content-disposition", "attachment;filename=C_" + Convert.ToString(Session["GETIDCAMBIO"]) + "_Deposito1.zip");
+                Response.Flush();
                 Response.End();
             }
             catch (Exception Ex) { Mensaje(Ex.Message, WarningType.Danger); }

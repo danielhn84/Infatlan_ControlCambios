@@ -21007,7 +21007,7 @@ dl li {
 }
 
 .auth .auth-form-light {
-  background: #ffffff;
+  background: #fff;
 }
 
 .auth .auth-form-light select {
@@ -21118,7 +21118,7 @@ dl li {
 }
 
 .content-wrapper {
-  background: #ffffff;
+  background: #fff;
   padding: 2.1rem 1.04rem;
   width: 100%;
   -webkit-flex-grow: 1;

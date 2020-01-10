@@ -28,7 +28,7 @@
                         placement: { from: from, align: align }
                     });
             }
-        } 
+        }
     </script>
     <script>
         function button_click(objTextBox, objBtnID) {
@@ -36,7 +36,7 @@
                 document.getElementById(objBtnID).focus();
                 document.getElementById(objBtnID).click();
             }
-        } 
+        }
     </script>
     <style>
         /* Fixed/sticky icon bar (vertically aligned 50% from the top of the screen) */
@@ -79,7 +79,7 @@
     </asp:ContentPlaceHolder>
 </head>
 <body>
-    <!-- TEST GITHUB TEST --> 
+    <!-- TEST GITHUB TEST -->
     <form id="FrmCambios" runat="server">
         <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
 
@@ -142,7 +142,7 @@
                                 <a class="dropdown-item" href="/logout.aspx">
                                     <i class="mdi mdi-logout text-primary"></i>
                                     Logout
-                            </a>
+                                </a>
                             </div>
                         </li>
                     </ul>
@@ -152,7 +152,7 @@
                 </div>
             </nav>
 
-            <div class="container-fluid page-body-wrapper">
+            <div class="container-fluid page-body-wrapper" >
                 <!-- partial:partials/_sidebar.html -->
                 <nav class="sidebar sidebar-icon-only" id="sidebar">
                     <ul class="nav">
@@ -209,7 +209,7 @@
 
                     </ul>
                     <div class="icon-bar">
-                        <a href="javascript:openBugModal()" class="bug"><i class="mdi mdi-bug"></i> Bugs</a>
+                        <a href="javascript:openBugModal()" class="bug"><i class="mdi mdi-bug"></i>Bugs</a>
 
                     </div>
                 </nav>
@@ -268,12 +268,19 @@
                                 </div>
                             </div>
                         </div>
+                        <asp:UpdatePanel ID="UpdateBugMensaje" runat="server" UpdateMode="Conditional">
+                            <ContentTemplate>
+                                <div class="form-group row">
+                                    <asp:Label ID="LbBugMensaje" runat="server" Text="" Class="col-sm-12" Style="color: indianred; text-align: center;"></asp:Label>
+                                </div>
+                            </ContentTemplate>
+                        </asp:UpdatePanel>
                     </div>
                     <div class="modal-footer">
                         <asp:UpdatePanel ID="UpdatePanel14" runat="server">
                             <ContentTemplate>
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                <asp:Button ID="BtnBugInsert" runat="server" Text="Enviar" class="btn btn-success" />
+                                <asp:Button ID="BtnBugInsert" runat="server" Text="Enviar" class="btn btn-success" OnClick="BtnBugInsert_Click" />
                             </ContentTemplate>
                         </asp:UpdatePanel>
                     </div>

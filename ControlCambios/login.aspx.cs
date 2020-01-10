@@ -15,11 +15,11 @@ namespace ControlCambios
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
-            LdapService vLdap = new LdapService();
-
-            //String[] vTest = vLdap.Groups("dehenriquez", "2560sdm300..2019H");
-            //Boolean vLogin = vLdap.ValidateCredentials("ADBancat.hn","dehenriquez", "2560sdm300..2019H");
+            if (!Page.IsPostBack)
+            {
+                //ScriptManager.RegisterStartupScript(Page, Page.GetType(), "popup", "openInformacionModal();", true);
+            }
+            
         }
 
         protected void BtnLogin_Click(object sender, EventArgs e)
@@ -33,6 +33,8 @@ namespace ControlCambios
 
                 LdapService vLdap = new LdapService();
                 Boolean vLogin = vLdap.ValidateCredentials("ADBancat.hn", TxUsername.Text, TxPassword.Text);
+
+                //Boolean vLogin = true; 
 
                 if (vLogin || TxUsername.Text.Equals("admin") || TxUsername.Text.Equals("QA") || TxUsername.Text.Equals("SUP") || TxUsername.Text.Equals("CAB") || TxUsername.Text.Equals("IMP") || TxUsername.Text.Equals("PRO"))
                 {
@@ -81,6 +83,7 @@ namespace ControlCambios
             catch (Exception Ex)
             {
                 LbMensaje.Text = Ex.Message;
+                TxPassword.Text = String.Empty;
             }
         }
     }

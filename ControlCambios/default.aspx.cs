@@ -10,12 +10,15 @@ using System.Net.Http;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Threading;
+using System.Timers;
 
 namespace ControlCambios
 {
     public partial class _default : System.Web.UI.Page
     {
         msgLoginResponse vConfigurations = null;
+        System.Timers.Timer myTimer = new System.Timers.Timer();
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
@@ -26,9 +29,35 @@ namespace ControlCambios
                     Session["USERTYPE"] = vConfigurations.resultSet1[0].idCargo;
                     ObtenerUltimos();
                     CargarCambiosSummary();
+
+                    if (vConfigurations.resultSet1[0].telefono != null)
+                    {
+                        if (vConfigurations.resultSet1[0].telefono.Equals(""))
+                        {
+                            Thread vThread = new Thread(new ThreadStart(alert));
+                            vThread.IsBackground = true;
+                            vThread.Start();
+                        }
+                    }
+                    else
+                    {
+                        Thread vThread = new Thread(new ThreadStart(alert));
+                        vThread.IsBackground = true;
+                        vThread.Start();
+                    }
                 }
             }
         }
+
+        void alert()
+        {
+            String vAlerta = "Por favor actualiza tu numero de telefono en Settings." + @"\n\r" +
+                            "Dirección: Tu nombre > Settings";
+
+            ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(), "Pop", "window.alert('" + vAlerta + "')", true);
+        }
+
+
         public void Mensaje(string vMensaje, WarningType type)
         {
             ScriptManager.RegisterStartupScript(this.Page, typeof(Page), "text", "infatlan.showNotification('top','center','" + vMensaje + "','" + type.ToString().ToLower() + "')", true);

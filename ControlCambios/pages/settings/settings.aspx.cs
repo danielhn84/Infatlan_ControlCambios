@@ -96,6 +96,7 @@ namespace ControlCambios.pages.settings
                     else
                         throw new Exception("Ha ocurrido un problema, contacte a sistemas");
                 }
+                ObtenerData();
             }
             catch (Exception Ex) { Mensaje(Ex.Message, WarningType.Danger); }
         }

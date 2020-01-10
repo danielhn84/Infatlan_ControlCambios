@@ -5,8 +5,20 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <link href="/css/GridStyle.css" rel="stylesheet" />
     <link href="/css/breadcrumb.css" rel="stylesheet" />
-
+    <link href="/css/alert.css" rel="stylesheet" />
     
+    <%--<script src="/js/jquery-3.1.1.js"></script>
+    <script src="/js/bootstrap.js"></script>--%>
+
+
+
+    <script type="text/javascript">
+        function openModalInfo()
+        {
+            $(<%= InformacionModal.ClientID%>).modal('show');
+        }
+    </script>
+
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
@@ -138,7 +150,40 @@
             </div>
         </div>
     </div>
+    <%--MODAL INFORMATIVO TELEFONO--%>
+    <div class="modal fade" id="InformacionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" runat="server" >
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="ModalLabelInformacion">Información de Usuario</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <asp:UpdatePanel ID="UpdateMensajeWarning" runat="server" UpdateMode="Conditional">
+                        <ContentTemplate>
+                            <label class="label">Por favor actualiza tu numero de telefono en Settings.</label>
+                            <label class="label"><b>Dirección:</b> Tu nombre > Settings</label>
 
+                            <label class="label" style="color:indianred; font-size: small;">Este mensaje dejara de aparecer hasta que actualices.</label>
+                            <br /><br />
+       
+                        </ContentTemplate>
+                    </asp:UpdatePanel>
+                </div>
+                <div class="modal-footer">
+                    <asp:UpdatePanel ID="UpdatePanel3" runat="server">
+                        <ContentTemplate>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        </ContentTemplate>
+             
+                    </asp:UpdatePanel>
+                </div>
+            </div>
+        </div>
+    </div>
+    
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
 </asp:Content>

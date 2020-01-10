@@ -870,6 +870,11 @@
                                                     </div>
                                                 </div>
                                             </ContentTemplate>
+                                            <Triggers>
+                                                <asp:PostBackTrigger ControlID="BtnDescargarDeposito1" />
+                                                <asp:PostBackTrigger ControlID="BtnDescargarDeposito2" />
+                                                <asp:PostBackTrigger ControlID="BtnDescargarDeposito3" />
+                                            </Triggers>
                                         </asp:UpdatePanel>
                                     </div>
                                 </div>
