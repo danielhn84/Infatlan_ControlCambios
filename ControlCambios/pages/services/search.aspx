@@ -196,9 +196,10 @@
                                                             </asp:LinkButton>
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
-                                                    <asp:BoundField DataField="idcambio" HeaderText="No.Cambio" />
+                                                    <asp:BoundField DataField="idcambio" HeaderText="No." />
                                                     <asp:BoundField DataField="mantenimientoNombre" HeaderText="Nombre" />
-                                                    <asp:BoundField DataField="fechaSolicitud" HeaderText="Fecha" />
+                                                    <asp:BoundField DataField="fechaSolicitud" HeaderText="Fecha Solicitud" />
+                                                    <asp:BoundField DataField="fechaImplementacion" HeaderText="Implementación" />
                                                     <asp:BoundField DataField="idUsuarioResponsable" HeaderText="Asignado" Visible="false" />
                                                     <asp:BoundField DataField="estado" HeaderText="Estado" />
                                                 </Columns>

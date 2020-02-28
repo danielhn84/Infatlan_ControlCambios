@@ -22,13 +22,15 @@ namespace ControlCambios.classes
         SupervisorCierre,
         PromotorRegreso,
         PromotorReEnvio,
-        bugs
+        bugs,
+        ImplementadorRegreso,
+        Comunicacion
     }
     public class SmtpService : Page
     {
         public SmtpService() {}
 
-        public Boolean EnviarMensaje(String To, typeBody Body, String Usuario, String Cambio, String Nombre)
+        public Boolean EnviarMensaje(String To, typeBody Body, String Usuario, String Cambio, String Nombre, String BodySecundario = null)
         {
             Boolean vRespuesta = false;
             try
@@ -131,6 +133,24 @@ namespace ControlCambios.classes
                             "Tipor de error: " + Cambio ,
                             ConfigurationManager.AppSettings["Host"] ,
                             "Descripción del error: " + Nombre
+                            ), Server.MapPath("/images/logo.png")));
+                        break;
+                    case typeBody.ImplementadorRegreso:
+                        mail.AlternateViews.Add(CreateHtmlMessage(PopulateBody(
+                            Usuario,
+                            "Cambio #" + Cambio + " (" + Nombre + ") Se ha regresado para que ingreses de nuevo tus concluciones.",
+                            ConfigurationManager.AppSettings["Host"] + "/pages/services/search.aspx?busqueda=" + Nombre,
+                            "Te informamos que el cambio ha sido implementado y esta a la espera de la certificación del implementador, " +
+                            "para revisar el cambio entra al aplicativo y ve a la sección de cambios."
+                            ), Server.MapPath("/images/logo.png")));
+                        break;
+
+                    case typeBody.Comunicacion:
+                        mail.AlternateViews.Add(CreateHtmlMessage(PopulateBody(
+                            Usuario,
+                            "Cambio #" + Cambio + " (" + Nombre + ") Se ha ejecutado una accion.",
+                            ConfigurationManager.AppSettings["Host"] + "/pages/services/search.aspx?busqueda=" + Nombre,
+                            "Te informamos que el cambio sigue en proceso, actualmentemente se encuentra en estado <b>" + BodySecundario + "</b>"
                             ), Server.MapPath("/images/logo.png")));
                         break;
                 }

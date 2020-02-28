@@ -68,6 +68,7 @@ namespace ControlCambios.pages.services
                 vDatos.Columns.Add("idcambio");
                 vDatos.Columns.Add("mantenimientoNombre");
                 vDatos.Columns.Add("fechaSolicitud");
+                vDatos.Columns.Add("fechaImplementacion");
                 vDatos.Columns.Add("idUsuarioResponsable");
                 vDatos.Columns.Add("idResolucion");
                 vDatos.Columns.Add("estado");
@@ -88,6 +89,7 @@ namespace ControlCambios.pages.services
                     {
                         foreach (msgInfoCambiosQueryResponseItem item in vInfoCambiosResponse.resultSet1)
                         {
+
                             String vEstado = String.Empty;
                             switch (item.pasos)
                             {
@@ -116,7 +118,6 @@ namespace ControlCambios.pages.services
                                             }
                                         }
                                     }
-
                                     break;
                                 case "2": vEstado = "CAB Manager"; break;
                                 case "3": vEstado = "Implementación"; break;
@@ -125,14 +126,34 @@ namespace ControlCambios.pages.services
                                 case "6": vEstado = "Cambio cerrado"; break;
                             }
 
+                            msgInfoCalendarios vRequestCalendario = new msgInfoCalendarios()
+                            {
+                                tipo = "3",
+                                idcalendario = item.idCalendario
+                            };
+                            String vResponseCalendarios = "";
+                            HttpResponseMessage vHttpResponseCalendarios = vConector.PostInfoCalendarios(vRequestCalendario, ref vResponseCalendarios);
+
+                            String vFechaImplementacion = String.Empty;
+                            if (vHttpResponseCalendarios.StatusCode == System.Net.HttpStatusCode.OK)
+                            {
+                                msgInfoCalendariosQueryResponse vInfoCalendariosResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgInfoCalendariosQueryResponse>(vResponseCalendarios);
+                                if (vInfoCalendariosResponse.resultSet1.Count() > 0)
+                                {
+                                    vFechaImplementacion = vInfoCalendariosResponse.resultSet1[0].horaVentanaInicio;
+                                }
+                            }
+
+
                             vDatos.Rows.Add(
-                                item.idcambio,
-                                item.mantenimientoNombre,
-                                item.fechaSolicitud,
-                                item.idUsuarioResponsable,
-                                item.idResolucion,
-                                vEstado
-                                );
+                            item.idcambio,
+                            item.mantenimientoNombre,
+                            item.fechaSolicitud,
+                            vFechaImplementacion,
+                            item.idUsuarioResponsable,
+                            item.idResolucion,
+                            vEstado
+                            );
                         }
                     }
                     else
@@ -153,6 +174,7 @@ namespace ControlCambios.pages.services
                         tipo = "3",
                         idcambio = row.Cells[2].Text,
                         usuariogrud = vConfigurations.resultSet1[0].idUsuario
+                        
                     };
                     String vResponseRowCambios = "";
                     HttpResponseMessage vHttpResponseRowCambios = vConector.PostInfoCambios(vInfoCambiosRowRequest, ref vResponseRowCambios);
@@ -223,6 +245,7 @@ namespace ControlCambios.pages.services
                 vDatos.Columns.Add("idcambio");
                 vDatos.Columns.Add("mantenimientoNombre");
                 vDatos.Columns.Add("fechaSolicitud");
+                vDatos.Columns.Add("fechaImplementacion");
                 vDatos.Columns.Add("idUsuarioResponsable");
                 vDatos.Columns.Add("idResolucion");
                 vDatos.Columns.Add("estado");
@@ -279,10 +302,29 @@ namespace ControlCambios.pages.services
                                 case "6": vEstado = "Cambio cerrado"; break;
                             }
 
+                            msgInfoCalendarios vRequestCalendario = new msgInfoCalendarios()
+                            {
+                                tipo = "3",
+                                idcalendario = item.idCalendario
+                            };
+                            String vResponseCalendarios = "";
+                            HttpResponseMessage vHttpResponseCalendarios = vConector.PostInfoCalendarios(vRequestCalendario, ref vResponseCalendarios);
+
+                            String vFechaImplementacion = String.Empty;
+                            if (vHttpResponseCalendarios.StatusCode == System.Net.HttpStatusCode.OK)
+                            {
+                                msgInfoCalendariosQueryResponse vInfoCalendariosResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgInfoCalendariosQueryResponse>(vResponseCalendarios);
+                                if (vInfoCalendariosResponse.resultSet1.Count() > 0)
+                                {
+                                    vFechaImplementacion = vInfoCalendariosResponse.resultSet1[0].horaVentanaInicio;
+                                }
+                            }
+
                             vDatos.Rows.Add(
                                 item.idcambio,
                                 item.mantenimientoNombre,
                                 item.fechaSolicitud,
+                                vFechaImplementacion,
                                 item.idUsuarioResponsable,
                                 item.idResolucion,
                                 vEstado

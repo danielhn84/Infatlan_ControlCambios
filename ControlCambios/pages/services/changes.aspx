@@ -48,15 +48,17 @@
     </script>
     <style>
         .checkbox .btn, .checkbox-inline .btn {
-        padding-left: 0;
-        min-width: 8em;
+            padding-left: 0;
+            min-width: 8em;
         }
+
         .checkbox label, .checkbox-inline label {
-        text-align: left;
-        padding-left: 0.5em;
+            text-align: left;
+            padding-left: 0.5em;
         }
-        .checkbox input[type="checkbox"]{
-            float:none;
+
+        .checkbox input[type="checkbox"] {
+            float: none;
         }
     </style>
 
@@ -82,14 +84,23 @@
     </div>
     <div class="row">
         <div class="col-md-12 grid-margin">
+            <p style="font-size: smaller"><asp:Label ID="LbSession" runat="server" Text=""></asp:Label></p>
             <div class="d-flex justify-content-between flex-wrap">
+                
                 <div class="d-flex align-items-end flex-wrap">
                     <div class="mr-md-3 mr-xl-5">
-                        <h2>Control de Cambio <asp:Label ID="LbInfoNumeroCambio" runat="server" Text=""></asp:Label></h2>
-                        <p><asp:Label ID="LbInfoCreadoPor" runat="server" Text=""></asp:Label></p> 
-                        <p><asp:Label ID="LbInfoTelefono" runat="server" Text=""></asp:Label></p>
-                        <p><asp:Label ID="LbInfoQualityAssurance" runat="server" Text=""></asp:Label></p>
-                        
+                        <h2>Control de Cambio
+                            <asp:Label ID="LbInfoNumeroCambio" runat="server" Text=""></asp:Label></h2>
+                        <p>
+                            <asp:Label ID="LbInfoCreadoPor" runat="server" Text=""></asp:Label>
+                        </p>
+                        <p>
+                            <asp:Label ID="LbInfoTelefono" runat="server" Text=""></asp:Label>
+                        </p>
+                        <p>
+                            <asp:Label ID="LbInfoQualityAssurance" runat="server" Text=""></asp:Label>
+                        </p>
+
                     </div>
                     <%--<div class="d-flex">
                         <i class="mdi mdi-home text-muted hover-cursor"></i>
@@ -160,7 +171,7 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group row">
-                                                    <label class="col-sm-3 col-form-label">Empresa</label>
+                                                    <label class="col-sm-3 col-form-label">Clasificación</label>
                                                     <div class="col-sm-9">
                                                         <asp:DropDownList ID="DDLProveedor" runat="server" class="form-control"></asp:DropDownList>
 
@@ -198,7 +209,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-4">
+                                            <div class="col-md-4" >
                                                 <div class="form-group row">
                                                     <label class="col-sm-3 col-form-label font-weight-bold">Impacto</label>
                                                     <div class="col-md-6">
@@ -631,7 +642,7 @@
                                                                     <asp:Button ID="BtnProcedimientoslDelete" runat="server" Text="borrar" class="btn btn-dark mr-2" CommandArgument='<%# Eval("detalle") %>' CommandName="DeleteRow" />
                                                                 </ItemTemplate>
                                                             </asp:TemplateField>
-                                                            <asp:BoundField DataField="responsable" HeaderText="Responsable" Visible="true" />
+                                                            <asp:BoundField DataField="responsable" HeaderText="Responsable" Visible="false" />
                                                             <asp:BoundField DataField="detalle" HeaderText="Detalle Actividad" />
                                                             <asp:BoundField DataField="inicio" HeaderText="Inicio" />
                                                             <asp:BoundField DataField="fin" HeaderText="Fin" />
@@ -763,14 +774,14 @@
                                             <ContentTemplate>
                                                 <h4 class="card-title">Seleccione los archivos del cambio</h4>
                                                 <p class="card-description">
-                                                    Por favor un maximo de 3 archivos en formato ZIP               
+                                                    Por favor un maximo de 3 archivos en cualquier formato <b>(Por favor no incluir "-" en el nombre del archivo a subir)</b>
                                                 </p>
                                                 <div class="row" id="DIVDeposito1" runat="server" visible="true">
                                                     <div class="col-md-6">
                                                         <div class="form-group row">
                                                             <label class="col-sm-3 col-form-label">Deposito 1</label>
                                                             <div class="col-sm-9">
-                                                                <asp:FileUpload ID="FUDeposito1" accept="zip,application/zip,application/x-zip,application/x-zip-compressed" runat="server" class="form-control" />
+                                                                <asp:FileUpload ID="FUDeposito1"  runat="server" class="form-control" />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -805,7 +816,7 @@
                                                         <div class="form-group row">
                                                             <label class="col-sm-3 col-form-label">Deposito 2</label>
                                                             <div class="col-sm-9">
-                                                                <asp:FileUpload ID="FUDeposito2" accept="zip,application/zip,application/x-zip,application/x-zip-compressed" runat="server" class="form-control" />
+                                                                <asp:FileUpload ID="FUDeposito2"  runat="server" class="form-control" />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -839,7 +850,7 @@
                                                         <div class="form-group row">
                                                             <label class="col-sm-3 col-form-label">Deposito 3</label>
                                                             <div class="col-sm-9">
-                                                                <asp:FileUpload ID="FUDeposito3" accept="zip,application/zip,application/x-zip,application/x-zip-compressed" runat="server" class="form-control" />
+                                                                <asp:FileUpload ID="FUDeposito3"  runat="server" class="form-control" />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1065,6 +1076,7 @@
             <div id="step-3" class="" style="height: initial;">
                 <h3 class="border-bottom border-gray pb-2" style="padding-top: 10px;">Revisión de CAB Manager</h3>
                 <div class="row">
+
                     <div class="col-12 grid-margin stretch-card">
                         <div class="card">
                             <div class="card-body">
@@ -1119,39 +1131,14 @@
                                                 </div>
                                             </div>
                                         </div>
+
                                     </ContentTemplate>
                                 </asp:UpdatePanel>
 
-
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Acción</label>
-                                            <div class="col-sm-9">
-                                                <asp:DropDownList ID="DDLRevisionQA" runat="server" class="form-control">
-                                                    <asp:ListItem Value="0">Selecione una Opción</asp:ListItem>
-                                                    <asp:ListItem Value="1">Certificado</asp:ListItem>
-                                                    <asp:ListItem Value="2">Regresar Cambio a Promotor</asp:ListItem>
-                                                </asp:DropDownList>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="d-flex justify-content-between align-items-end flex-wrap">
-                                        <asp:UpdatePanel ID="UpdateRevisionQA" runat="server">
-                                            <ContentTemplate>
-                                                <asp:Button ID="BtnRevisionQA" class="btn btn-success mr-2" runat="server" Text="Certificar" OnClick="BtnRevisionQA_Click" />
-                                            </ContentTemplate>
-                                        </asp:UpdatePanel>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row" id="DIVCabHorarios" runat="server" visible="false">
+
                     <div class="col-12 grid-margin stretch-card">
                         <div class="card">
                             <div class="card-body">
@@ -1175,13 +1162,47 @@
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
-
                             </div>
                         </div>
                     </div>
+
+                    <div class="col-12 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Certificación</h4>
+                                <p>Por favor asegúrese que los datos ingresados anteriormente sean los correctos.</p>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Acción</label>
+                                            <div class="col-sm-9">
+                                                <asp:DropDownList ID="DDLRevisionQA" runat="server" class="form-control">
+                                                    <asp:ListItem Value="0">Selecione una Opción</asp:ListItem>
+                                                    <asp:ListItem Value="1">Certificado</asp:ListItem>
+                                                    <asp:ListItem Value="2">Regresar Cambio a Promotor</asp:ListItem>
+                                                </asp:DropDownList>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+                                <div class="d-flex justify-content-between align-items-end flex-wrap">
+                                    <asp:UpdatePanel ID="UpdateRevisionQA" runat="server">
+                                        <ContentTemplate>
+                                            <asp:Button ID="BtnRevisionQA" class="btn btn-success mr-2" runat="server" Text="Certificar" OnClick="BtnRevisionQA_Click" />
+                                        </ContentTemplate>
+                                    </asp:UpdatePanel>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
+
             </div>
 
             <div id="step-4" class="" style="height: initial;">
@@ -1556,6 +1577,8 @@
                                 <p class="card-description">
                                     Tener en cuenta sin esta certificación el cambio permanecera abierto       
                                 </p>
+
+                                
                                 <div class="row" id="DIVCierreEvidencia" runat="server" visible="true">
                                     <div class="col-md-6">
                                         <div class="form-group row">
@@ -1577,7 +1600,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="row  ">
                                     <div class="col-md-6">
                                         <div class="form-group row">
                                             <label class="col-sm-3 col-form-label">Acción</label>
@@ -1585,17 +1608,28 @@
                                                 <asp:DropDownList ID="DDLCerrarCambio" runat="server" class="form-control">
                                                     <asp:ListItem Value="0">Selecione una Opción</asp:ListItem>
                                                     <asp:ListItem Value="1">Certificado</asp:ListItem>
+                                                    <asp:ListItem Value="2">Regresar de monitoreo</asp:ListItem>
+                                                    <asp:ListItem Value="3">No Satisfactorio</asp:ListItem>
                                                 </asp:DropDownList>
 
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                <asp:UpdatePanel ID="UpdatePanel21" runat="server">
+                                    <ContentTemplate>
+                                        <div class="form-group">
+                                            <label for="TxCerrarComentario">Observaciones</label>
+                                            <asp:TextBox ID="TxCerrarComentario" placeholder="..." class="form-control" runat="server" TextMode="MultiLine" Style="height: 100px"></asp:TextBox>
+                                        </div>
+                                    </ContentTemplate>
+                                </asp:UpdatePanel>
                                 <div class="row">
+
                                     <div class="d-flex justify-content-between align-items-end flex-wrap">
                                         <asp:UpdatePanel ID="UpdatePanel10" runat="server">
                                             <ContentTemplate>
-                                                <asp:Button ID="BtnCerrarCambio" class="btn btn-success mr-2" runat="server" Text="Finalizar Cambio" OnClick="BtnCerrarCambio_Click1" />
+                                                <asp:Button ID="BtnCerrarCambio" class="btn btn-success mr-2" runat="server" Text="Finalizar Cambio" OnClick="BtnCerrarCambioFinal_Click" />
                                             </ContentTemplate>
                                         </asp:UpdatePanel>
                                     </div>
@@ -1687,7 +1721,7 @@
                     <asp:UpdatePanel ID="UpdateSistemasBotones" runat="server" UpdateMode="Always">
                         <ContentTemplate>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <asp:Button ID="BtnCrearSistema" runat="server" Text="Crear" class="btn btn-primary" OnClick="BtnCrearSistema_Click" />
+                            <asp:Button ID="BtnCrearSistema" runat="server" Text="Crear" class="btn btn-success" OnClick="BtnCrearSistema_Click" />
                         </ContentTemplate>
                     </asp:UpdatePanel>
                 </div>
@@ -1734,7 +1768,7 @@
                     <asp:UpdatePanel ID="UpdateEquiposBotones" runat="server" UpdateMode="Always">
                         <ContentTemplate>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <asp:Button ID="BtnCrearEquipos" runat="server" Text="Crear" class="btn btn-primary" OnClick="BtnCrearEquipos_Click" />
+                            <asp:Button ID="BtnCrearEquipos" runat="server" Text="Crear" class="btn btn-success" OnClick="BtnCrearEquipos_Click" />
                         </ContentTemplate>
                     </asp:UpdatePanel>
                 </div>
@@ -1784,7 +1818,7 @@
                     <asp:UpdatePanel ID="UpdatePersonalBotones" runat="server" UpdateMode="Always">
                         <ContentTemplate>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <asp:Button ID="BtnCrearPersonal" runat="server" Text="Crear" class="btn btn-primary" OnClick="BtnCrearPersonal_Click" />
+                            <asp:Button ID="BtnCrearPersonal" runat="server" Text="Crear" class="btn btn-success" OnClick="BtnCrearPersonal_Click" />
                         </ContentTemplate>
                     </asp:UpdatePanel>
                 </div>
@@ -1840,7 +1874,7 @@
                     <asp:UpdatePanel ID="UpdateComunicacionesBotones" runat="server" UpdateMode="Always">
                         <ContentTemplate>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <asp:Button ID="BtnCrearComunicaciones" runat="server" Text="Crear" class="btn btn-primary" OnClick="BtnCrearComunicaciones_Click" />
+                            <asp:Button ID="BtnCrearComunicaciones" runat="server" Text="Crear" class="btn btn-success" OnClick="BtnCrearComunicaciones_Click" />
                         </ContentTemplate>
                     </asp:UpdatePanel>
                 </div>
@@ -1883,7 +1917,7 @@
 
                                 </div>
                             </div>
-                            <div class="form-group row" id="DIVResponsable" runat="server" visible="true">
+                            <div class="form-group row" id="DIVResponsable" runat="server" visible="false">
                                 <label class="col-sm-3 col-form-label">Responsable(Posible)</label>
                                 <div class="col-sm-9">
                                     <asp:DropDownList ID="DDLProcedimientosResponsable" class="form-control" runat="server"></asp:DropDownList>
@@ -1904,7 +1938,7 @@
                     <asp:UpdatePanel ID="UpdateProcedimientosBotones" runat="server" UpdateMode="Always">
                         <ContentTemplate>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <asp:Button ID="BtnCrearProcedimientos" runat="server" Text="Crear" class="btn btn-primary" OnClick="BtnCrearProcedimientos_Click" />
+                            <asp:Button ID="BtnCrearProcedimientos" runat="server" Text="Crear" class="btn btn-success" OnClick="BtnCrearProcedimientos_Click" />
                         </ContentTemplate>
                     </asp:UpdatePanel>
                 </div>
@@ -1968,7 +2002,7 @@
                     <asp:UpdatePanel ID="UpdateRollbackBotones" runat="server" UpdateMode="Always">
                         <ContentTemplate>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <asp:Button ID="BtnCrearRollback" runat="server" Text="Crear" class="btn btn-primary" OnClick="BtnCrearRollback_Click" />
+                            <asp:Button ID="BtnCrearRollback" runat="server" Text="Crear" class="btn btn-success" OnClick="BtnCrearRollback_Click" />
                         </ContentTemplate>
                     </asp:UpdatePanel>
                 </div>
@@ -2017,7 +2051,7 @@
                     <asp:UpdatePanel ID="UpdatePruebasBotones" runat="server" UpdateMode="Always">
                         <ContentTemplate>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <asp:Button ID="BtnCrearPruebas" runat="server" Text="Crear" class="btn btn-primary" OnClick="BtnCrearPruebas_Click" />
+                            <asp:Button ID="BtnCrearPruebas" runat="server" Text="Crear" class="btn btn-success" OnClick="BtnCrearPruebas_Click" />
                         </ContentTemplate>
                     </asp:UpdatePanel>
                 </div>
@@ -2053,7 +2087,7 @@
                                             <asp:CheckBox ID="CbTodosQA" runat="server" Text="Seleccionar todos en QA" />
                                         </label>
                                     </div>
-                                    
+
                                 </div>
                             </div>
                         </ContentTemplate>
@@ -2071,7 +2105,7 @@
                     <asp:UpdatePanel ID="UpdateUsuarioBotones" runat="server">
                         <ContentTemplate>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <asp:Button ID="BtnCrearUsuario" runat="server" Text="Asignar" class="btn btn-primary" OnClick="BtnCrearUsuario_Click" />
+                            <asp:Button ID="BtnCrearUsuario" runat="server" Text="Asignar" class="btn btn-success" OnClick="BtnCrearUsuario_Click" />
                         </ContentTemplate>
                     </asp:UpdatePanel>
                 </div>
@@ -2093,7 +2127,8 @@
                     <asp:UpdatePanel ID="UpdateMensajeWarning" runat="server" UpdateMode="Conditional">
                         <ContentTemplate>
                             <label class="label">¿Estas seguro de ejecutar esta acción?</label>
-                            <br /><br />
+                            <br />
+                            <br />
                             <asp:Label ID="LbWarningTipoCambio" runat="server" Text="" Style="color: indianred"></asp:Label>
                         </ContentTemplate>
                         <Triggers>
@@ -2105,7 +2140,7 @@
                     <asp:UpdatePanel ID="UpdatePanel3" runat="server">
                         <ContentTemplate>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                            <asp:Button ID="BtnProcedeCreacion" runat="server" Text="Crear" class="btn btn-primary" OnClick="BtnProcedeCreacion_Click" OnClientClick="ShowProgress();" />
+                            <asp:Button ID="BtnProcedeCreacion" runat="server" Text="Crear" class="btn btn-success" OnClick="BtnProcedeCreacion_Click" OnClientClick="ShowProgress();" />
                         </ContentTemplate>
                         <Triggers>
                             <asp:PostBackTrigger ControlID="BtnProcedeCreacion" />
@@ -2133,7 +2168,7 @@
                     <asp:UpdatePanel ID="UpdatePanel12" runat="server">
                         <ContentTemplate>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                            <asp:Button ID="BtnProcedeCierre" runat="server" Text="Crear" class="btn btn-primary" OnClick="BtnProcedeCreacion_Click" OnClientClick="ShowProgress();" />
+                            <asp:Button ID="BtnProcedeCierre" runat="server" Text="Crear" class="btn btn-success" OnClick="BtnProcedeCreacion_Click" OnClientClick="ShowProgress();" />
                         </ContentTemplate>
                         <Triggers>
                             <asp:PostBackTrigger ControlID="BtnProcedeCierre" />
@@ -2161,7 +2196,7 @@
                     <asp:UpdatePanel ID="UpdatePanel13" runat="server">
                         <ContentTemplate>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                            <asp:Button ID="BtnProcederQA" runat="server" Text="Certificar" class="btn btn-primary" OnClientClick="ShowProgress();" OnClick="BtnProcederQA_Click" />
+                            <asp:Button ID="BtnProcederQA" runat="server" Text="Certificar" class="btn btn-success" OnClientClick="ShowProgress();" OnClick="BtnProcederQA_Click" />
                         </ContentTemplate>
                         <Triggers>
                             <asp:PostBackTrigger ControlID="BtnProcederQA" />
@@ -2189,7 +2224,7 @@
                     <asp:UpdatePanel ID="UpdatePanel14" runat="server">
                         <ContentTemplate>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                            <asp:Button ID="BtnCerrarCambioFinal" runat="server" Text="Certificar" class="btn btn-primary" OnClientClick="ShowProgress();" OnClick="BtnCerrarCambio_Click" />
+                            <asp:Button ID="BtnCerrarCambioFinal" runat="server" Text="Certificar" class="btn btn-success" OnClientClick="ShowProgress();" OnClick="BtnCerrarCambio_Click" />
                         </ContentTemplate>
                         <Triggers>
                             <asp:PostBackTrigger ControlID="BtnCerrarCambioFinal" />
@@ -2239,7 +2274,7 @@
                     <asp:UpdatePanel ID="UpdatePanel20" runat="server">
                         <ContentTemplate>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <asp:Button ID="BtnAutorizarCambioEnviar" runat="server" Text="Asignar" class="btn btn-primary" OnClick="BtnAutorizarCambioEnviar_Click"  />
+                            <asp:Button ID="BtnAutorizarCambioEnviar" runat="server" Text="Autorizar" class="btn btn-success" OnClick="BtnAutorizarCambioEnviar_Click" />
                         </ContentTemplate>
                     </asp:UpdatePanel>
                 </div>

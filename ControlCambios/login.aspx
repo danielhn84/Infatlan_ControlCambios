@@ -91,7 +91,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="ModalLabelSupervisro">Información Control de Cambios v1.0.1</h4>
+                    <h4 class="modal-title" id="ModalLabelSupervisro">Información Control de Cambios v1.2.1</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -100,16 +100,23 @@
                     <div class="form-group row">
                         <h4 class="col-sm-12 col-form-label">Nueva versión</h4>
                         <label class="col-sm-12 col-form-label">
-                            1. Ingresa con tu usuario de Active Directory
+                            1. Corrección error de duplicidad (Sesiones)
                             <br />
-                            2. Cambios a nivel de supervisor 
-                            <br />
-                            3. Nuevos flujos de datos
-                            <br />
-                            4. Reportes y mantenimientos
+                            2. Cambios generales 1.2.1
+                            <ul style="margin-left: 20px">
+                                <li>Observaciones en cierre</li>
+                                <li>Subir archivos de todo tipo en paso 1</li>
+                                <li>Nuevos campos requeridos en paso 1 (Comunicacion, Sistemas, Equipos, Procedimientos)</li>
+                                <li>Cambio de empresa a clasificacion en paso 1</li>
+                            </ul>
+                            
+                            3. Modificación de flujos (Ingreso de datos)
+                            <ul style="margin-left: 20px">
+                                <li>Envio de correos plan comunicación por cada paso</li>
+                            </ul>
                         </label>
                         <label class="col-sm-12 col-form-label" style="color: indianred">
-                            Este mensaje desaparecera la primera semana de enero.
+                            Este mensaje desaparecera la primera semana de marzo.
                         </label>
                     </div>
                 </div>

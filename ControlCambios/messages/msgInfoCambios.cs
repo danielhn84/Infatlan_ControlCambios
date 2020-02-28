@@ -61,6 +61,8 @@ namespace ControlCambios.messages
         public String archivo { get; set; }
         public String autorizarQA { get; set; }
         public String archivoCierre { get; set; }
+        public String observacionesCierre { get; set; }
+        public String idUsuarioImplementacion { get; set; }
 
     }
 }
