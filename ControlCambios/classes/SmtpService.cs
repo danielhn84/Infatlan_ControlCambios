@@ -132,7 +132,7 @@ namespace ControlCambios.classes
                             Usuario,
                             "Tipor de error: " + Cambio ,
                             ConfigurationManager.AppSettings["Host"] ,
-                            "Descripción del error: " + Nombre
+                            "Descripción del error del usuario " + Nombre
                             ), Server.MapPath("/images/logo.png")));
                         break;
                     case typeBody.ImplementadorRegreso:

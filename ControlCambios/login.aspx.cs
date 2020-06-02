@@ -32,9 +32,9 @@ namespace ControlCambios
 
 
                 LdapService vLdap = new LdapService();
-                Boolean vLogin = vLdap.ValidateCredentials("ADBancat.hn", TxUsername.Text, TxPassword.Text);
+                //Boolean vLogin = vLdap.ValidateCredentials("ADBancat.hn", TxUsername.Text, TxPassword.Text);
 
-                //Boolean vLogin = true; 
+                Boolean vLogin = true; 
 
                 if (vLogin || TxUsername.Text.Equals("admin") || TxUsername.Text.Equals("QA") || TxUsername.Text.Equals("SUP") || TxUsername.Text.Equals("CAB") || TxUsername.Text.Equals("IMP") || TxUsername.Text.Equals("PRO"))
                 {

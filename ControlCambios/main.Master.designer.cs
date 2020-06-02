@@ -94,6 +94,15 @@ namespace ControlCambios {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl LIAuth;
         
         /// <summary>
+        /// Control LIControl.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl LIControl;
+        
+        /// <summary>
         /// Control LILogs.
         /// </summary>
         /// <remarks>

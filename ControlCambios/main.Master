@@ -200,13 +200,20 @@
                                 <span class="menu-title">Autorizaciones</span>
                             </a>
                         </li>
+
+                        <li class="nav-item" id="LIControl" runat="server" visible="false">
+                            <a class="nav-link" href="/pages/configurations/control.aspx">
+                                <i class="mdi mdi-settings menu-icon"></i>
+                                <span class="menu-title">Control</span>
+                            </a>
+                        </li>
+
                         <li class="nav-item" id="LILogs" runat="server" visible="false">
                             <a class="nav-link" href="/pages/logs.aspx">
                                 <i class="mdi mdi-lock menu-icon"></i>
                                 <span class="menu-title">Logs</span>
                             </a>
                         </li>
-
                     </ul>
                     <div class="icon-bar">
                         <a href="javascript:openBugModal()" class="bug"><i class="mdi mdi-bug"></i>Bugs</a>

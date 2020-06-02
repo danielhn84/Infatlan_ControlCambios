@@ -84,9 +84,10 @@
     </div>
     <div class="row">
         <div class="col-md-12 grid-margin">
-            <p style="font-size: smaller"><asp:Label ID="LbSession" runat="server" Text=""></asp:Label></p>
+            <p style="font-size: smaller">
+                <asp:Label ID="LbSession" runat="server" Text=""></asp:Label></p>
             <div class="d-flex justify-content-between flex-wrap">
-                
+
                 <div class="d-flex align-items-end flex-wrap">
                     <div class="mr-md-3 mr-xl-5">
                         <h2>Control de Cambio
@@ -209,7 +210,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-4" >
+                                            <div class="col-md-4">
                                                 <div class="form-group row">
                                                     <label class="col-sm-3 col-form-label font-weight-bold">Impacto</label>
                                                     <div class="col-md-6">
@@ -781,7 +782,7 @@
                                                         <div class="form-group row">
                                                             <label class="col-sm-3 col-form-label">Deposito 1</label>
                                                             <div class="col-sm-9">
-                                                                <asp:FileUpload ID="FUDeposito1"  runat="server" class="form-control" />
+                                                                <asp:FileUpload ID="FUDeposito1" runat="server" class="form-control" />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -816,7 +817,7 @@
                                                         <div class="form-group row">
                                                             <label class="col-sm-3 col-form-label">Deposito 2</label>
                                                             <div class="col-sm-9">
-                                                                <asp:FileUpload ID="FUDeposito2"  runat="server" class="form-control" />
+                                                                <asp:FileUpload ID="FUDeposito2" runat="server" class="form-control" />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -850,7 +851,7 @@
                                                         <div class="form-group row">
                                                             <label class="col-sm-3 col-form-label">Deposito 3</label>
                                                             <div class="col-sm-9">
-                                                                <asp:FileUpload ID="FUDeposito3"  runat="server" class="form-control" />
+                                                                <asp:FileUpload ID="FUDeposito3" runat="server" class="form-control" />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1022,27 +1023,37 @@
                                 </div>
                                 <h5>Certificación</h5>
                                 <hr />
-                                <div class="row" id="DIVQAArchivo" runat="server" visible="true">
-                                    <div class="col-md-6">
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Archivos</label>
-                                            <div class="col-sm-9">
-                                                <asp:FileUpload ID="FUArchivosCertificacion" accept="zip,application/zip,application/x-zip,application/x-zip-compressed" runat="server" class="form-control" />
+                                <asp:UpdatePanel ID="UpdateQADescarga" runat="server">
+                                    <ContentTemplate>
+                                        <div class="row" id="DIVQAArchivo" runat="server" visible="true">
+                                            <div class="col-md-6">
+                                                <div class="form-group row">
+                                                    <label class="col-sm-3 col-form-label">Archivos</label>
+                                                    <div class="col-sm-9">
+                                                        <asp:FileUpload ID="FUArchivosCertificacion" accept="zip,application/zip,application/x-zip,application/x-zip-compressed" runat="server" class="form-control" />
 
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="row" id="DIVQAArchivoDescarga" runat="server" visible="false">
-                                    <div class="col-md-6">
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Descargar</label>
-                                            <div class="col-sm-9">
-                                                <asp:Button ID="BtnArchivosCertificacion" class="btn btn-primary mr-2" runat="server" Text="Descargar" OnClick="BtnArchivosCertificacion_Click" />
+                                        <div class="row" id="DIVQAArchivoDescarga" runat="server" visible="false">
+                                            <div class="col-md-6">
+                                                <div class="form-group row">
+                                                    <label class="col-sm-3 col-form-label">Descargar</label>
+                                                    <div class="col-sm-9">
+
+                                                        <asp:Button ID="BtnArchivosCertificacion" class="btn btn-primary mr-2" runat="server" Text="Descargar" OnClick="BtnArchivosCertificacion_Click" />
+                                                        <asp:Button ID="BtnArchivosCertificacionBorrar" class="btn btn-danger mr-2" runat="server" Text="Borrar" OnClick="BtnArchivosCertificacionBorrar_Click" />
+
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
+                                    </ContentTemplate>
+                                    <Triggers>
+                                        <asp:PostBackTrigger ControlID="BtnArchivosCertificacion" />
+                                    </Triggers>
+                                </asp:UpdatePanel>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group row">
@@ -1578,7 +1589,7 @@
                                     Tener en cuenta sin esta certificación el cambio permanecera abierto       
                                 </p>
 
-                                
+
                                 <div class="row" id="DIVCierreEvidencia" runat="server" visible="true">
                                     <div class="col-md-6">
                                         <div class="form-group row">

@@ -168,6 +168,7 @@
     <Content Include="js\template.js" />
     <Content Include="login.aspx" />
     <Content Include="logout.aspx" />
+    <Content Include="pages\configurations\control.aspx" />
     <Content Include="pages\configurations\generals.aspx" />
     <Content Include="pages\configurations\systems.aspx" />
     <Content Include="pages\configurations\users.aspx" />
@@ -209,6 +210,7 @@
   <ItemGroup>
     <Compile Include="classes\CalendarEvent.cs" />
     <Compile Include="classes\CalendarConnection.cs" />
+    <Compile Include="classes\db.cs" />
     <Compile Include="classes\Generales.cs" />
     <Compile Include="classes\HttpService.cs" />
     <Compile Include="classes\ImproperCalendarEvent.cs" />
@@ -276,6 +278,13 @@
     <Compile Include="messages\msgRelacionesCambios.cs" />
     <Compile Include="messages\msgRelacionesMantenimientos.cs" />
     <Compile Include="messages\msgUpdateGeneral.cs" />
+    <Compile Include="pages\configurations\control.aspx.cs">
+      <DependentUpon>control.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\configurations\control.aspx.designer.cs">
+      <DependentUpon>control.aspx</DependentUpon>
+    </Compile>
     <Compile Include="pages\configurations\generals.aspx.cs">
       <DependentUpon>generals.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

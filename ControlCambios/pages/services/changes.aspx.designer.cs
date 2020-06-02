@@ -886,6 +886,15 @@ namespace ControlCambios.pages.services {
         protected global::System.Web.UI.WebControls.TextBox TxObservaciones;
         
         /// <summary>
+        /// Control UpdateQADescarga.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel UpdateQADescarga;
+        
+        /// <summary>
         /// Control DIVQAArchivo.
         /// </summary>
         /// <remarks>
@@ -920,6 +929,15 @@ namespace ControlCambios.pages.services {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button BtnArchivosCertificacion;
+        
+        /// <summary>
+        /// Control BtnArchivosCertificacionBorrar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button BtnArchivosCertificacionBorrar;
         
         /// <summary>
         /// Control DDLCertificacion.

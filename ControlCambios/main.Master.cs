@@ -36,8 +36,11 @@ namespace ControlCambios
                     if (vConfigurations.resultSet1[0].idCargo.Equals("1") || vConfigurations.resultSet1[0].idCargo.Equals("2") )
                     {
                         LIAuth.Visible = true;
-                        if(vConfigurations.resultSet1[0].idCargo.Equals("1"))
+                        if (vConfigurations.resultSet1[0].idCargo.Equals("1"))
+                        {
                             LILogs.Visible = true;
+                            LIControl.Visible = true;
+                        }
                     }
 
 
@@ -202,6 +205,8 @@ namespace ControlCambios
                         vTipoError = "Otros";
                         break;
                 }
+                vConfigurations = (msgLoginResponse)Session["AUTHCLASS"];
+           
 
                 SmtpService vSmtpService = new SmtpService();
                 Boolean vMensaje = vSmtpService.EnviarMensaje(
@@ -209,7 +214,7 @@ namespace ControlCambios
                     typeBody.bugs,
                     "Daniel Henriquez",
                     vTipoError,
-                    TxBugDescripcion.Text);
+                    vConfigurations.resultSet1[0].idUsuario + ": " + TxBugDescripcion.Text);
 
                 if (vMensaje)
                 {

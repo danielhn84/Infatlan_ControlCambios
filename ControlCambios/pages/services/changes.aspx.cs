@@ -511,40 +511,21 @@ namespace ControlCambios.pages.services
 
             try
             {
-                HttpService vConector = new HttpService();
-                vConfigurations = (msgLoginResponse)Session["AUTHCLASS"];
-                msgInfoCambios vInfoCambiosRequest = new msgInfoCambios()
-                {
-                    tipo = "3",
-                    idcambio = vCambio,
-                    usuariogrud = vConfigurations.resultSet1[0].idUsuario
-                };
-                String vResponseCambios = "";
-                HttpResponseMessage vHttpResponseCambios = vConector.PostInfoCambios(vInfoCambiosRequest, ref vResponseCambios);
+                db vConexion = new db(ServerType.ControlCambios);
+                String vQuery = "[CCSP_DB_InfoCambios] 4," + vCambio + "";
+                int vCount = vConexion.ejecutarSQLGetValue(vQuery);
 
-                if (vHttpResponseCambios.StatusCode == System.Net.HttpStatusCode.OK)
+                if (Convert.ToInt32(vCount) > 0)
                 {
-                    msgInfoCambiosQueryResponse vInfoCambiosResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<msgInfoCambiosQueryResponse>(vResponseCambios);
-                    if (vInfoCambiosResponse.resultSet1.Count() > 0)
-                    {
-                        foreach (msgInfoCambiosQueryResponseItem itemArchivos in vInfoCambiosResponse.resultSet1)
-                        {
-                            if (itemArchivos.archivo != null)
-                            {
-                                if (!itemArchivos.archivo.Equals(""))
-                                {
-                                    DIVQAArchivo.Visible = false;
-                                    DIVQAArchivoDescarga.Visible = true;
-                                }
-                            }
-                        }
-                        CargarrQADatosPromotor(vInfoCambiosResponse.resultSet1[0].idcambio);
-
-                        TxHorarioInicioPromotor.ReadOnly = true;
-                        TxHorarioFinalPromotor.ReadOnly = true;
-                        TxObservaciones.ReadOnly = true;
-                    }
+                    DIVQAArchivo.Visible = false;
+                    DIVQAArchivoDescarga.Visible = true;
                 }
+
+                CargarrQADatosPromotor(vCambio);
+
+                TxHorarioInicioPromotor.ReadOnly = true;
+                TxHorarioFinalPromotor.ReadOnly = true;
+                TxObservaciones.ReadOnly = true;
             }
             catch (Exception Ex) { Mensaje(Ex.Message, WarningType.Danger); }
 
@@ -776,6 +757,7 @@ namespace ControlCambios.pages.services
                             {
                                 BtnAsignarUsuario.Text = "" + itemCambio.idUsuarioResponsable;
                                 BtnAsignarUsuario.CssClass = "btn btn-success mr-2 ";
+                                DDLUsuarios.SelectedIndex = CargarInformacionDDL(DDLUsuarios, itemCambio.idUsuarioResponsable);
                             }
                             Session["USUARIOASIGNADO" + LbSession.Text] = itemCambio.idUsuarioResponsable;
 
@@ -3012,7 +2994,11 @@ namespace ControlCambios.pages.services
                                                 }
                                             }
                                             else
+                                            {
+                                                String[] splitArchivo = itemArchivos.depot1nombre.Split('-');
+                                                depot1nombre = splitArchivo[0];
                                                 vFileDeposito1 = Convert.FromBase64String(itemArchivos.deposito1);
+                                            }
                                             if (itemArchivos.deposito2.Equals(""))
                                             {
                                                 HttpPostedFile bufferDeposito2T = FUDeposito2.PostedFile;
@@ -3025,7 +3011,11 @@ namespace ControlCambios.pages.services
                                                 }
                                             }
                                             else
+                                            {
+                                                String[] splitArchivo = itemArchivos.depot2nombre.Split('-');
+                                                depot2nombre = splitArchivo[0];
                                                 vFileDeposito2 = Convert.FromBase64String(itemArchivos.deposito2);
+                                            }
                                             if (itemArchivos.deposito3.Equals(""))
                                             {
                                                 HttpPostedFile bufferDeposito3T = FUDeposito3.PostedFile;
@@ -3038,7 +3028,11 @@ namespace ControlCambios.pages.services
                                                 }
                                             }
                                             else
+                                            {
+                                                String[] splitArchivo = itemArchivos.depot3nombre.Split('-');
+                                                depot3nombre = splitArchivo[0];
                                                 vFileDeposito3 = Convert.FromBase64String(itemArchivos.deposito3);
+                                            }
 
                                             msgInfoArchivos vRequestArchivosUpdate = new msgInfoArchivos()
                                             {
@@ -5294,7 +5288,7 @@ namespace ControlCambios.pages.services
 
                 msgInfoCambios vInfoCambiosRequest = new msgInfoCambios()
                 {
-                    tipo = "3",
+                    tipo = "13",
                     idcambio = Convert.ToString(Session["GETIDCAMBIO" + LbSession.Text]),
                     usuariogrud = vConfigurations.resultSet1[0].idUsuario
                 };
@@ -5529,6 +5523,10 @@ namespace ControlCambios.pages.services
 
                 if (DDLAutorizarSupervisorOpciones.SelectedValue.Equals("2"))
                 {
+                    Generales vGenerales = new Generales();
+                    if (!vGenerales.PermisosEntrada(Permisos.Supervisor, vConfigurations.resultSet1[0].idCargo))
+                        throw new Exception("No tienes permisos para realizar esta accion, solo un supervisor puede devolver el cambio.");
+
                     String vResponseCambios = "";
                     msgInfoCambios vInfoCambiosRequest = new msgInfoCambios()
                     {
@@ -5551,7 +5549,7 @@ namespace ControlCambios.pages.services
                     CerrarModal("AutorizacionSupervisorModal");
                 }
             }
-            catch (Exception Ex) { Mensaje(Ex.Message, WarningType.Warning); }
+            catch (Exception Ex) { Mensaje(Ex.Message, WarningType.Warning); CerrarModal("AutorizacionSupervisorModal"); }
         }
 
         protected void BtnResolucion_Click(object sender, EventArgs e)
@@ -5935,6 +5933,32 @@ namespace ControlCambios.pages.services
                 default:
                     return "application/octet-stream";
             }
+        }
+
+        protected void BtnArchivosCertificacionBorrar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                db vConexion = new db(ServerType.ControlCambios);
+                String vQuery = "[CCSP_DB_InfoCambios] 5," + LbNumeroCambio.Text + "";
+                if (vConexion.ejecutarSql(vQuery) > 0)
+                {
+                    vQuery = "[CCSP_DB_InfoCambios] 4," + LbNumeroCambio.Text + "";
+                    int vCount = vConexion.ejecutarSQLGetValue(vQuery);
+
+                    if (Convert.ToInt32(vCount) > 0)
+                    {
+                        DIVQAArchivo.Visible = false;
+                        DIVQAArchivoDescarga.Visible = true;
+                    }
+                    else
+                    {
+                        DIVQAArchivo.Visible = true;
+                        DIVQAArchivoDescarga.Visible = false;
+                    }
+                }
+            }
+            catch (Exception Ex) { Mensaje(Ex.Message, WarningType.Danger); }
         }
     }
 }

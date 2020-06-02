@@ -61,7 +61,6 @@ namespace ControlCambios.pages.services
                 String vTipo = "4";
                 String vBusqueda = vBusquedaQuery;
 
-
                 HttpService vConector = new HttpService();
                 vConfigurations = (msgLoginResponse)Session["AUTHCLASS"];
                 DataTable vDatos = new DataTable();
